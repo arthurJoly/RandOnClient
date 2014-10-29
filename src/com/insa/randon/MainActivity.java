@@ -3,6 +3,7 @@ package com.insa.randon;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
@@ -94,6 +96,7 @@ public class MainActivity extends Activity {
         fragment.setArguments(args);
 
         FragmentManager fragmentManager = getFragmentManager();
+        //Change Fragment
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
     	
         // update selected item and title, then close the drawer
@@ -104,13 +107,14 @@ public class MainActivity extends Activity {
 
     
     /**
-     * Fragment that appears in the "content_frame", shows a planet
+     * Fragment that appears in the "content_frame"
      */
     public static class DrawerFragment extends Fragment {
         public static final String ARG_LIST_NUMBER = "list_number";
+        
+        private Button buttonNewHike = null;
 
         public DrawerFragment() {
-            // Empty constructor required for fragment subclasses
         }
 
         @Override
@@ -122,6 +126,16 @@ public class MainActivity extends Activity {
            if(i==1)//TODO : Find better condition 
            {
         	   rootView = inflater.inflate(R.layout.fragment_new_hike, container, false);
+        	   buttonNewHike = (Button) rootView.findViewById(R.id.button_newHike);
+        	   
+        	   buttonNewHike.setOnClickListener(new View.OnClickListener() {
+        		      @Override
+        		      public void onClick(View v) {
+        		    	  Intent mapActivity = new Intent(getActivity(), MapActivity.class);  
+        		          //on lance l'intent
+        		          startActivity(mapActivity);
+        		      }
+        		});
            }
            else
            {

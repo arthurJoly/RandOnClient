@@ -6,5 +6,8 @@
     <string name="new_hike">Carte</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="action_websearch">Web search</string>
+    <string name="action_websearch">Web search</string> 
+    
+    <string name="button_newHike">Démarer nouvelle randonnée</string> 
+    
 </resources>
