@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<drawable name="grey_actionbar">#1F1F1F</drawable>
+    <color name="grey_background">#343434</color>
+    <color name="grey_item">#3B3B3B</color>
+
+</resources>
