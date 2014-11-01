@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="drawer_open">Ouvrir le menu</string>
+    <string name="drawer_close">Fermer le menu</string>
+    <string name="action_websearch">Recherche sur Internet</string> 
+    
+    <string name="button_newHike">Démarrer nouvelle randonnée</string> 
+    
+    <!-- Navigation item names -->
+    <string name="hike_search_title">Rechercher un parcours</string>
+    <string name="new_hike_title">Nouvelle randonnée</string>
+    <string name="hike_list_title">Mes parcours</string>
+    
+</resources>

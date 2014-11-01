@@ -6,11 +6,11 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string> 
     
-    <string name="button_newHike">Démarrer nouvelle randonnée</string> 
+    <string name="button_newHike">Start a new hike</string> 
     
     <!-- Navigation item names -->
-    <string name="hike_search_title">Rechercher un parcours</string>
-    <string name="new_hike_title">Nouvelle randonnée</string>
-    <string name="hike_list_title">Mes parcours</string>
+    <string name="hike_search_title">Search for a hike</string>
+    <string name="new_hike_title">New hike</string>
+    <string name="hike_list_title">My hikes</string>
     
 </resources>
