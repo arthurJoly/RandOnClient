@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -45,7 +46,7 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_launcher,  /* nav drawer image to replace 'Up' caret */
+                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
                 ) {
@@ -60,6 +61,9 @@ public class MainActivity extends BaseActivity {
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        
+        //TODO : once the home page is added, initialize the navigation 
+        //drawer from the data of home Activity (button which has been clicked)
 
 	}
 	
@@ -73,6 +77,19 @@ public class MainActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+	    super.onConfigurationChanged(newConfig);
+	    mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+	
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+	    super.onPostCreate(savedInstanceState);
+	    // Sync the toggle state after onRestoreInstanceState has occurred.
+	    mDrawerToggle.syncState();
+	}
 	
 	/* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
