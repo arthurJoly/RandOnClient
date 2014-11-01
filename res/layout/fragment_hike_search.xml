@@ -9,4 +9,4 @@
     android:textColor="#000"
     android:background="?android:attr/activatedBackgroundIndicator"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
-    android:text="@string/hike_list_title"/>
+    android:text="@string/hike_search_title"/>

@@ -1,49 +1,44 @@
 package com.insa.randon;
 
-import android.app.Activity;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
-	private String[] navigationList;
+	private List<NavigationItem> navigationList;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private ActionBarDrawerToggle mDrawerToggle;
-
-	@Override
+    
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
         mTitle = mDrawerTitle = getTitle();
         
-        navigationList = getResources().getStringArray(R.array.navigation_array);
+        navigationList = populateNavigationMenu();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_list_item, navigationList));
-        // Set the list's click listener
+        mDrawerList.setAdapter(new ArrayAdapter<NavigationItem>(this,R.layout.drawer_list_item, navigationList));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         
-     // enable ActionBar app icon to behave as action to toggle nav drawer
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
@@ -75,73 +70,71 @@ public class MainActivity extends Activity {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        else
-        {
-        	return false;
-        }
+
+        return super.onOptionsItemSelected(item);
     }
 	
 	/* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
+        	//          Fragment fragment = new DrawerFragment();
+        	//          Bundle args = new Bundle();
+        	//          args.putInt(DrawerFragment.ARG_LIST_NUMBER, position);
+        	//          fragment.setArguments(args);
+
+        	FragmentManager fragmentManager = getFragmentManager();
+
+        	//Identify the fragment to show
+        	NavigationItem navItem = (NavigationItem) parent.getItemAtPosition(position);
+        	Fragment newFragment = Fragment.instantiate(MainActivity.this, navItem.getFragmentName());
+        	fragmentManager.beginTransaction().replace(R.id.content_frame, newFragment).commit();
+
+        	// update selected item and title, then close the drawer
+        	mDrawerList.setItemChecked(position, true);
+        	setTitle(navItem.getTitle());
+        	mDrawerLayout.closeDrawer(mDrawerList);          
         }
     }
     
-    private void selectItem(int position) {
-        Fragment fragment = new DrawerFragment();
-        Bundle args = new Bundle();
-        args.putInt(DrawerFragment.ARG_LIST_NUMBER, position);
-        fragment.setArguments(args);
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+    
+    
+    private List<NavigationItem> populateNavigationMenu (){
+    	List<NavigationItem> items = new ArrayList<NavigationItem>();
+    	items.add(new NavigationItem(NewHikeFragment.class.getName(), getResources().getString(R.string.new_hike_title)));
+    	items.add(new NavigationItem(HikeSearchFragment.class.getName(), getResources().getString(R.string.hike_search_title)));
+    	items.add(new NavigationItem(HikeListFragment.class.getName(), getResources().getString(R.string.hike_list_title)));
+    	return items;
+    }
 
-        FragmentManager fragmentManager = getFragmentManager();
-        //Change Fragment
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+    private class NavigationItem {
+    	private String fragmentName;
+    	private String title;
     	
-        // update selected item and title, then close the drawer
-        mDrawerList.setItemChecked(position, true);
-        setTitle(navigationList[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
-    }
-
-    
-    /**
-     * Fragment that appears in the "content_frame"
-     */
-    public static class DrawerFragment extends Fragment {
-        public static final String ARG_LIST_NUMBER = "list_number";
-        
-        private Button buttonNewHike = null;
-
-        public DrawerFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            
-           int i = getArguments().getInt(ARG_LIST_NUMBER);
-           View rootView;
-           if(i==1)//TODO : Find better condition 
-           {
-        	   rootView = inflater.inflate(R.layout.fragment_new_hike, container, false);
-        	   buttonNewHike = (Button) rootView.findViewById(R.id.button_newHike);
-        	   
-        	   buttonNewHike.setOnClickListener(new View.OnClickListener() {
-        		      @Override
-        		      public void onClick(View v) {
-        		    	  Intent mapActivity = new Intent(getActivity(), MapActivity.class);  
-        		          //on lance l'intent
-        		          startActivity(mapActivity);
-        		      }
-        		});
-           }
-           else
-           {
-        	   rootView = inflater.inflate(R.layout.fragment_hike_list, container, false);
-           }        
-           return rootView;
-        }
+    	public String getFragmentName() {
+    		return fragmentName;
+    	}
+    	
+    	public String getTitle() {
+    		return title;
+    	}
+    	
+    	public NavigationItem(String fragmentName, String title) {
+    		this.fragmentName = fragmentName;
+    		this.title = title;
+    	}
+    	
+    	@Override
+    	public String toString() {
+    		return title;
+    	}
     }
 }
+    
+    
