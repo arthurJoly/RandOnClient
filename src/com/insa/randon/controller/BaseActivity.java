@@ -1,4 +1,4 @@
-package com.insa.randon;
+package com.insa.randon.controller;
 
 import android.app.Activity;
 import android.os.Bundle;

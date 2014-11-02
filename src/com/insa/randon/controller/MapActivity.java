@@ -1,4 +1,4 @@
-package com.insa.randon;
+package com.insa.randon.controller;
 
 
 import android.app.Activity;
@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.insa.randon.R;
+import com.insa.randon.R.id;
+import com.insa.randon.R.layout;
 
 public class MapActivity extends Activity  {
 	private GoogleMap googleMap;

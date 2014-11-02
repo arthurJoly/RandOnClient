@@ -1,7 +1,13 @@
-package com.insa.randon;
+package com.insa.randon.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.insa.randon.R;
+import com.insa.randon.R.drawable;
+import com.insa.randon.R.id;
+import com.insa.randon.R.layout;
+import com.insa.randon.R.string;
 
 import android.app.Fragment;
 import android.app.FragmentManager;

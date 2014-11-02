@@ -1,4 +1,7 @@
-package com.insa.randon;
+package com.insa.randon.controller;
+
+import com.insa.randon.R;
+import com.insa.randon.R.layout;
 
 import android.app.Fragment;
 import android.os.Bundle;
