@@ -1,9 +1,10 @@
 package com.insa.randon.controller;
 
+
+import com.insa.randon.R;
+
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 public class BaseActivity extends Activity {
 
@@ -12,6 +13,7 @@ public class BaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setTitle(R.string.app_name);
 	}
 
 //	@Override

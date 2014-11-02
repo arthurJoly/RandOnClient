@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Rand\'On</string>
 
+    <string name="app_name">Rand\'On</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="action_websearch">Web search</string> 
-    
-    <string name="button_newHike">Start a new hike</string> 
-    
+    <string name="action_websearch">Web search</string>
+    <string name="button_newHike">Start a new hike</string>
+
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>
     <string name="new_hike_title">New hike</string>
     <string name="hike_list_title">My hikes</string>
-    
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

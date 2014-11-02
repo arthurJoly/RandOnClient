@@ -12,6 +12,7 @@ import com.insa.randon.R.string;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -30,11 +31,13 @@ public class MainActivity extends BaseActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private ActionBarDrawerToggle mDrawerToggle;
+    private Context context;
     
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
         
         mTitle = mDrawerTitle = getTitle();
         
@@ -45,7 +48,6 @@ public class MainActivity extends BaseActivity {
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<NavigationItem>(this,R.layout.drawer_list_item, navigationList));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
@@ -68,9 +70,13 @@ public class MainActivity extends BaseActivity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         
-        //TODO : once the home page is added, initialize the navigation 
-        //drawer from the data of home Activity (button which has been clicked)
-
+        //initialize the navigationDrawer to the fragment asked
+        Intent intent = getIntent();
+        String fragmentName = intent.getStringExtra(HomeActivity.FRAGMENT_EXTRA);
+        FragmentManager fragmentManager = getFragmentManager();
+    	Fragment newFragment = Fragment.instantiate(this, fragmentName);
+    	fragmentManager.beginTransaction().replace(R.id.content_frame, newFragment).commit();
+        
 	}
 	
 	@Override
@@ -110,7 +116,7 @@ public class MainActivity extends BaseActivity {
 
         	//Identify the fragment to show
         	NavigationItem navItem = (NavigationItem) parent.getItemAtPosition(position);
-        	Fragment newFragment = Fragment.instantiate(MainActivity.this, navItem.getFragmentName());
+        	Fragment newFragment = Fragment.instantiate(context, navItem.getFragmentName());
         	fragmentManager.beginTransaction().replace(R.id.content_frame, newFragment).commit();
 
         	// update selected item and title, then close the drawer
