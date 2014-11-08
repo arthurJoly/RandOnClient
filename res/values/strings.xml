@@ -8,11 +8,17 @@
     <string name="button_newHike">Start a new hike</string>
     
     <!-- Connexion activity -->
-    <string name="user_name">Nom d\'utilisateur</string>
-    <string name="user_password">Mot de passe</string>
+    <string name="user_name">Nom d\'utilisateur :</string>
+    <string name="user_password">Mot de passe :</string>
     <string name="connexion">Connexion</string>
     <string name="create_account">Vous n\'avez pas encore de compte? Cliquez </string>
     <string name="click_here">ici</string>
+    
+    <!-- Create Account activity -->
+    <string name="confirm_user_password">Confirmer le mot de passe :</string>
+    <string name="user_email">Adresse e-mail :</string>
+    <string name="button_create_account">Créer compte</string>
+    
      
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>
