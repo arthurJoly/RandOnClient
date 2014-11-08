@@ -6,13 +6,19 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>
     <string name="button_newHike">Start a new hike</string>
-
+    
+    <!-- Connexion activity -->
+    <string name="user_name">Nom d\'utilisateur</string>
+    <string name="user_password">Mot de passe</string>
+    <string name="connexion">Connexion</string>
+    <string name="create_account">Vous n\'avez pas encore de compte? Cliquez </string>
+    <string name="click_here">ici</string>
+     
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>
     <string name="new_hike_title">New hike</string>
     <string name="hike_list_title">My hikes</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
 </resources>

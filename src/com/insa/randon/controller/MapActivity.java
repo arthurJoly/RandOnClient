@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.insa.randon.R;
-import com.insa.randon.R.id;
-import com.insa.randon.R.layout;
 
 public class MapActivity extends Activity  {
+	public static final int LINE_WIDTH = 3;
+	
 	private GoogleMap googleMap;
 	
 	@Override
@@ -56,16 +56,15 @@ public class MapActivity extends Activity  {
     }
 	
 	protected void showHike(List<LatLng> hike){
-		BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.marker);
-				
 		int size = hike.size();
-		int i;
-		for(i=0;i<size;i++)
+		if(size>=2)
 		{
-			googleMap.addMarker(new MarkerOptions()
-	        .position(hike.get(i))
-	        .icon(icon));
-		}
+			hike.add(hike.get(0)); //Close the loop
+			Polyline line = googleMap.addPolyline(new PolylineOptions()
+		     .addAll(hike)
+		     .width(LINE_WIDTH)
+		     .color(Color.GREEN));		
+		}	
 	}
 }
 
