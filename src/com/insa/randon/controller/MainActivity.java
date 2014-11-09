@@ -73,9 +73,11 @@ public class MainActivity extends BaseActivity {
         //initialize the navigationDrawer to the fragment asked
         Intent intent = getIntent();
         String fragmentName = intent.getStringExtra(HomeActivity.FRAGMENT_EXTRA);
-        FragmentManager fragmentManager = getFragmentManager();
-    	Fragment newFragment = Fragment.instantiate(this, fragmentName);
-    	fragmentManager.beginTransaction().replace(R.id.content_frame, newFragment).commit();
+        if (fragmentName != null){
+        	FragmentManager fragmentManager = getFragmentManager();
+        	Fragment newFragment = Fragment.instantiate(this, fragmentName);
+        	fragmentManager.beginTransaction().replace(R.id.content_frame, newFragment).commit();
+        }       
         
 	}
 	

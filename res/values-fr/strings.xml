@@ -3,6 +3,8 @@
     <string name="drawer_open">Ouvrir le menu</string>
     <string name="drawer_close">Fermer le menu</string>
     <string name="action_websearch">Recherche sur Internet</string> 
+
+    <string name="activity_map_title">Carte</string>
     
     <string name="button_newHike">Démarrer nouvelle randonnée</string> 
     
