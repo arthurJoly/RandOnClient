@@ -1,19 +1,13 @@
 package com.insa.randon.controller;
 
-import com.insa.randon.R;
-import com.insa.randon.R.id;
-import com.insa.randon.R.layout;
-import com.insa.randon.R.menu;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import com.insa.randon.R;
 
 public class HomeActivity extends Activity {
 	public static final String FRAGMENT_EXTRA = "fragmentToStart";

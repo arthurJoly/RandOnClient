@@ -3,12 +3,6 @@ package com.insa.randon.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.insa.randon.R;
-import com.insa.randon.R.drawable;
-import com.insa.randon.R.id;
-import com.insa.randon.R.layout;
-import com.insa.randon.R.string;
-
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -22,6 +16,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.insa.randon.R;
 
 public class MainActivity extends BaseActivity {
 

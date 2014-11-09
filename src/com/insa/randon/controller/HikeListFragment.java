@@ -1,13 +1,12 @@
 package com.insa.randon.controller;
 
-import com.insa.randon.R;
-import com.insa.randon.R.layout;
-
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.insa.randon.R;
 
 public class HikeListFragment extends Fragment {
 	View rootView;

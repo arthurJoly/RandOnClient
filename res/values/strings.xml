@@ -8,12 +8,24 @@
     <string name="button_newHike">Start a new hike</string>
     
     <string name="activity_map_title">Map</string>
-
+    
+    <!-- Connexion activity -->
+    <string name="user_name">Login</string>
+    <string name="user_password">Password</string>
+    <string name="connexion">Connexion</string>
+    <string name="create_account">New to Rand\'On? Click </string>
+    <string name="click_here">here</string>
+    
+    <!-- Create Account activity -->
+    <string name="confirm_user_password">Confirm password</string>
+    <string name="user_email">Email</string>
+    <string name="button_create_account">Create a new account</string>
+    
+     
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>
     <string name="new_hike_title">New hike</string>
     <string name="hike_list_title">My hikes</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
 </resources>
