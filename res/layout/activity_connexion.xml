@@ -37,7 +37,7 @@
         android:onClick="onButtonClick"/>
  	  
  	 <LinearLayout
-    	android:layout_width="match_parent"
+    	android:layout_width="wrap_content"
    		android:layout_height="match_parent"
     	android:orientation="horizontal">
     	 	 <TextView
@@ -52,6 +52,8 @@
 		       android:text="@string/click_here"
 		       android:onClick="onClick"                
 		       android:clickable="true"
-		       android:textColor="@color/green_item"/>
+		       android:textColor="@color/green_item"
+		       android:paddingLeft="5dp"
+		       android:paddingRight="5dp"/>
 	</LinearLayout>
 </LinearLayout>

@@ -1,7 +1,5 @@
 package com.insa.randon.controller;
 
-import com.insa.randon.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,18 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.insa.randon.R;
+
 public class ConnexionActivity extends Activity {
 	Button connexionButton;
 	EditText editTextUserName;
 	EditText editTextPassword;
-	
 	Context context;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_connexion);
-		getActionBar().setTitle(R.string.app_name);
 		context = this;
 		
 		connexionButton = (Button) findViewById(R.id.button_connexion);
@@ -36,6 +34,7 @@ public class ConnexionActivity extends Activity {
 	}
 	
 	public void onClick(View view) {
+		//TODO : check login information with a webservice call
 		Intent intent = new Intent(context, CreateAccountActivity.class);
 		startActivity(intent);
     } 

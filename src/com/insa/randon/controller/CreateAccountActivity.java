@@ -1,6 +1,5 @@
 package com.insa.randon.controller;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,7 +11,7 @@ import android.widget.EditText;
 
 import com.insa.randon.R;
 
-public class CreateAccountActivity extends Activity {
+public class CreateAccountActivity extends BaseActivity {
 		Button createAccountButton;
 		EditText editTextUserName;
 		EditText editTextPassword;
@@ -25,7 +24,6 @@ public class CreateAccountActivity extends Activity {
 		protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_create_account);
-			getActionBar().setTitle(R.string.app_name);
 			context=this;
 			
 			createAccountButton = (Button) findViewById(R.id.button_create_account);
