@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="drawer_open">Ouvrir le menu</string>
-    <string name="drawer_close">Fermer le menu</string>
-    <string name="action_websearch">Recherche sur Internet</string> 
+
+    <string name="app_name">Rand\'On</string>
+    <string name="drawer_open">Ouvrir navigation drawer</string>
+    <string name="drawer_close">Fermer navigation drawer</string>
+    <string name="action_websearch">Recherche Web</string>
+    <string name="button_newHike">Commencer une nouvelle randonnée</string>
     
-    <string name="button_newHike">Démarrer nouvelle randonnée</string> 
+    <!-- Connexion activity -->
+    <string name="user_name">Nom d\'utilisateur :</string>
+    <string name="user_password">Mot de passe :</string>
+    <string name="connexion">Connexion</string>
+    <string name="create_account">Vous n\'avez pas encore de compte? Cliquez </string>
+    <string name="click_here">ici</string>
     
+    <!-- Create Account activity -->
+    <string name="confirm_user_password">Confirmer le mot de passe :</string>
+    <string name="user_email">Adresse e-mail :</string>
+    <string name="button_create_account">Créer compte</string>
+    
+     
     <!-- Navigation item names -->
-    <string name="hike_search_title">Rechercher un parcours</string>
+    <string name="hike_search_title">Chercher une randonnée</string>
     <string name="new_hike_title">Nouvelle randonnée</string>
-    <string name="hike_list_title">Mes parcours</string>
-    
+    <string name="hike_list_title">Mes randonnées</string>
+    <string name="title_activity_home">Accueil</string>
+    <string name="action_settings">Paramètres</string>
+
 </resources>

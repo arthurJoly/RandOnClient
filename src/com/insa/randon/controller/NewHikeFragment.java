@@ -1,9 +1,6 @@
 package com.insa.randon.controller;
 
 import com.insa.randon.R;
-import com.insa.randon.R.id;
-import com.insa.randon.R.layout;
-
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +24,7 @@ public class NewHikeFragment extends Fragment {
 		buttonNewHike.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent mapActivity = new Intent(getActivity(), MapActivity.class);  
+				Intent mapActivity = new Intent(getActivity(), GoogleMapActivity.class);  
 				startActivity(mapActivity);
 			}
 		});

@@ -41,6 +41,10 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name=".controller.GoogleMapActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name="com.insa.randon.controller.HomeActivity"
             android:label="@string/title_activity_home" >
         </activity>
