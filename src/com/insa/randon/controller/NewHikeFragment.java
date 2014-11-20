@@ -26,7 +26,7 @@ public class NewHikeFragment extends Fragment {
 		buttonNewHike.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent mapActivity = new Intent(getActivity(), GoogleMapActivity.class);  
+				Intent mapActivity = new Intent(getActivity(), MapActivity.class);  
 				startActivity(mapActivity);
 			}
 		});

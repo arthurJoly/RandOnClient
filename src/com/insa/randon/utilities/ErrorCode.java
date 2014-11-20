@@ -7,13 +7,11 @@ public enum ErrorCode {
 	
 	protected String message;
 	
-	ErrorCode(String message)
-	{
-		this.message=message;
+	ErrorCode(String message){
+		this.message = message;
 	}
 	
-	public String getMessage()
-	{
+	public String getMessage(){
 		return this.message;
 	}
 }

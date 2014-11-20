@@ -7,15 +7,13 @@ import com.insa.randon.utilities.RequestExecutor;
 import com.insa.randon.utilities.ResultObject;
 
 public class UserServices {
-
-	public RequestExecutor executor;
+	private RequestExecutor executor;
 	
 	/*
 	 * Constructor
 	 */
-	UserServices()
-	{
-		executor=new RequestExecutor();
+	UserServices(){
+		executor = new RequestExecutor();
 	}
 	
 	/*
