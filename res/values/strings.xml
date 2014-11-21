@@ -15,6 +15,8 @@
     <string name="connexion">Connexion</string>
     <string name="create_account">New to Rand\'On? Click </string>
     <string name="click_here">here</string>
+    <string name="account_creation_success">Your account has been successfully created</string>
+    <string name="account_creation_failure">An error occurred during account creation</string>
     
     <!-- Create Account activity -->
     <string name="confirm_user_password">Confirm password</string>

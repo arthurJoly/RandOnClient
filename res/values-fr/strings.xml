@@ -13,6 +13,8 @@
     <string name="connexion">Connexion</string>
     <string name="create_account">Vous n\'avez pas encore de compte? Cliquez </string>
     <string name="click_here">ici</string>
+    <string name="account_creation_success">Compte créé avec succès</string>
+    <string name="account_creation_failure">Une erreur est survenue pendant la création du compte</string>
     
     <!-- Create Account activity -->
     <string name="confirm_user_password">Confirmer le mot de passe :</string>

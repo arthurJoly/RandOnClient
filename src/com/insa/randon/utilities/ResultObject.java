@@ -3,13 +3,20 @@ package com.insa.randon.utilities;
 public class ResultObject/* <T> */{
 
 	// T data;
-	public ErrorCode errCode;
+	private ErrorCode errCode;
+	private String content = "";
 
-	ResultObject() {
-
-	}
-
-	ResultObject(ErrorCode errCode) {
+	ResultObject(ErrorCode errCode, String content) {
 		this.errCode = errCode;
+		this.content = content;
 	}
+
+	public ErrorCode getErrCode() {
+		return errCode;
+	}
+
+	public String getContent() {
+		return content;
+	}
+	
 }
