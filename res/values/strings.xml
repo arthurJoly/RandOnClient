@@ -22,6 +22,8 @@
     <string name="confirm_user_password">Confirm password</string>
     <string name="user_email">Email</string>
     <string name="button_create_account">Create a new account</string>
+    <string name="empty_fields">All fields must be filled in</string>
+    <string name="password_not_confirmed">The password and the confirmed password must be exactly the same</string>
     
      
     <!-- Navigation item names -->

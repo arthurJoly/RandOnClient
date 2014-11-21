@@ -20,6 +20,8 @@
     <string name="confirm_user_password">Confirmer le mot de passe :</string>
     <string name="user_email">Adresse e-mail :</string>
     <string name="button_create_account">Créer compte</string>
+    <string name="empty_fields">Tous les champs doivent être renseignés</string>
+    <string name="password_not_confirmed">Le mot de passe de confirmation n\'est pas correct</string>
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Chercher une randonnée</string>
