@@ -11,6 +11,7 @@
     <string name="positive_button">OK</string>
     
     <!-- Connexion activity -->
+    <string name="background_description">Mountain landscape</string>
     <string name="user_name">Login</string>
     <string name="user_password">Password</string>
     <string name="connexion">Connexion</string>
@@ -18,7 +19,7 @@
     <string name="click_here">here</string>
     <string name="connexion_fail">Connexion failed</string>
     <string name="connexion_success">Connexion succeeded</string>
-    <string name="too_many_attempt_to_connect">You failed to connect to many times, wait a moment before trying again.</string>
+    <string name="too_many_attempt_to_connect">You failed to connect too many times, wait a moment before trying again</string>
 
     <!-- Create Account activity -->
     <string name="confirm_user_password">Confirm password</string>

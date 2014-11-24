@@ -33,7 +33,7 @@ public class ConnexionActivity extends Activity {
 		setContentView(R.layout.activity_connexion);
 		context = this;
 		
-		tries=0;
+		tries = 0;
 		
 		connexionButton = (Button) findViewById(R.id.button_connexion);
 		editTextUserName = (EditText) findViewById(R.id.editText_user_name);
@@ -41,17 +41,10 @@ public class ConnexionActivity extends Activity {
 	}
 	
 	public void onButtonClick(View view){
-		if(this.tries>=NUMBER_OF_TRY)
-		{
+		if(this.tries >= NUMBER_OF_TRY){
 			 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		     alertDialogBuilder.setMessage(R.string.too_many_attempt_to_connect);
-		     alertDialogBuilder.setPositiveButton(R.string.positive_button, 
-		     new DialogInterface.OnClickListener() {
-		        @Override
-		        public void onClick(DialogInterface arg0, int arg1) {
-					SystemClock.sleep(SLEEPING_TIME);
-		        }
-		     });
+		     alertDialogBuilder.setNeutralButton(R.string.positive_button, null);
 		     AlertDialog alertDialog = alertDialogBuilder.create();
 		     alertDialog.show();
 		} else {
