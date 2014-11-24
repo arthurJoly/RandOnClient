@@ -45,15 +45,18 @@ public class CreateAccountActivity extends BaseActivity {
 		String password = editTextPassword.getText().toString();
 		String confirmPassword = editTextConfirmPassword.getText().toString();
 
-		boolean notEmpty = (email.equals("") && username.equals("") && password.equals("") && confirmPassword.equals(""));
+		boolean empty = (email.equals("") || username.equals("") || password.equals("") || confirmPassword.equals(""));
 		boolean passwordConfirmed = password.equals(confirmPassword);
+		boolean correctEmail = (!email.contains("/") && !email.contains("\\"));
 		//TODO: check if email is valid that the field don't contain special characters
 		
-		if (notEmpty){
+		if (empty){
 			Toast.makeText(context, R.string.empty_fields, Toast.LENGTH_SHORT).show();
 		} else if (!passwordConfirmed){
 			Toast.makeText(context, R.string.password_not_confirmed, Toast.LENGTH_SHORT).show();
-		} else {
+		} else if(!correctEmail){
+			Toast.makeText(context, R.string.uncorrect_email, Toast.LENGTH_SHORT).show();
+		} else{
 		
 			//initialize task listener
 			TaskListener accountCreationListener = new TaskListener() {

@@ -51,7 +51,6 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		} else {
 			listener.onFailure(result.getErrCode());
 		}
-		
 	}
 	
 	private ResultObject executeGET(){

@@ -13,6 +13,7 @@ import com.insa.randon.utilities.TaskListener;
 public class UserServices {
 	private static final String URL_BASE = "";
 	private static final String SERVICE_CREATE_ACCOUNT = "";
+	private static final String SERVICE_CONNECT = "";
 	
 	private static final String PARAMETER_LOGIN = "username";
 	private static final String PARAMETER_PASSWORD = "password";
@@ -32,7 +33,7 @@ public class UserServices {
 	public static void createUser(String username, String password, String email, TaskListener listener)
 	{
 		//build url
-		String url = URL_BASE +SERVICE_CREATE_ACCOUNT;
+		String url = URL_BASE + SERVICE_CREATE_ACCOUNT;
 		
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair(PARAMETER_EMAIL, email));
@@ -40,8 +41,25 @@ public class UserServices {
 		params.add(new BasicNameValuePair(PARAMETER_PASSWORD, password));
 		//TODO: encode parameter values with URLEncoder
 		
-		new RequestExecutor(params, url, RequestExecutor.RequestType.POST, listener).execute();
+		new RequestExecutor(params, url, RequestExecutor.RequestType.POST, listener).execute();	
+	}
+	
+	/**
+	 * Connect user
+	 * @param username Username of the user
+	 * @param password Password of the user
+	 * @param listener Listener to notify when the account is created
+	 */
+	public static void connect(String username, String password, TaskListener listener)
+	{
+		//build url
+		String url = URL_BASE + SERVICE_CONNECT;
 		
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair(PARAMETER_LOGIN, username));
+		params.add(new BasicNameValuePair(PARAMETER_PASSWORD, password));
+		
+		new RequestExecutor(params, url, RequestExecutor.RequestType.GET, listener).execute();	
 	}
 
 }
