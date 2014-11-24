@@ -11,7 +11,7 @@ import com.insa.randon.utilities.ResultObject;
 import com.insa.randon.utilities.TaskListener;
 
 public class UserServices {
-	private static final String URL_BASE = "";
+	private static final String URL_BASE = "http://blogname.tumblr.com/api/read/json?num=5";
 	private static final String SERVICE_CREATE_ACCOUNT = "";
 	private static final String SERVICE_CONNECT = "";
 	
