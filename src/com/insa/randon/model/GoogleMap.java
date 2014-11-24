@@ -8,19 +8,21 @@ import android.graphics.Color;
 
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.insa.randon.R;
 
 public class GoogleMap extends Map {
 	public static final int LINE_WIDTH = 3;
 	com.google.android.gms.maps.GoogleMap googleMap = null;
+	
 
 	@Override
 	public void setUpMap(Activity activity) {
 		MapFragment fm = (MapFragment) activity.getFragmentManager().findFragmentById(R.id.map);
         googleMap = fm.getMap();
-        googleMap.setMyLocationEnabled(true);		
+        googleMap.setMyLocationEnabled(true);
+        
+        currentNewRoute = new ArrayList<LatLng>();
 	}
 
 	@Override
@@ -39,11 +41,16 @@ public class GoogleMap extends Map {
 		}
 		
 	}
+	
+	@Override
+	public void followHike(LatLng newPoint){
+		currentNewRoute.add(newPoint);
+		//TODO : show this route on map
+	}
 
 	@Override
 	public int getLayoutId() {
 		return R.layout.googlemap;
 	}
-
 	
 }
