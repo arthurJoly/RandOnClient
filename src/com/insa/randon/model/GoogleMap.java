@@ -1,6 +1,5 @@
 package com.insa.randon.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -8,12 +7,15 @@ import android.graphics.Color;
 
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.insa.randon.R;
 
 public class GoogleMap extends Map {
 	public static final int LINE_WIDTH = 3;
 	com.google.android.gms.maps.GoogleMap googleMap = null;
+	Polyline line;
+	PolylineOptions lineOptions;
 	
 
 	@Override
@@ -21,9 +23,7 @@ public class GoogleMap extends Map {
 		MapFragment fm = (MapFragment) activity.getFragmentManager().findFragmentById(R.id.map);
         googleMap = fm.getMap();
         googleMap.setMyLocationEnabled(true);
-        
-        currentNewRoute = new ArrayList<LatLng>();
-	}
+   	}
 
 	@Override
 	public void showRoute(List<LatLng> route) {
@@ -43,9 +43,16 @@ public class GoogleMap extends Map {
 	}
 	
 	@Override
-	public void followHike(LatLng newPoint){
-		currentNewRoute.add(newPoint);
-		//TODO : show this route on map
+	public void initializeNewHike() {
+	    lineOptions = new PolylineOptions().width(LINE_WIDTH).color(Color.GREEN);
+	    line = googleMap.addPolyline(lineOptions);
+	}
+	
+	@Override
+	public void followingHike(LatLng newPoint){
+		List<LatLng> points = line.getPoints();
+		points.add(newPoint);
+		line.setPoints(points);
 	}
 
 	@Override

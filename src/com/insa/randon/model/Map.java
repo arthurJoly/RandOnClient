@@ -3,12 +3,11 @@ package com.insa.randon.model;
 import java.util.List;
 
 import android.app.Activity;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
 public abstract class Map {
-	List<LatLng> currentNewRoute; //Hike that a user create
-	
 	/**
 	 * Get layout id
 	 * @return Layout resource id
@@ -28,9 +27,14 @@ public abstract class Map {
 	public abstract void showRoute(List<LatLng> route);
 	
 	/**
-	 * update current hike on map
-	 * @param newPoint a GPS coordinate that belongs to the currentNewRoute
+	 * add a new empty polyline to the map
 	 */
-	public abstract void followHike(LatLng newPoint);
+	public abstract void initializeNewHike();
+	
+	/**
+	 * update current hike on map
+	 * @param newPoint a GPS coordinate that is added to the current new hike
+	 */
+	public abstract void followingHike(LatLng newPoint);
 	
 }

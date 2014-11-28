@@ -30,6 +30,10 @@
     <string name="account_creation_success">Your account has been successfully created</string>
     <string name="account_creation_failure">An error occurred during account creation</string>
 	<string name="uncorrect_email">Email format is not correct</string>
+	
+	<!-- Map Activity -->
+    <string name="distance_done">Distance done : </string>
+    <string name="speed">Speed : </string>
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>
