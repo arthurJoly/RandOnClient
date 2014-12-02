@@ -8,7 +8,10 @@
     <string name="button_newHike">Commencer une nouvelle randonnée</string>
     
     <string name="activity_map_title">Map</string>
-    <string name="positive_button">OK</string>
+    
+    <!-- Common -->
+    <string name="positive_button">Oui</string>
+    <string name="negative_button">Non</string>
     
     <!-- Connexion activity -->
     <string name="background_description">Paysage de montagne</string>
@@ -33,7 +36,11 @@
     
     <!-- Map Activity -->
     <string name="distance_done">Distance parcourue : </string>
-    <string name="speed">Vitesse : </string>
+    <string name="speed">Vitesse moyenne : </string>
+    <string name="duration">Durée : </string>
+    <string name="difference_in_height">Dénivelé : </string>
+    <string name="gps_disabled">Votre GPS est désactivé, voulez-vous l\'activer ?</string>
+    
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Chercher une randonnée</string>

@@ -5,5 +5,8 @@
     <color name="grey_item">#3B3B3B</color>
     <color name="green_item">#159F00</color>
     <color name="black_item">#000000</color>
+    <color name="path">#660099</color>
+    
+    
 
 </resources>

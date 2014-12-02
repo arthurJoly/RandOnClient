@@ -8,7 +8,11 @@
     <string name="button_newHike">Start a new hike</string>
     
     <string name="activity_map_title">Map</string>
-    <string name="positive_button">OK</string>
+    
+    <!-- Common -->
+    <string name="neutral_button">OK</string>
+    <string name="positive_button">Yes</string>
+    <string name="negative_button">No</string>
     
     <!-- Connexion activity -->
     <string name="background_description">Mountain landscape</string>
@@ -32,8 +36,11 @@
 	<string name="uncorrect_email">Email format is not correct</string>
 	
 	<!-- Map Activity -->
-    <string name="distance_done">Distance done : </string>
-    <string name="speed">Speed : </string>
+    <string name="distance_done">Distance done: </string>
+    <string name="speed">Average speed: </string>
+    <string name="duration">Duration: </string>
+    <string name="difference_in_height">Difference in height: </string>
+    <string name="gps_disabled">Your GPS seems to be disabled, do you want to enable it?</string>
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>

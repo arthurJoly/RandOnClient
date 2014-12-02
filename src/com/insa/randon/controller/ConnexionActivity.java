@@ -19,7 +19,6 @@ import com.insa.randon.utilities.TaskListener;
 
 public class ConnexionActivity extends Activity {
 	private static final int NUMBER_OF_TRY = 3;
-	private static final int SLEEPING_TIME = 5000;
 	
 	Button connexionButton;
 	EditText editTextUserName;
@@ -41,10 +40,14 @@ public class ConnexionActivity extends Activity {
 	}
 	
 	public void onButtonClick(View view){
+		Intent intent = new Intent(context, HomeActivity.class);
+		startActivity(intent);
+		finish();
+		
 		if(this.tries >= NUMBER_OF_TRY){
 			 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		     alertDialogBuilder.setMessage(R.string.too_many_attempt_to_connect);
-		     alertDialogBuilder.setNeutralButton(R.string.positive_button, null);
+		     alertDialogBuilder.setNeutralButton(R.string.neutral_button, null);
 		     AlertDialog alertDialog = alertDialogBuilder.create();
 		     alertDialog.show();
 		} else {
@@ -79,6 +82,7 @@ public class ConnexionActivity extends Activity {
 				this.tries++;
 			}
 		}
+		
 	}
 	
 	public void onClick(View view) {

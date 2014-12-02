@@ -3,6 +3,7 @@ package com.insa.randon.model;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 
 import com.google.android.gms.maps.MapFragment;
@@ -12,10 +13,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.insa.randon.R;
 
 public class GoogleMap extends Map {
-	public static final int LINE_WIDTH = 3;
-	com.google.android.gms.maps.GoogleMap googleMap = null;
-	Polyline line;
-	PolylineOptions lineOptions;
+	public static final int LINE_WIDTH = 5;
+	private com.google.android.gms.maps.GoogleMap googleMap = null;
+	private Polyline line;
+	private PolylineOptions lineOptions;
+	private Context context;
 	
 
 	@Override
@@ -23,6 +25,7 @@ public class GoogleMap extends Map {
 		MapFragment fm = (MapFragment) activity.getFragmentManager().findFragmentById(R.id.map);
         googleMap = fm.getMap();
         googleMap.setMyLocationEnabled(true);
+        context = activity;
    	}
 
 	@Override
@@ -36,7 +39,7 @@ public class GoogleMap extends Map {
 				googleMap.addPolyline(new PolylineOptions()
 			     .addAll(route)
 			     .width(LINE_WIDTH)
-			     .color(Color.GREEN));		
+			     .color(context.getResources().getColor(R.color.path)));		
 			}	
 		}
 		

@@ -10,11 +10,13 @@ public class Hike {
 	String name;
 	List<LatLng> coordinates;
 	float distance;
+	float diffHeight;
 	
 	public Hike(){
 		this.name="";
 		this.coordinates = new ArrayList<LatLng>();
 		this.distance=0;	
+		this.diffHeight=0;
 	}
 	
 	/**
