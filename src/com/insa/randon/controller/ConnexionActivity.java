@@ -40,10 +40,6 @@ public class ConnexionActivity extends Activity {
 	}
 	
 	public void onButtonClick(View view){
-		Intent intent = new Intent(context, HomeActivity.class);
-		startActivity(intent);
-		finish();
-		
 		if(this.tries >= NUMBER_OF_TRY){
 			 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		     alertDialogBuilder.setMessage(R.string.too_many_attempt_to_connect);
@@ -74,7 +70,11 @@ public class ConnexionActivity extends Activity {
 
 					@Override
 					public void onFailure(ErrorCode errCode) {
-						Toast.makeText(context, R.string.connexion_fail, Toast.LENGTH_SHORT).show();					
+						if (errCode == ErrorCode.REQUEST_FAILED){
+							Toast.makeText(context, R.string.request_failed, Toast.LENGTH_SHORT).show();
+						} else if (errCode == ErrorCode.FAILED){
+							Toast.makeText(context, R.string.connexion_fail, Toast.LENGTH_SHORT).show();
+						}
 					}
 				};
 

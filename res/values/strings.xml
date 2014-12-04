@@ -21,8 +21,9 @@
     <string name="connexion">Connexion</string>
     <string name="create_account">New to Rand\'On? Click </string>
     <string name="click_here">here</string>
-    <string name="connexion_fail">Connexion failed</string>
+    <string name="connexion_fail">Connexion failed, please check your login and password</string>
     <string name="connexion_success">Connexion succeeded</string>
+    <string name="request_failed">Failed to reach server</string>
     <string name="too_many_attempt_to_connect">You failed to connect too many times, wait a moment before trying again</string>
 
     <!-- Create Account activity -->
@@ -32,6 +33,7 @@
     <string name="empty_fields">All fields must be filled in</string>
     <string name="password_not_confirmed">The password and the confirmed password must be exactly the same</string>
     <string name="account_creation_success">Your account has been successfully created</string>
+    <string name="account_creation_already_exists">This username already exists, please choose a new one</string>
     <string name="account_creation_failure">An error occurred during account creation</string>
 	<string name="uncorrect_email">Email format is not correct</string>
 	

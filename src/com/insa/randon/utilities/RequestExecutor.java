@@ -2,6 +2,7 @@ package com.insa.randon.utilities;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -91,6 +92,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		
 		try {
 			//To test post method, you can use this link: "http://postcatcher.in/catchers/546f635e9ac9260200000109"
+			//TODO : change with HttpsUrlConnection
 			URL urlGet = new URL(url);
 			urlConnection = (HttpURLConnection) urlGet.openConnection();
 			urlConnection.setDoOutput(true);
@@ -103,19 +105,27 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		    out.close ();
 
 		    //read response
-			String response = readInputStream(urlConnection.getInputStream());
+			String response = "";
+			try {
+				response = readInputStream(urlConnection.getInputStream());
+			} catch (FileNotFoundException e){
+				e.printStackTrace();
+			}
+					
 			int code = urlConnection.getResponseCode();
-			if (code == HttpURLConnection.HTTP_ACCEPTED || code == HttpURLConnection.HTTP_CREATED){
+			if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
 				resultObject = new ResultObject(ErrorCode.OK, response);
+			} else if (code == HttpURLConnection.HTTP_FORBIDDEN){
+				resultObject = new ResultObject(ErrorCode.ALREADY_EXISTS, "");				
 			} else {
 				resultObject = new ResultObject(ErrorCode.FAILED, "");
 			}			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			resultObject = new ResultObject(ErrorCode.FAILED, "");
+			resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
 		} catch (IOException e) {
 			e.printStackTrace();
-			resultObject = new ResultObject(ErrorCode.FAILED, "");
+			resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
 		} finally {
 			if (urlConnection != null){
 				urlConnection.disconnect();

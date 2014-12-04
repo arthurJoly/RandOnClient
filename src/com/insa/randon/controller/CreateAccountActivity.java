@@ -48,7 +48,7 @@ public class CreateAccountActivity extends BaseActivity {
 		boolean empty = (email.equals("") || username.equals("") || password.equals("") || confirmPassword.equals(""));
 		boolean passwordConfirmed = password.equals(confirmPassword);
 		boolean correctEmail = (!email.contains("/") && !email.contains("\\"));
-		//TODO: check if email is valid that the field don't contain special characters
+		//TODO: check if email is valid that the field doesn't contain special characters
 		
 		if (empty){
 			Toast.makeText(context, R.string.empty_fields, Toast.LENGTH_SHORT).show();
@@ -71,7 +71,14 @@ public class CreateAccountActivity extends BaseActivity {
 
 				@Override
 				public void onFailure(ErrorCode errCode) {
-					Toast.makeText(context, R.string.account_creation_failure, Toast.LENGTH_SHORT).show();					
+					if (errCode == ErrorCode.ALREADY_EXISTS){
+						Toast.makeText(context, R.string.account_creation_already_exists, Toast.LENGTH_SHORT).show();
+					} else if (errCode == ErrorCode.REQUEST_FAILED){
+						Toast.makeText(context, R.string.request_failed, Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(context, R.string.account_creation_failure, Toast.LENGTH_SHORT).show();
+					}
+										
 				}
 			};
 

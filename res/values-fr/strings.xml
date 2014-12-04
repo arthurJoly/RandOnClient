@@ -20,7 +20,8 @@
     <string name="connexion">Connexion</string>
     <string name="create_account">Vous n\'avez pas encore de compte ? Cliquez </string>
     <string name="click_here">ici</string>
-    <string name="connexion_fail">La connexion a échoué</string>
+    <string name="connexion_fail">La connexion a échoué, vos identifiants sont-ils corrects ?</string>
+    <string name="request_failed">La connexion au seveur a échoué</string>
     <string name="connexion_success">Connexion réussie</string>
     <string name="too_many_attempt_to_connect">Connexion impossible actuellement, attendez un moment avant de réessayer</string>
     
@@ -32,6 +33,7 @@
     <string name="password_not_confirmed">Le mot de passe de confirmation n\'est pas correct</string>
     <string name="account_creation_success">Compte créé avec succès</string>
     <string name="account_creation_failure">Une erreur est survenue pendant la création du compte</string>
+    <string name="account_creation_already_exists">Ce nom d\'utilisateur existe déjà, il faut en choisir un nouveau</string>
     <string name="uncorrect_email">Votre e-mail est incorrect</string>
     
     <!-- Map Activity -->
