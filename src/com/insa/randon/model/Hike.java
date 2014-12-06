@@ -1,6 +1,6 @@
 package com.insa.randon.model;
 
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +47,8 @@ public class Hike implements Parcelable {
 		return this.coordinates;
 	}
 	
+	//-----------------------------------------------------------------
+	//Parcelable : in order to pass a hike between activities
 	public int describeContents() {
         return 0;
     }
@@ -59,7 +61,7 @@ public class Hike implements Parcelable {
         out.writeString(name);
     }
 
-    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    // this is used to regenerate your object
     public static final Parcelable.Creator<Hike> CREATOR = new Parcelable.Creator<Hike>() {
         public Hike createFromParcel(Parcel in) {
             return new Hike(in);

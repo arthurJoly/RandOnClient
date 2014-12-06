@@ -36,6 +36,9 @@
     <string name="account_creation_already_exists">Ce nom d\'utilisateur existe déjà, il faut en choisir un nouveau</string>
     <string name="uncorrect_email">Votre e-mail est incorrect</string>
     
+    <!-- New Hike Activity -->
+    <string name="starting_new_hike">Vous êtes sur le point de commencer une nouvelle randonnée, assurez vous que votre GPS est en marche.</string>
+    
     <!-- Map Activity -->
     <string name="distance_done">Distance parcourue : </string>
     <string name="speed">Vitesse moyenne : </string>

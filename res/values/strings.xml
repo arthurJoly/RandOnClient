@@ -37,6 +37,9 @@
     <string name="account_creation_failure">An error occurred during account creation</string>
 	<string name="uncorrect_email">Email format is not correct</string>
 	
+	<!-- New Hike Activity -->
+    <string name="starting_new_hike">You\'re about to start a new hike, make sure that your GPS is working.</string>
+	
 	<!-- Map Activity -->
     <string name="distance_done">Distance done: </string>
     <string name="speed">Average speed: </string>

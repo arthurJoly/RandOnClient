@@ -107,14 +107,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
             String json = "";
  
             // 3. build jsonObject
-            JSONObject jsonObject = new JSONObject();
-            NameValuePair pair = params.get(0);
-    		jsonObject.accumulate(pair.getName(), pair.getValue());
-    		
-    		for (int i=1; i<params.size(); i++){
-    			pair = params.get(i);
-    			jsonObject.accumulate(pair.getName(), pair.getValue());
-    		}
+            JSONObject jsonObject = createJSONObjectToSend(params);
  
             // 4. convert JSONObject to JSON to String
             json = jsonObject.toString();
@@ -126,7 +119,6 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
             httpPost.setEntity(se);
  
             // 7. Set some headers to inform server about the type of the content   
-            //httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
  
             // 8. Execute POST request to the given URL
@@ -149,10 +141,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	    } catch (IOException e) {
 	    	e.printStackTrace();
 	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
-	    } catch (Exception e) {
-	    	e.printStackTrace();
-	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
-        } finally {
+	    }  finally {
 	    	//if (urlConnection != null){
 	    	//	urlConnection.disconnect();
 	    	//}
@@ -177,7 +166,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		return strFileContents;
 	}
 	
-	private static String writeParameters(List<NameValuePair> parameters){
+	/*private static String writeParameters(List<NameValuePair> parameters){
 		String lineToWrite = "";
 		
 		NameValuePair pair = parameters.get(0);
@@ -188,6 +177,25 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			lineToWrite += "&" + pair.getName() + "=" + pair.getValue();
 		}
 		return lineToWrite;
+	}*/
+	
+	private static JSONObject createJSONObjectToSend(List<NameValuePair> parameters)
+	{
+		JSONObject jsonObj = new JSONObject();
+		
+		NameValuePair pair = parameters.get(0);
+		try {
+			jsonObj.accumulate(pair.getName(), pair.getValue());
+			
+			for (int i=1; i<parameters.size(); i++){
+				pair = parameters.get(i);
+				jsonObj.accumulate(pair.getName(), pair.getValue());
+			}
+		} catch (Exception e) {
+	    	e.printStackTrace();
+        }
+		
+		return jsonObj;
 	}
 	
     private static String convertInputStreamToString(InputStream inputStream) throws IOException{
