@@ -21,7 +21,7 @@ public class FinishHikeActivity extends BaseActivity {
         getActionBar().setTitle(R.string.app_name);
         
         Intent intent = getIntent();
-        this.hike = (Hike)intent.getSerializableExtra("hike");
+        this.hike = (Hike)intent.getParcelableExtra("hike");
         
         distanceTextView = (TextView) findViewById(R.id.distance_done_finish_textView);
         distanceTextView.setText(this.hike.getDistance() + DISTANCE_UNIT);
