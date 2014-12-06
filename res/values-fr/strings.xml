@@ -42,7 +42,16 @@
     <string name="duration">Durée : </string>
     <string name="difference_in_height">Dénivelé : </string>
     <string name="gps_disabled">Votre GPS est désactivé, voulez-vous l\'activer ?</string>
+    <string name="finishing_hike">Finir randonnée</string>
     
+    <!-- Finish Hike Activity -->
+    <string name="hike_name">Nom de la randonnée : </string>
+    <string name="difficulty">Difficulté</string>
+    <string name="interest">Intérêt</string>
+    <string name="reliability">Fiabilité</string>
+    <string name="comments">Commentaires</string>
+    <string name="share_hike">Partager la randonnée</string>
+    <string name="back_home">Retour à l\'accueil</string>
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Chercher une randonnée</string>

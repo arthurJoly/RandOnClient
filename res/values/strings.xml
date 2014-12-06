@@ -43,6 +43,16 @@
     <string name="duration">Duration: </string>
     <string name="difference_in_height">Difference in height: </string>
     <string name="gps_disabled">Your GPS seems to be disabled, do you want to enable it?</string>
+    <string name="finishing_hike">Finish hike</string>
+    
+    <!-- Finish Hike Activity -->
+    <string name="hike_name">Hike name:</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="interest">Interest</string>
+    <string name="reliability">Reliability</string>
+    <string name="comments">Comments</string>
+    <string name="share_hike">Share hike</string>
+    <string name="back_home">Back home</string>
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>

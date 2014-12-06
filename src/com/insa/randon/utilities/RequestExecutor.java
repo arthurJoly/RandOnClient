@@ -2,9 +2,11 @@ package com.insa.randon.utilities;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -12,7 +14,13 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
 
 import android.os.AsyncTask;
 
@@ -86,53 +94,75 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	}
 		
 	private ResultObject executePOST(){
-		
-		HttpURLConnection urlConnection = null;
-		ResultObject resultObject = null;
-		
-		try {
-			//To test post method, you can use this link: "http://postcatcher.in/catchers/546f635e9ac9260200000109"
-			//TODO : change with HttpsUrlConnection
-			URL urlGet = new URL(url);
-			urlConnection = (HttpURLConnection) urlGet.openConnection();
-			urlConnection.setDoOutput(true);
-		    urlConnection.setChunkedStreamingMode(0);
-		    
-		    //write parameters in outputstream
-		    OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
-		    out.write(writeParameters(params).getBytes());
-		    out.flush ();
-		    out.close ();
-
-		    //read response
-			String response = "";
-			try {
-				response = readInputStream(urlConnection.getInputStream());
-			} catch (FileNotFoundException e){
-				e.printStackTrace();
-			}
-					
-			int code = urlConnection.getResponseCode();
-			if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
-				resultObject = new ResultObject(ErrorCode.OK, response);
+		InputStream inputStream = null;
+        ResultObject resultObject = null;
+        try {
+ 
+            // 1. create HttpClient
+            HttpClient httpclient = new DefaultHttpClient();
+ 
+            // 2. make POST request to the given URL
+            HttpPost httpPost = new HttpPost(url);
+ 
+            String json = "";
+ 
+            // 3. build jsonObject
+            JSONObject jsonObject = new JSONObject();
+            NameValuePair pair = params.get(0);
+    		jsonObject.accumulate(pair.getName(), pair.getValue());
+    		
+    		for (int i=1; i<params.size(); i++){
+    			pair = params.get(i);
+    			jsonObject.accumulate(pair.getName(), pair.getValue());
+    		}
+ 
+            // 4. convert JSONObject to JSON to String
+            json = jsonObject.toString();
+ 
+            // 5. set json to StringEntity
+            StringEntity se = new StringEntity(json);
+ 
+            // 6. set httpPost Entity
+            httpPost.setEntity(se);
+ 
+            // 7. Set some headers to inform server about the type of the content   
+            //httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+ 
+            // 8. Execute POST request to the given URL
+            HttpResponse httpResponse = httpclient.execute(httpPost);
+ 
+            // 9. receive response as inputStream
+            inputStream = httpResponse.getEntity().getContent();
+            int code = httpResponse.getStatusLine().getStatusCode();
+            if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
+				resultObject = new ResultObject(ErrorCode.OK, convertInputStreamToString(inputStream));
 			} else if (code == HttpURLConnection.HTTP_FORBIDDEN){
 				resultObject = new ResultObject(ErrorCode.ALREADY_EXISTS, "");				
 			} else {
 				resultObject = new ResultObject(ErrorCode.FAILED, "");
-			}			
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
-		} catch (IOException e) {
-			e.printStackTrace();
-			resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
-		} finally {
-			if (urlConnection != null){
-				urlConnection.disconnect();
 			}
-		}
+            
+        } catch (MalformedURLException e) {
+	    	e.printStackTrace();
+	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
+        } finally {
+	    	//if (urlConnection != null){
+	    	//	urlConnection.disconnect();
+	    	//}
+	    }
+ 
+        // 11. return result
+        return resultObject;
+        
+		//To test post method, you can use this link: "http://postcatcher.in/catchers/546f635e9ac9260200000109"
 
-		return resultObject;
 	}
 	
 	private static String readInputStream(InputStream in) throws IOException{
@@ -159,6 +189,18 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		}
 		return lineToWrite;
 	}
+	
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+ 
+        inputStream.close();
+        return result;
+ 
+    } 
 	
 	public enum RequestType{
 		GET,

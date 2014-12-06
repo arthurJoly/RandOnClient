@@ -1,12 +1,13 @@
 package com.insa.randon.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.android.gms.maps.model.LatLng;
 import android.location.Location;
 
-public class Hike {
+public class Hike implements Serializable{
 	String name;
 	List<LatLng> coordinates;
 	float distance;

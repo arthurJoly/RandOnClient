@@ -35,7 +35,7 @@ public class GoogleMap extends Map {
 			int size = route.size();
 			if(size>=2)
 			{
-				route.add(route.get(0)); //Close the loop
+				//route.add(route.get(0)); //Close the loop
 				googleMap.addPolyline(new PolylineOptions()
 			     .addAll(route)
 			     .width(LINE_WIDTH)

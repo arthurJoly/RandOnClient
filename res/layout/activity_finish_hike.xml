@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+   
+    <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:text="@string/hike_name"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+    
+    <EditText
+            android:id="@+id/editText_hike_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:text="@string/distance_done"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/distance_done_finish_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:text="@string/duration"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/duration_finish_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
+    </LinearLayout>
+    
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:text="@string/difficulty"
+                android:textSize="18sp"/>
+
+            <SeekBar 
+		        android:id="@+id/difficulty_seekBar"
+		        android:layout_width="match_parent" 
+		        android:layout_height="wrap_content" 
+		        android:max="5"/>
+        </LinearLayout>
+        
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:text="@string/interest"
+                android:textSize="18sp"/>
+
+            <SeekBar 
+		        android:id="@+id/interest_seekBar"
+		        android:layout_width="match_parent" 
+		        android:layout_height="wrap_content" 
+		        android:max="5"/>
+       </LinearLayout>
+       
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:text="@string/reliability"
+                android:textSize="18sp"/>
+
+            <SeekBar 
+		        android:id="@+id/reliability_seekBar"
+		        android:layout_width="match_parent" 
+		        android:layout_height="wrap_content" 
+		        android:max="5"/>
+     </LinearLayout>
+     
+    <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:text="@string/comments"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+    
+    <EditText
+            android:id="@+id/editText_comments"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" 
+            android:lines="6"/>
+    
+    <Button
+            android:id="@+id/button_share_hike"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onButtonClick"
+            android:text="@string/share_hike" />
+    
+    <Button
+            android:id="@+id/button_back_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onButtonClick"
+            android:text="@string/back_home" />
+
+</LinearLayout>
