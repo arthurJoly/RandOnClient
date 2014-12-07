@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.insa.randon.R;
+import com.insa.randon.services.UserServices;
 
 public class HomeActivity extends Activity {
 	public static final String FRAGMENT_EXTRA = "fragmentToStart";
@@ -45,5 +46,17 @@ public class HomeActivity extends Activity {
 		startActivity(intent);
 		finish();
 	}
+	
+    @Override
+    public void onBackPressed() {
+    	super.onBackPressed();
+    	
+    	//call logout service
+    	//initialize task listener
+    	
+    	//TODO : what should we do when log out API call fails? We can't ask the user to try again...
+    	
+		UserServices.logout(null);
+    }
 
 }

@@ -36,6 +36,9 @@
     <string name="account_creation_already_exists">Ce nom d\'utilisateur existe déjà, il faut en choisir un nouveau</string>
     <string name="uncorrect_email">Votre e-mail est incorrect</string>
     
+    <!-- Main activity -->
+	<string name="logout_failed">Déconnexion impossible, merci de vous reconnecter et de réessayer</string>
+    
     <!-- Map Activity -->
     <string name="distance_done">Distance parcourue : </string>
     <string name="speed">Vitesse moyenne : </string>

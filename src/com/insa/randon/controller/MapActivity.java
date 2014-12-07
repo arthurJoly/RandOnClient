@@ -12,14 +12,13 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.ViewStub;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.insa.randon.R;
 import com.insa.randon.model.GoogleMap;
-import com.insa.randon.model.Map;
 import com.insa.randon.model.Hike;
+import com.insa.randon.model.Map;
 
 public class MapActivity extends BaseActivity {	
 	private static final int MIN_TIME_INTERVAL_MS = 1000;

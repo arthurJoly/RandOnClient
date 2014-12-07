@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.insa.randon.R;
+import com.insa.randon.services.UserServices;
 
 public class MainActivity extends BaseActivity {
 
@@ -122,6 +123,18 @@ public class MainActivity extends BaseActivity {
         	setTitle(navItem.getTitle());
         	mDrawerLayout.closeDrawer(mDrawerList);          
         }
+    }
+    
+    @Override
+    public void onBackPressed() {
+    	super.onBackPressed();
+    	
+    	//call logout service
+    	//initialize task listener
+    	
+    	//TODO : what should we do when log out API call fails? We can't ask the user to try again...
+    	
+		UserServices.logout(null);
     }
     
     @Override

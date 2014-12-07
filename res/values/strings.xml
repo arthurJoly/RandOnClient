@@ -37,6 +37,9 @@
     <string name="account_creation_failure">An error occurred during account creation</string>
 	<string name="uncorrect_email">Email format is not correct</string>
 	
+	<!-- Main activity -->
+	<string name="logout_failed">Unable to logout, please log in and try again</string>
+	
 	<!-- Map Activity -->
     <string name="distance_done">Distance done: </string>
     <string name="speed">Average speed: </string>

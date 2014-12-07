@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,12 +18,24 @@ import java.util.Map;
 import org.apache.http.NameValuePair;
 
 import android.os.AsyncTask;
+import android.text.TextUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
+	static final String COOKIES_HEADER = "Set-Cookie";
+	
 	RequestType requestType;
 	String url;
 	List<NameValuePair> params;
 	TaskListener listener;
+	static Gson gson = new Gson();
+	static CookieManager cookieManager = new CookieManager();
+	
+	static {
+		CookieHandler.setDefault(cookieManager);
+	}
 	
 	public RequestExecutor(List<NameValuePair> params, String url, RequestType type, TaskListener listener){
 		this.params = params;
@@ -47,13 +62,19 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	protected void onPostExecute(ResultObject result) {
 		super.onPostExecute(result);
 		
-		if (result.getErrCode() == ErrorCode.OK){
-			listener.onSuccess(result.getContent());
-		} else {
-			listener.onFailure(result.getErrCode());
+		if (listener != null){
+			if (result.getErrCode() == ErrorCode.OK){
+				listener.onSuccess(result.getContent());
+			} else {
+				listener.onFailure(result.getErrCode());
+			}
 		}
 	}
 	
+	/**
+	 * Performs a Get request
+	 * @return object containing request result
+	 */
 	private ResultObject executeGET(){
 		HttpURLConnection urlConnection = null;
 		ResultObject resultObject = null;
@@ -85,6 +106,10 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		return resultObject;
 	}
 		
+	/**
+	 * Performs a POST request
+	 * @return object containing request result
+	 */
 	private ResultObject executePOST(){
 		
 		HttpURLConnection urlConnection = null;
@@ -97,12 +122,15 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			urlConnection = (HttpURLConnection) urlGet.openConnection();
 			urlConnection.setDoOutput(true);
 		    urlConnection.setChunkedStreamingMode(0);
+		    urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 		    
-		    //write parameters in outputstream
-		    OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
-		    out.write(writeParameters(params).getBytes());
-		    out.flush ();
-		    out.close ();
+		    if (params != null){
+			    //write parameters in outputstream
+			    OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+			    out.write(generateParameterJson(params).getBytes());
+			    out.flush ();
+			    out.close ();
+		    }
 
 		    //read response
 			String response = "";
@@ -116,7 +144,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
 				resultObject = new ResultObject(ErrorCode.OK, response);
 			} else if (code == HttpURLConnection.HTTP_FORBIDDEN){
-				resultObject = new ResultObject(ErrorCode.ALREADY_EXISTS, "");				
+				resultObject = new ResultObject(ErrorCode.DENIED, "");				
 			} else {
 				resultObject = new ResultObject(ErrorCode.FAILED, "");
 			}			
@@ -147,7 +175,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		return strFileContents;
 	}
 	
-	private static String writeParameters(List<NameValuePair> parameters){
+	private static String generateParametersUrl(List<NameValuePair> parameters){
 		String lineToWrite = "";
 		
 		NameValuePair pair = parameters.get(0);
@@ -158,6 +186,16 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			lineToWrite += "&" + pair.getName() + "=" + pair.getValue();
 		}
 		return lineToWrite;
+	}
+	
+	private static String generateParameterJson(List<NameValuePair> parameters){
+		JsonObject jsonObject = new JsonObject();
+		for (NameValuePair pair : parameters){
+			jsonObject.addProperty(pair.getName(), pair.getValue());
+		}
+		
+		String result = gson.toJson(jsonObject);
+		return result;
 	}
 	
 	public enum RequestType{
