@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="15dp" >
-
+        
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
 
             <TextView
                 android:id="@+id/duration_textView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -96,6 +96,15 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp" />
         </LinearLayout>
+            
+        <Button
+            android:id="@+id/button_finishHike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="onButtonClick"
+            android:text="@string/finishing_hike" />
+    
     </LinearLayout>
 
 </LinearLayout>

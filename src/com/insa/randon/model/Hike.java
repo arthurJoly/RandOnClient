@@ -1,12 +1,15 @@
 package com.insa.randon.model;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.android.gms.maps.model.LatLng;
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Hike {
+public class Hike implements Parcelable {
 	String name;
 	List<LatLng> coordinates;
 	float distance;
@@ -43,6 +46,37 @@ public class Hike {
 	public List<LatLng> getCoordinates(){
 		return this.coordinates;
 	}
+	
+	//-----------------------------------------------------------------
+	//Parcelable : in order to pass a hike between activities
+	public int describeContents() {
+        return 0;
+    }
+
+    // write your object's data to the passed-in Parcel
+    public void writeToParcel(Parcel out, int flags) {
+    	//TODO : write the coordinates
+        out.writeFloat(distance);
+        out.writeFloat(diffHeight);
+        out.writeString(name);
+    }
+
+    // this is used to regenerate your object
+    public static final Parcelable.Creator<Hike> CREATOR = new Parcelable.Creator<Hike>() {
+        public Hike createFromParcel(Parcel in) {
+            return new Hike(in);
+        }
+
+        public Hike[] newArray(int size) {
+            return new Hike[size];
+        }
+    };
+    
+    private Hike(Parcel in) {
+    	distance = in.readFloat();
+    	diffHeight = in.readFloat();
+    	name = in.readString();
+    }
 	
 	
 }

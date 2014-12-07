@@ -11,7 +11,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -25,11 +27,14 @@ public class MapActivity extends BaseActivity {
 	private static final int MIN_DISTANCE_INTERVAL_M = 3;
 	private static final String DISTANCE_UNIT = " m";
 	
+	Context context;
+	
 	private Map map;
 	private LocationManager locManager;
 	private Hike newHike;
 	private TextView distanceTextView;
 	private TextView speedTextView;
+	private Button finishHikeButton;
 	private FollowHikeLocationListener locListener;
 	private ViewStub mapContainer;
 	private AlertDialog alert = null;
@@ -39,7 +44,10 @@ public class MapActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        context=this;
         
+        finishHikeButton = (Button) findViewById(R.id.button_finishHike);
+  
         map = new GoogleMap();        
         
         mapContainer = (ViewStub) findViewById(R.id.map_activity_container);
@@ -58,11 +66,11 @@ public class MapActivity extends BaseActivity {
         PackageManager pm = getPackageManager();
         boolean hasGps = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
         if(!hasGps){
-        	locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_DISTANCE_INTERVAL_M, MIN_DISTANCE_INTERVAL_M, locListener);
+        	locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
         } else if (hasGps && !locManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
             showAlertMessageNoGps();
         } else {
-        	 locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_DISTANCE_INTERVAL_M, MIN_DISTANCE_INTERVAL_M, locListener);
+        	 locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
         }
         
        
@@ -109,6 +117,13 @@ public class MapActivity extends BaseActivity {
     	if (locManager != null){
     		locManager.removeUpdates(locListener);
     	}    	
+    }
+    
+    
+    public void onButtonClick(View view) {
+		Intent intent = new Intent(context, FinishHikeActivity.class);
+		intent.putExtra("hike", newHike);
+		startActivity(intent);
     }
 	
 	public class FollowHikeLocationListener implements LocationListener{

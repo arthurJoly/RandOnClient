@@ -36,7 +36,10 @@
     <string name="account_creation_already_exists">Ce nom d\'utilisateur existe déjà, il faut en choisir un nouveau</string>
     <string name="uncorrect_email">Votre e-mail est incorrect</string>
     
-    <!-- Main activity -->
+    <!-- New Hike Activity -->
+    <string name="starting_new_hike">Vous êtes sur le point de commencer une nouvelle randonnée, assurez vous que votre GPS est en marche.</string>
+   
+	<!-- Main activity -->
 	<string name="logout_failed">Déconnexion impossible, merci de vous reconnecter et de réessayer</string>
     
     <!-- Map Activity -->
@@ -45,7 +48,16 @@
     <string name="duration">Durée : </string>
     <string name="difference_in_height">Dénivelé : </string>
     <string name="gps_disabled">Votre GPS est désactivé, voulez-vous l\'activer ?</string>
+    <string name="finishing_hike">Finir randonnée</string>
     
+    <!-- Finish Hike Activity -->
+    <string name="hike_name">Nom de la randonnée : </string>
+    <string name="difficulty">Difficulté</string>
+    <string name="interest">Intérêt</string>
+    <string name="reliability">Fiabilité</string>
+    <string name="comments">Commentaires</string>
+    <string name="share_hike">Partager la randonnée</string>
+    <string name="back_home">Retour à l\'accueil</string>
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Chercher une randonnée</string>
