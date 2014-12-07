@@ -29,9 +29,17 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	String url;
 	List<NameValuePair> params;
 	TaskListener listener;
+	String params2;
 	
 	public RequestExecutor(List<NameValuePair> params, String url, RequestType type, TaskListener listener){
 		this.params = params;
+		this.url = url;
+		this.requestType = type;
+		this.listener = listener;
+	}
+	
+	public RequestExecutor(String params, String url, RequestType type, TaskListener listener){
+		this.params2 = params;
 		this.url = url;
 		this.requestType = type;
 		this.listener = listener;
@@ -46,6 +54,9 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			resultObject = executeGET();
 		} else if (requestType == RequestType.POST){
 			resultObject = executePOST();
+		}
+		else if (requestType == RequestType.POST2){
+			resultObject = executePOST2();
 		}
 		
 		return resultObject;			
@@ -154,6 +165,61 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 
 	}
 	
+	private ResultObject executePOST2(){
+		InputStream inputStream = null;
+        ResultObject resultObject = null;
+        try {
+ 
+            // 1. create HttpClient
+            HttpClient httpclient = new DefaultHttpClient();
+ 
+            // 2. make POST request to the given URL
+            HttpPost httpPost = new HttpPost(url);
+
+            // 5. set json to StringEntity
+            StringEntity se = new StringEntity(params2);
+ 
+            System.out.println(params2);
+            // 6. set httpPost Entity
+            httpPost.setEntity(se);
+ 
+            // 7. Set some headers to inform server about the type of the content   
+            httpPost.setHeader("Content-type", "application/json");
+ 
+            // 8. Execute POST request to the given URL
+            HttpResponse httpResponse = httpclient.execute(httpPost);
+ 
+            // 9. receive response as inputStream
+            inputStream = httpResponse.getEntity().getContent();
+            int code = httpResponse.getStatusLine().getStatusCode();
+            System.out.println(code);
+            if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
+				resultObject = new ResultObject(ErrorCode.OK, convertInputStreamToString(inputStream));
+			} else if (code == HttpURLConnection.HTTP_FORBIDDEN){
+				resultObject = new ResultObject(ErrorCode.ALREADY_EXISTS, "");				
+			} else {
+				resultObject = new ResultObject(ErrorCode.FAILED, "");
+			}
+            
+        } catch (MalformedURLException e) {
+	    	e.printStackTrace();
+	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
+	    }  finally {
+	    	//if (urlConnection != null){
+	    	//	urlConnection.disconnect();
+	    	//}
+	    }
+ 
+        // 11. return result
+        return resultObject;
+        
+		//To test post method, you can use this link: "http://postcatcher.in/catchers/546f635e9ac9260200000109"
+
+	}
+	
 	private static String readInputStream(InputStream in) throws IOException{
 		InputStream bis = new BufferedInputStream(in);
 		byte[] contents = new byte[1024];
@@ -212,6 +278,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	
 	public enum RequestType{
 		GET,
-		POST
+		POST,
+		POST2
 	}
 }

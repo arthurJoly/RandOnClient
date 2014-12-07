@@ -56,9 +56,10 @@ public class Hike implements Parcelable {
     // write your object's data to the passed-in Parcel
     public void writeToParcel(Parcel out, int flags) {
     	//TODO : write the coordinates
-        out.writeFloat(distance);
-        out.writeFloat(diffHeight);
-        out.writeString(name);
+        out.writeFloat(this.distance);
+        out.writeFloat(this.diffHeight);
+        out.writeString(this.name);
+        out.writeList(this.coordinates);
     }
 
     // this is used to regenerate your object
@@ -73,9 +74,11 @@ public class Hike implements Parcelable {
     };
     
     private Hike(Parcel in) {
-    	distance = in.readFloat();
-    	diffHeight = in.readFloat();
-    	name = in.readString();
+    	this.distance = in.readFloat();
+    	this.diffHeight = in.readFloat();
+    	this.name = in.readString();
+    	this.coordinates = new ArrayList<LatLng>();
+      	in.readList(this.coordinates, LatLng.class.getClassLoader());
     }
 	
 	

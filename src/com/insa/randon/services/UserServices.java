@@ -17,8 +17,8 @@ import com.insa.randon.utilities.TaskListener;
 
 public class UserServices {
 	private static final String URL_BASE = "https://randon.herokuapp.com" ;
-	private static final String SERVICE_CREATE_ACCOUNT = "/register";
-	private static final String SERVICE_CONNECT = "/login";
+	private static final String SERVICE_CREATE_ACCOUNT = "/user/register";
+	private static final String SERVICE_CONNECT = "/user/login";
 	
 	private static final String PARAMETER_LOGIN = "username";
 	private static final String PARAMETER_PASSWORD = "password";

@@ -7,7 +7,7 @@ public class ResultObject/* <T> */{
 	private String content = "";
 
 	//TODO : we may need to change content type
-	ResultObject(ErrorCode errCode, String content) {
+	public ResultObject(ErrorCode errCode, String content) {
 		this.errCode = errCode;
 		this.content = content;
 	}
