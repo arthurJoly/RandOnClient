@@ -14,6 +14,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.RequestExecutor;
 import com.insa.randon.utilities.ResultObject;
@@ -21,8 +24,9 @@ import com.insa.randon.utilities.TaskListener;
 
 public class HikeServices {
 	private static final String URL_BASE = "https://randon.herokuapp.com" ;
-	private static final String SERVICE_CREATE_HIKE = "/hike/create";
-	private static final String SERVICE_OVERVIEW = "/hike/overview";
+	private static final String URL_HIKE = "/hike";
+	private static final String SERVICE_CREATE_HIKE = "/create";
+	private static final String SERVICE_OVERVIEW = "/overview";
 	
 	private static final String PARAMETER_HIKE_NAME = "name";
 	private static final String PARAMETER_COORDINATES = "coordinates";
@@ -30,6 +34,7 @@ public class HikeServices {
 	private static final String PARAMETER_LATITUDE = "lat";
 	private static final String PARAMETER_LONGITUDE = "long";
 	
+	static Gson gson = new Gson();
 	/*
 	 * Services
 	 */
@@ -37,30 +42,20 @@ public class HikeServices {
 	public static void createHike(String hikeName, List<LatLng> coordinates, boolean isPrivate, TaskListener listener)
 	{
 		//build url
-		String url = URL_BASE + SERVICE_CREATE_HIKE;
-		
+		String url = URL_BASE + URL_HIKE+ SERVICE_CREATE_HIKE;
 		try {		
 			String json = "";
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate(PARAMETER_HIKE_NAME, URLEncoder.encode(hikeName, "UTF-8"));
-            
-           /* LatLng latLng = coordinates.get(0);
-            String coordinatesJSON ="[{\"" + PARAMETER_LATITUDE + "\":" + latLng.latitude + ", \"" + PARAMETER_LONGITUDE + "\":" + latLng.longitude + "}";
-            			
-			for (int i=1; i<coordinates.size(); i++){
-				latLng = coordinates.get(i);
-				coordinatesJSON +=",{\"" + PARAMETER_LATITUDE + "\":" + latLng.latitude + ", \"" + PARAMETER_LONGITUDE + "\":" + latLng.longitude + "}";
-			}
-			coordinatesJSON +="]";*/
+			JsonObject jsonObject = new JsonObject();
+			jsonObject.addProperty(PARAMETER_HIKE_NAME, hikeName);
+			JsonArray coordinatesJson = createJsonArrayCoordinates(coordinates);
+			jsonObject.add(PARAMETER_COORDINATES, coordinatesJson);
+			jsonObject.addProperty(PARAMETER_PRIVATE, isPrivate);
 			
-            jsonObject.accumulate(PARAMETER_COORDINATES, coordinates); 
-            jsonObject.accumulate(PARAMETER_PRIVATE, isPrivate); 
-            json = jsonObject.toString();
+			json = gson.toJson(jsonObject);
+
+			System.out.println(json);
 			
-			new RequestExecutor(json, url, RequestExecutor.RequestType.POST2, listener).execute();	
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			listener.onFailure(ErrorCode.FAILED);
+			new RequestExecutor(json, url, RequestExecutor.RequestType.POST, listener).execute();	
 		} catch (Exception e) {
 	    	e.printStackTrace();
         }
@@ -69,7 +64,7 @@ public class HikeServices {
 	public static ResultObject getHike(TaskListener listener)
 	{
 		//build url
-		String url = URL_BASE + SERVICE_OVERVIEW;
+		String url = URL_BASE + URL_HIKE+ SERVICE_OVERVIEW;
 		
 		
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -92,6 +87,26 @@ public class HikeServices {
 		
 		return result;
 		
+	}
+	
+	private static JsonArray createJsonArrayCoordinates(List<LatLng> coordinates)
+	{
+		JsonArray coordinatesJson = new JsonArray();
+		LatLng point = coordinates.get(0);
+		JsonObject jsonPoint = new JsonObject();
+		jsonPoint.addProperty(PARAMETER_LATITUDE, point.latitude);
+		jsonPoint.addProperty(PARAMETER_LONGITUDE, point.longitude);
+		coordinatesJson.add(jsonPoint);
+		for(int i=1 ; i<coordinates.size() ; i++)
+		{
+			point = coordinates.get(i);
+			jsonPoint.remove(PARAMETER_LATITUDE);
+			jsonPoint.remove(PARAMETER_LONGITUDE);
+			jsonPoint.addProperty(PARAMETER_LATITUDE, point.latitude);
+			jsonPoint.addProperty(PARAMETER_LONGITUDE, point.longitude);
+			coordinatesJson.add(jsonPoint);
+		}
+		return coordinatesJson;
 	}
 
 }

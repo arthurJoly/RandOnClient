@@ -4,7 +4,7 @@ public enum ErrorCode {
 	OK/*("Operation succeded")*/,
 	FAILED/*("Operation has failed")*/,
 	REQUEST_FAILED/*("Attempt to connect has failed")*/,
-	ALREADY_EXISTS;
+	DENIED;
 	
 //	
 //	protected String message;

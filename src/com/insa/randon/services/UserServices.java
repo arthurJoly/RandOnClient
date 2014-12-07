@@ -12,13 +12,16 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.RequestExecutor;
-import com.insa.randon.utilities.ResultObject;
 import com.insa.randon.utilities.TaskListener;
 
 public class UserServices {
 	private static final String URL_BASE = "https://randon.herokuapp.com" ;
-	private static final String SERVICE_CREATE_ACCOUNT = "/user/register";
-	private static final String SERVICE_CONNECT = "/user/login";
+
+	private static final String URL_USER = "/user";
+	private static final String SERVICE_CREATE_ACCOUNT = "/register";
+	private static final String SERVICE_CONNECT = "/login";
+	private static final String SERVICE_LOGOUT = "/logout";
+
 	
 	private static final String PARAMETER_LOGIN = "username";
 	private static final String PARAMETER_PASSWORD = "password";
@@ -38,7 +41,7 @@ public class UserServices {
 	public static void createUser(String username, String password, String email, TaskListener listener)
 	{
 		//build url
-		String url = URL_BASE + SERVICE_CREATE_ACCOUNT;
+		String url = URL_BASE + URL_USER + SERVICE_CREATE_ACCOUNT;
 		
 		try {
 			String hashPassword = hashPassword(password);
@@ -67,7 +70,7 @@ public class UserServices {
 	public static void connect(String username, String password, TaskListener listener)
 	{
 		//build url
-		String url = URL_BASE + SERVICE_CONNECT;
+		String url = URL_BASE + URL_USER + SERVICE_CONNECT;
 		
 		try {
 			String hashPassword = hashPassword(password);
@@ -84,6 +87,16 @@ public class UserServices {
 			e.printStackTrace();
 			listener.onFailure(ErrorCode.FAILED);
 		}	
+	}
+	
+	/**
+	 * Disconnect user connected
+	 * @param listener Listener to notify when the user is disconnected
+	 */
+	public static void logout(TaskListener listener){
+		String url = URL_BASE + URL_USER + SERVICE_LOGOUT;
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		new RequestExecutor(params, url, RequestExecutor.RequestType.POST, listener).execute();
 	}
 	
 	private static final String hashPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException{

@@ -40,6 +40,9 @@
 	<!-- New Hike Activity -->
     <string name="starting_new_hike">You\'re about to start a new hike, make sure that your GPS is working.</string>
 	
+	<!-- Main activity -->
+	<string name="logout_failed">Unable to logout, please log in and try again</string>
+	
 	<!-- Map Activity -->
     <string name="distance_done">Distance done: </string>
     <string name="speed">Average speed: </string>
@@ -56,7 +59,9 @@
     <string name="comments">Comments</string>
     <string name="share_hike">Share hike</string>
     <string name="back_home">Back home</string>
-    
+    <string name="share_hike_succeded">Your hike has been shared!</string>
+    <string name="name_your_hike">You have to give a name to your hike before uploading it.</string>
+     
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>
     <string name="new_hike_title">New hike</string>

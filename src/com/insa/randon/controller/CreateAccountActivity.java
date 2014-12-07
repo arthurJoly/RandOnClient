@@ -1,8 +1,6 @@
 package com.insa.randon.controller;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -71,7 +69,7 @@ public class CreateAccountActivity extends BaseActivity {
 
 				@Override
 				public void onFailure(ErrorCode errCode) {
-					if (errCode == ErrorCode.ALREADY_EXISTS){
+					if (errCode == ErrorCode.DENIED){
 						Toast.makeText(context, R.string.account_creation_already_exists, Toast.LENGTH_SHORT).show();
 					} else if (errCode == ErrorCode.REQUEST_FAILED){
 						Toast.makeText(context, R.string.request_failed, Toast.LENGTH_SHORT).show();

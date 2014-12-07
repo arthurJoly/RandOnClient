@@ -38,6 +38,9 @@
     
     <!-- New Hike Activity -->
     <string name="starting_new_hike">Vous êtes sur le point de commencer une nouvelle randonnée, assurez vous que votre GPS est en marche.</string>
+   
+	<!-- Main activity -->
+	<string name="logout_failed">Déconnexion impossible, merci de vous reconnecter et de réessayer</string>
     
     <!-- Map Activity -->
     <string name="distance_done">Distance parcourue : </string>
@@ -55,6 +58,9 @@
     <string name="comments">Commentaires</string>
     <string name="share_hike">Partager la randonnée</string>
     <string name="back_home">Retour à l\'accueil</string>
+    <string name="share_hike_succeded">Votre randonnée a été partagée!</string>
+    <string name="name_your_hike">Vous n\'avez pas donné de nom à votre randonnée.</string>
+    
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Chercher une randonnée</string>

@@ -2,17 +2,16 @@ package com.insa.randon.utilities;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -20,32 +19,45 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
 
 import android.os.AsyncTask;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
+	static final String COOKIES_HEADER = "Set-Cookie";
+	
 	RequestType requestType;
 	String url;
 	List<NameValuePair> params;
 	TaskListener listener;
-	String params2;
+	String paramsStringJson;
+
+	static Gson gson = new Gson();
+	static CookieManager cookieManager = new CookieManager();
+	
+	static {
+		CookieHandler.setDefault(cookieManager);
+	}
 	
 	public RequestExecutor(List<NameValuePair> params, String url, RequestType type, TaskListener listener){
 		this.params = params;
 		this.url = url;
 		this.requestType = type;
 		this.listener = listener;
+		this.paramsStringJson = null;
 	}
 	
 	public RequestExecutor(String params, String url, RequestType type, TaskListener listener){
-		this.params2 = params;
+		this.paramsStringJson = params;
 		this.url = url;
 		this.requestType = type;
 		this.listener = listener;
+		this.params = null;
 	}
 	
-
+	
 	@Override
 	protected ResultObject doInBackground(Void... params) {
 		ResultObject resultObject = null;
@@ -55,9 +67,6 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		} else if (requestType == RequestType.POST){
 			resultObject = executePOST();
 		}
-		else if (requestType == RequestType.POST2){
-			resultObject = executePOST2();
-		}
 		
 		return resultObject;			
 	}
@@ -66,13 +75,19 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	protected void onPostExecute(ResultObject result) {
 		super.onPostExecute(result);
 		
-		if (result.getErrCode() == ErrorCode.OK){
-			listener.onSuccess(result.getContent());
-		} else {
-			listener.onFailure(result.getErrCode());
+		if (listener != null){
+			if (result.getErrCode() == ErrorCode.OK){
+				listener.onSuccess(result.getContent());
+			} else {
+				listener.onFailure(result.getErrCode());
+			}
 		}
 	}
 	
+	/**
+	 * Performs a Get request
+	 * @return object containing request result
+	 */
 	private ResultObject executeGET(){
 		HttpURLConnection urlConnection = null;
 		ResultObject resultObject = null;
@@ -104,120 +119,68 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		return resultObject;
 	}
 		
+	/**
+	 * Performs a POST request
+	 * @return object containing request result
+	 */
 	private ResultObject executePOST(){
-		InputStream inputStream = null;
-        ResultObject resultObject = null;
-        try {
- 
-            // 1. create HttpClient
-            HttpClient httpclient = new DefaultHttpClient();
- 
-            // 2. make POST request to the given URL
-            HttpPost httpPost = new HttpPost(url);
- 
-            String json = "";
- 
-            // 3. build jsonObject
-            JSONObject jsonObject = createJSONObjectToSend(params);
- 
-            // 4. convert JSONObject to JSON to String
-            json = jsonObject.toString();
- 
-            // 5. set json to StringEntity
-            StringEntity se = new StringEntity(json);
- 
-            // 6. set httpPost Entity
-            httpPost.setEntity(se);
- 
-            // 7. Set some headers to inform server about the type of the content   
-            httpPost.setHeader("Content-type", "application/json");
- 
-            // 8. Execute POST request to the given URL
-            HttpResponse httpResponse = httpclient.execute(httpPost);
- 
-            // 9. receive response as inputStream
-            inputStream = httpResponse.getEntity().getContent();
-            int code = httpResponse.getStatusLine().getStatusCode();
-            if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
-				resultObject = new ResultObject(ErrorCode.OK, convertInputStreamToString(inputStream));
+		
+		HttpURLConnection urlConnection = null;
+		ResultObject resultObject = null;
+		
+		try {
+			//To test post method, you can use this link: "http://postcatcher.in/catchers/546f635e9ac9260200000109"
+			//TODO : change with HttpsUrlConnection
+			URL urlGet = new URL(url);
+			urlConnection = (HttpURLConnection) urlGet.openConnection();
+			urlConnection.setDoOutput(true);
+		    urlConnection.setChunkedStreamingMode(0);
+		    urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+		    
+		    if (params != null){
+			    //write parameters in outputstream
+			    OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+			    out.write(generateParameterJson(params).getBytes());
+			    out.flush ();
+			    out.close ();
+		    } else if (paramsStringJson != null)
+		    {
+		    	OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+			    out.write(paramsStringJson.getBytes());
+			    out.flush ();
+			    out.close ();
+		    }
+
+		    //read response
+			String response = "";
+			try {
+				response = readInputStream(urlConnection.getInputStream());
+			} catch (FileNotFoundException e){
+				e.printStackTrace();
+			}
+					
+			int code = urlConnection.getResponseCode();
+			System.out.println(code);
+			if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
+				resultObject = new ResultObject(ErrorCode.OK, response);
 			} else if (code == HttpURLConnection.HTTP_FORBIDDEN){
-				resultObject = new ResultObject(ErrorCode.ALREADY_EXISTS, "");				
+				resultObject = new ResultObject(ErrorCode.DENIED, "");				
 			} else {
 				resultObject = new ResultObject(ErrorCode.FAILED, "");
+			}			
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
+		} catch (IOException e) {
+			e.printStackTrace();
+			resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
+		} finally {
+			if (urlConnection != null){
+				urlConnection.disconnect();
 			}
-            
-        } catch (MalformedURLException e) {
-	    	e.printStackTrace();
-	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
-	    } catch (IOException e) {
-	    	e.printStackTrace();
-	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
-	    }  finally {
-	    	//if (urlConnection != null){
-	    	//	urlConnection.disconnect();
-	    	//}
-	    }
- 
-        // 11. return result
-        return resultObject;
-        
-		//To test post method, you can use this link: "http://postcatcher.in/catchers/546f635e9ac9260200000109"
+		}
 
-	}
-	
-	private ResultObject executePOST2(){
-		InputStream inputStream = null;
-        ResultObject resultObject = null;
-        try {
- 
-            // 1. create HttpClient
-            HttpClient httpclient = new DefaultHttpClient();
- 
-            // 2. make POST request to the given URL
-            HttpPost httpPost = new HttpPost(url);
-
-            // 5. set json to StringEntity
-            StringEntity se = new StringEntity(params2);
- 
-            System.out.println(params2);
-            // 6. set httpPost Entity
-            httpPost.setEntity(se);
- 
-            // 7. Set some headers to inform server about the type of the content   
-            httpPost.setHeader("Content-type", "application/json");
- 
-            // 8. Execute POST request to the given URL
-            HttpResponse httpResponse = httpclient.execute(httpPost);
- 
-            // 9. receive response as inputStream
-            inputStream = httpResponse.getEntity().getContent();
-            int code = httpResponse.getStatusLine().getStatusCode();
-            System.out.println(code);
-            if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
-				resultObject = new ResultObject(ErrorCode.OK, convertInputStreamToString(inputStream));
-			} else if (code == HttpURLConnection.HTTP_FORBIDDEN){
-				resultObject = new ResultObject(ErrorCode.ALREADY_EXISTS, "");				
-			} else {
-				resultObject = new ResultObject(ErrorCode.FAILED, "");
-			}
-            
-        } catch (MalformedURLException e) {
-	    	e.printStackTrace();
-	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
-	    } catch (IOException e) {
-	    	e.printStackTrace();
-	    	resultObject = new ResultObject(ErrorCode.REQUEST_FAILED, "");
-	    }  finally {
-	    	//if (urlConnection != null){
-	    	//	urlConnection.disconnect();
-	    	//}
-	    }
- 
-        // 11. return result
-        return resultObject;
-        
-		//To test post method, you can use this link: "http://postcatcher.in/catchers/546f635e9ac9260200000109"
-
+		return resultObject;
 	}
 	
 	private static String readInputStream(InputStream in) throws IOException{
@@ -232,7 +195,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		return strFileContents;
 	}
 	
-	/*private static String writeParameters(List<NameValuePair> parameters){
+	private static String generateParametersUrl(List<NameValuePair> parameters){
 		String lineToWrite = "";
 		
 		NameValuePair pair = parameters.get(0);
@@ -243,42 +206,21 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			lineToWrite += "&" + pair.getName() + "=" + pair.getValue();
 		}
 		return lineToWrite;
-	}*/
-	
-	private static JSONObject createJSONObjectToSend(List<NameValuePair> parameters)
-	{
-		JSONObject jsonObj = new JSONObject();
-		
-		NameValuePair pair = parameters.get(0);
-		try {
-			jsonObj.accumulate(pair.getName(), pair.getValue());
-			
-			for (int i=1; i<parameters.size(); i++){
-				pair = parameters.get(i);
-				jsonObj.accumulate(pair.getName(), pair.getValue());
-			}
-		} catch (Exception e) {
-	    	e.printStackTrace();
-        }
-		
-		return jsonObj;
 	}
 	
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null)
-            result += line;
- 
-        inputStream.close();
-        return result;
- 
-    } 
+	private static String generateParameterJson(List<NameValuePair> parameters){
+		JsonObject jsonObject = new JsonObject();
+		for (NameValuePair pair : parameters){
+			jsonObject.addProperty(pair.getName(), pair.getValue());
+		}
+		
+		String result = gson.toJson(jsonObject);
+		System.out.println(result);
+		return result;
+	}
 	
 	public enum RequestType{
 		GET,
-		POST,
-		POST2
+		POST	
 	}
 }
