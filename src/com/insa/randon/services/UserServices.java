@@ -4,12 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.RequestExecutor;
 import com.insa.randon.utilities.TaskListener;
@@ -26,6 +23,8 @@ public class UserServices {
 	private static final String PARAMETER_LOGIN = "username";
 	private static final String PARAMETER_PASSWORD = "password";
 	private static final String PARAMETER_EMAIL = "email";
+	
+	static Gson gson = new Gson();
 	
 	/*
 	 * Services
@@ -45,13 +44,17 @@ public class UserServices {
 		
 		try {
 			String hashPassword = hashPassword(password);
-			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair(PARAMETER_EMAIL, URLEncoder.encode(email, "UTF-8")));
-			params.add(new BasicNameValuePair(PARAMETER_LOGIN, URLEncoder.encode(username, "UTF-8")));
-			params.add(new BasicNameValuePair(PARAMETER_PASSWORD, hashPassword));
+			
+			String jsonParams = "";
+			JsonObject jsonObject = new JsonObject();
+			jsonObject.addProperty(PARAMETER_EMAIL, URLEncoder.encode(email, "UTF-8"));
+			jsonObject.addProperty(PARAMETER_LOGIN, URLEncoder.encode(username, "UTF-8"));
+			jsonObject.addProperty(PARAMETER_PASSWORD, hashPassword);
+			
+			jsonParams = gson.toJson(jsonObject);
 			//TODO: encode parameter values with URLEncoder
 			
-			new RequestExecutor(params, url, RequestExecutor.RequestType.POST, listener).execute();	
+			new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();	
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 			listener.onFailure(ErrorCode.FAILED);
@@ -74,11 +77,15 @@ public class UserServices {
 		
 		try {
 			String hashPassword = hashPassword(password);
-			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair(PARAMETER_LOGIN, URLEncoder.encode(username, "UTF-8")));
-			params.add(new BasicNameValuePair(PARAMETER_PASSWORD, hashPassword));
+			
+			String jsonParams = "";
+			JsonObject jsonObject = new JsonObject();
+			jsonObject.addProperty(PARAMETER_LOGIN, URLEncoder.encode(username, "UTF-8"));
+			jsonObject.addProperty(PARAMETER_PASSWORD, hashPassword);
+			
+			jsonParams = gson.toJson(jsonObject);
 	
-			new RequestExecutor(params, url, RequestExecutor.RequestType.POST, listener).execute();	
+			new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();	
 			
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
@@ -95,8 +102,7 @@ public class UserServices {
 	 */
 	public static void logout(TaskListener listener){
 		String url = URL_BASE + URL_USER + SERVICE_LOGOUT;
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		new RequestExecutor(params, url, RequestExecutor.RequestType.POST, listener).execute();
+		new RequestExecutor(null, url, RequestExecutor.RequestType.POST, listener).execute();
 	}
 	
 	private static final String hashPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException{

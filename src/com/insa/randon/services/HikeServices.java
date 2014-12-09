@@ -1,17 +1,10 @@
 package com.insa.randon.services;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonArray;
@@ -44,18 +37,18 @@ public class HikeServices {
 		//build url
 		String url = URL_BASE + URL_HIKE+ SERVICE_CREATE_HIKE;
 		try {		
-			String json = "";
+			String jsonParams = "";
 			JsonObject jsonObject = new JsonObject();
 			jsonObject.addProperty(PARAMETER_HIKE_NAME, hikeName);
 			JsonArray coordinatesJson = createJsonArrayCoordinates(coordinates);
 			jsonObject.add(PARAMETER_COORDINATES, coordinatesJson);
 			jsonObject.addProperty(PARAMETER_PRIVATE, isPrivate);
 			
-			json = gson.toJson(jsonObject);
+			jsonParams = gson.toJson(jsonObject);
 
-			System.out.println(json);
+			System.out.println(jsonParams);
 			
-			new RequestExecutor(json, url, RequestExecutor.RequestType.POST, listener).execute();	
+			new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();	
 		} catch (Exception e) {
 	    	e.printStackTrace();
         }
@@ -67,8 +60,7 @@ public class HikeServices {
 		String url = URL_BASE + URL_HIKE+ SERVICE_OVERVIEW;
 		
 		
-		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		RequestExecutor requestExecutor = new RequestExecutor(params, url, RequestExecutor.RequestType.POST, listener);
+		RequestExecutor requestExecutor = new RequestExecutor(null, url, RequestExecutor.RequestType.POST, listener);
 		requestExecutor.execute();
 		
 		ResultObject result=new ResultObject(ErrorCode.FAILED, "");

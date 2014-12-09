@@ -11,42 +11,23 @@ import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.os.AsyncTask;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	static final String COOKIES_HEADER = "Set-Cookie";
 	
 	RequestType requestType;
 	String url;
-	List<NameValuePair> params;
+	//List<NameValuePair> params;
 	TaskListener listener;
 	String paramsStringJson;
 
-	static Gson gson = new Gson();
 	static CookieManager cookieManager = new CookieManager();
 	
 	static {
 		CookieHandler.setDefault(cookieManager);
-	}
-	
-	public RequestExecutor(List<NameValuePair> params, String url, RequestType type, TaskListener listener){
-		this.params = params;
-		this.url = url;
-		this.requestType = type;
-		this.listener = listener;
-		this.paramsStringJson = null;
 	}
 	
 	public RequestExecutor(String params, String url, RequestType type, TaskListener listener){
@@ -54,7 +35,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		this.url = url;
 		this.requestType = type;
 		this.listener = listener;
-		this.params = null;
+		//this.params = null;
 	}
 	
 	
@@ -137,13 +118,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		    urlConnection.setChunkedStreamingMode(0);
 		    urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
 		    
-		    if (params != null){
-			    //write parameters in outputstream
-			    OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
-			    out.write(generateParameterJson(params).getBytes());
-			    out.flush ();
-			    out.close ();
-		    } else if (paramsStringJson != null)
+		    if (paramsStringJson != null)
 		    {
 		    	OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
 			    out.write(paramsStringJson.getBytes());
@@ -195,29 +170,6 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		return strFileContents;
 	}
 	
-	private static String generateParametersUrl(List<NameValuePair> parameters){
-		String lineToWrite = "";
-		
-		NameValuePair pair = parameters.get(0);
-		lineToWrite += pair.getName() + "=" + pair.getValue();
-		
-		for (int i=1; i<parameters.size(); i++){
-			pair = parameters.get(i);
-			lineToWrite += "&" + pair.getName() + "=" + pair.getValue();
-		}
-		return lineToWrite;
-	}
-	
-	private static String generateParameterJson(List<NameValuePair> parameters){
-		JsonObject jsonObject = new JsonObject();
-		for (NameValuePair pair : parameters){
-			jsonObject.addProperty(pair.getName(), pair.getValue());
-		}
-		
-		String result = gson.toJson(jsonObject);
-		System.out.println(result);
-		return result;
-	}
 	
 	public enum RequestType{
 		GET,

@@ -132,7 +132,31 @@ public class MapActivity extends BaseActivity {
         map.initializeNewHike();//in creation mode
         map.showRoute(newHike.getCoordinates());//in following an already existing hike mode
     }
-	
+ 
+    @Override
+    protected void onDestroy() {
+    	super.onDestroy();
+    	if (alert != null){
+    		alert.dismiss();
+    	}
+    	if (locManager != null){
+    		locManager.removeUpdates(locListener);
+    	}    	
+    }
+    
+    @Override
+    protected void onPause(){
+    	super.onPause();
+        timerHandler.removeCallbacks(timerRunnable);
+    	
+    }
+    
+    @Override
+    protected void onResume(){
+    	super.onResume();
+        timerHandler.postDelayed(timerRunnable, 0);
+    }
+    
     private void showAlertMessageNoGps() {
 	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
 	    builder.setMessage(R.string.gps_disabled)
@@ -151,17 +175,6 @@ public class MapActivity extends BaseActivity {
 	           });
 	    alert = builder.create();
 	    alert.show();
-    }
-    
-    @Override
-    protected void onDestroy() {
-    	super.onDestroy();
-    	if (alert != null){
-    		alert.dismiss();
-    	}
-    	if (locManager != null){
-    		locManager.removeUpdates(locListener);
-    	}    	
     }
     
     
