@@ -5,25 +5,42 @@
     android:orientation="vertical"
     tools:context="com.insa.randon.controller.HomeActivity" >
 
-    <Button
-        android:id="@+id/button_open_newHike"
+    <ImageView
+        android:contentDescription="@string/app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_logo" />
+    
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/welcome" />
+    
+    <Button
+        android:id="@+id/button_open_newHike"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/new_hike_title" 
+        android:textColor="@color/green_item"
         android:onClick="onButtonClick"/>
 
     <Button
         android:id="@+id/button_open_hikeSearch"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hike_search_title" 
+        android:textColor="@color/green_item"
         android:onClick="onButtonClick"/>
 
     <Button
         android:id="@+id/button_open_myHikes"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/hike_list_title" 
+        android:textColor="@color/green_item"
         android:onClick="onButtonClick"/>
 
 </LinearLayout>

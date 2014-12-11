@@ -47,6 +47,14 @@ public class FinishHikeActivity extends BaseActivity {
         distanceTextView.setText(this.hike.getDistance() + DISTANCE_UNIT);        
 	}
 	
+	private void backToHistory()
+	{
+		Intent intent = new Intent(context, MainActivity.class);
+		intent.putExtra(HomeActivity.FRAGMENT_EXTRA, HikeListFragment.class.getName());
+		startActivity(intent);
+		finish();
+	}
+	
 	public void onButtonClick(View view) {
 		if(view == shareButton) //We save the hike and share it
 		{
@@ -81,7 +89,7 @@ public class FinishHikeActivity extends BaseActivity {
 		else if (view == backHomeButton) //We just save the hike in the history of the user
 		{
 			//TEST
-			TaskListener getListHikeListener = new TaskListener() {
+			/*TaskListener getListHikeListener = new TaskListener() {
 
 				@Override
 				public void onSuccess(String content) {
@@ -99,9 +107,10 @@ public class FinishHikeActivity extends BaseActivity {
 			};
 
 			ResultObject result = HikeServices.getHike(getListHikeListener);
-			Toast.makeText(context, result.getContent(), Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, result.getContent(), Toast.LENGTH_SHORT).show();*/
+			
 		} 
-		//then we go back to the home page
-
+		//then we go back to the history page
+		this.backToHistory();
     }
 }

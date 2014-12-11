@@ -40,7 +40,8 @@ public class MapActivity extends BaseActivity {
 	private TextView distanceTextView;
 	private TextView speedTextView;
 	private TextView durationTextView;
-	private TextView altitudeTextView;
+	private TextView positiveAltitudeTextView;
+	private TextView negativeAltitudeTextView;
 	private FollowHikeLocationListener locListener;
 	private ViewStub mapContainer;
 	private AlertDialog alert = null;
@@ -93,8 +94,10 @@ public class MapActivity extends BaseActivity {
         distanceTextView = (TextView) findViewById(R.id.distance_textView);
         speedTextView = (TextView) findViewById(R.id.speed_textView);
         durationTextView = (TextView) findViewById(R.id.duration_textView);
-        altitudeTextView = (TextView) findViewById(R.id.altitude_textView);
-        altitudeTextView.setText("0"+DISTANCE_UNIT);
+        positiveAltitudeTextView = (TextView) findViewById(R.id.positive_altitude_textView);
+        negativeAltitudeTextView = (TextView) findViewById(R.id.negative_altitude_textView);
+        positiveAltitudeTextView.setText("0"+DISTANCE_UNIT);
+        negativeAltitudeTextView.setText("0"+DISTANCE_UNIT);
        
         locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         locListener = new FollowHikeLocationListener(); 
@@ -202,6 +205,7 @@ public class MapActivity extends BaseActivity {
 		double currentAltitude=0;
     	double previousAltitude=Double.NEGATIVE_INFINITY;
     	double positiveHeightDifference=0;
+    	double negativeHeightDifference=0;
     	
 	    @Override
 	    public void onLocationChanged(Location location)
@@ -217,7 +221,10 @@ public class MapActivity extends BaseActivity {
 	    	if(currentAltitude>previousAltitude && previousAltitude!=Double.NEGATIVE_INFINITY)
 	    	{
 	    		positiveHeightDifference+=currentAltitude-previousAltitude;
-	    		altitudeTextView.setText(positiveHeightDifference+DISTANCE_UNIT);
+	    		positiveAltitudeTextView.setText(positiveHeightDifference+DISTANCE_UNIT);
+	    	} else if(currentAltitude<previousAltitude && previousAltitude!=Double.NEGATIVE_INFINITY){
+	    		negativeHeightDifference+=currentAltitude-previousAltitude;
+	    		negativeAltitudeTextView.setText(negativeHeightDifference+DISTANCE_UNIT);
 	    	}
 	    	previousAltitude=currentAltitude;
 	    }

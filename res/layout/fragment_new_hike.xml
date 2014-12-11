@@ -6,12 +6,12 @@
     tools:context=".MainActivity" >
 
     <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="15dp"
-                android:text="@string/starting_new_hike"
-                android:layout_gravity="center_horizontal"
-                android:textSize="18sp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="15dp"
+        android:text="@string/starting_new_hike"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18sp"/>
     
     <Button
         android:id="@+id/button_newHike"

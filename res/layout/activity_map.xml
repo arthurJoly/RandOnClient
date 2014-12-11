@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp" >
+        android:padding="10dp" >
         
         <LinearLayout
             android:layout_width="wrap_content"
@@ -25,16 +25,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="15dp"
+                android:paddingRight="12dp"
                 android:text="@string/distance_done"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/distance_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -45,16 +45,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="15dp"
+                android:paddingRight="12dp"
                 android:text="@string/speed"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/speed_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
         </LinearLayout>
         
         <LinearLayout
@@ -65,16 +65,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="15dp"
+                android:paddingRight="12dp"
                 android:text="@string/duration"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/duration_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
         </LinearLayout>
         
         <LinearLayout
@@ -85,16 +85,36 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="15dp"
-                android:text="@string/difference_in_height"
-                android:textSize="18sp"
+                android:paddingRight="12dp"
+                android:text="@string/positive_difference_in_height"
+                android:textSize="15sp"
                 android:textStyle="bold"/>
 
             <TextView
-                android:id="@+id/altitude_textView"
+                android:id="@+id/positive_altitude_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="15sp" />
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="12dp"
+                android:text="@string/negative_difference_in_height"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/negative_altitude_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp" />
         </LinearLayout>
     
     </LinearLayout>

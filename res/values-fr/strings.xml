@@ -5,7 +5,6 @@
     <string name="drawer_open">Ouvrir navigation drawer</string>
     <string name="drawer_close">Fermer navigation drawer</string>
     <string name="action_websearch">Recherche Web</string>
-    <string name="button_newHike">Commencer une nouvelle randonnée</string>
     
     <string name="activity_map_title">Map</string>
     
@@ -38,7 +37,8 @@
     
     <!-- New Hike Activity -->
     <string name="starting_new_hike">Vous êtes sur le point de commencer une nouvelle randonnée, assurez vous que votre GPS est en marche.</string>
-   
+    <string name="button_newHike">Commencer une nouvelle randonnée</string>
+    
 	<!-- Main activity -->
 	<string name="logout_failed">Déconnexion impossible, merci de vous reconnecter et de réessayer</string>
     
@@ -46,7 +46,8 @@
     <string name="distance_done">Distance parcourue : </string>
     <string name="speed">Vitesse moyenne : </string>
     <string name="duration">Durée : </string>
-    <string name="difference_in_height">Dénivelé : </string>
+    <string name="positive_difference_in_height">Dénivelé positif : </string>
+    <string name="negative_difference_in_height">Dénivelé négatif : </string>
     <string name="gps_disabled">Votre GPS est désactivé, voulez-vous l\'activer ?</string>
     <string name="finishing_hike">Finir randonnée</string>
     
@@ -68,5 +69,6 @@
     <string name="hike_list_title">Mes randonnées</string>
     <string name="title_activity_home">Accueil</string>
     <string name="action_settings">Paramètres</string>
+    <string name="welcome">Bienvenue sur Rand\'On !</string>
 
 </resources>
