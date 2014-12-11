@@ -47,7 +47,7 @@ public class GoogleMap extends Map {
 	
 	@Override
 	public void initializeNewHike() {
-	    lineOptions = new PolylineOptions().width(LINE_WIDTH).color(Color.GREEN);
+	    lineOptions = new PolylineOptions().width(LINE_WIDTH).color(R.color.path);
 	    line = googleMap.addPolyline(lineOptions);
 	}
 	

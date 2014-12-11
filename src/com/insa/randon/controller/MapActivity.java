@@ -12,9 +12,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.ViewStub;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -40,7 +41,6 @@ public class MapActivity extends BaseActivity {
 	private TextView speedTextView;
 	private TextView durationTextView;
 	private TextView altitudeTextView;
-	private Button finishHikeButton;
 	private FollowHikeLocationListener locListener;
 	private ViewStub mapContainer;
 	private AlertDialog alert = null;
@@ -81,9 +81,7 @@ public class MapActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         context=this;
-        
-        finishHikeButton = (Button) findViewById(R.id.button_finishHike);
-  
+         
         map = new GoogleMap();        
         
         mapContainer = (ViewStub) findViewById(R.id.map_activity_container);
@@ -177,12 +175,26 @@ public class MapActivity extends BaseActivity {
 	    alert.show();
     }
     
-    
-    public void onButtonClick(View view) {
-    	timerHandler.removeCallbacks(timerRunnable); //Stop timer
-		Intent intent = new Intent(context, FinishHikeActivity.class);
-		intent.putExtra("hike", newHike);
-		startActivity(intent);
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.map_menu, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_finnish_hike:
+            	timerHandler.removeCallbacks(timerRunnable); //Stop timer
+        		Intent intent = new Intent(context, FinishHikeActivity.class);
+        		intent.putExtra("hike", newHike);
+        		startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 	
     //------------------ LOCATION LISTENER ------------------------------------

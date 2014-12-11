@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.insa.randon.controller.MapActivity" >
-
+    
     <ViewStub
         android:id="@+id/map_activity_container"
         android:layout_width="match_parent"
@@ -96,14 +96,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp" />
         </LinearLayout>
-            
-        <Button
-            android:id="@+id/button_finishHike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:onClick="onButtonClick"
-            android:text="@string/finishing_hike" />
     
     </LinearLayout>
 
