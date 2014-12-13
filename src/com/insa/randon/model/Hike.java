@@ -13,13 +13,23 @@ public class Hike implements Parcelable {
 	String name;
 	List<LatLng> coordinates;
 	float distance;
-	float diffHeight;
+	float positiveDiffHeight;
+	float negativeDiffHeight;
 	
 	public Hike(){
 		this.name="";
 		this.coordinates = new ArrayList<LatLng>();
 		this.distance=0;	
-		this.diffHeight=0;
+		this.positiveDiffHeight=0;
+		this.negativeDiffHeight=0;
+	}
+	
+	public Hike(String name, float distance, float positiveDiffHeight, float negativeDiffHeight){ //TODO : add coordinates in constructor
+		this.name=name;
+		this.coordinates = new ArrayList<LatLng>();
+		this.distance=distance;	
+		this.positiveDiffHeight=positiveDiffHeight;
+		this.negativeDiffHeight=negativeDiffHeight;
 	}
 	
 	/**
@@ -37,6 +47,10 @@ public class Hike implements Parcelable {
 			Location.distanceBetween(this.coordinates.get(size-2).latitude, this.coordinates.get(size-2).longitude, this.coordinates.get(size-1).latitude, this.coordinates.get(size-1).longitude, results);
 			this.distance+=results[0];
 		}
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 	
 	public float getDistance(){
@@ -57,7 +71,8 @@ public class Hike implements Parcelable {
     public void writeToParcel(Parcel out, int flags) {
     	//TODO : write the coordinates
         out.writeFloat(this.distance);
-        out.writeFloat(this.diffHeight);
+        out.writeFloat(this.positiveDiffHeight);
+        out.writeFloat(this.negativeDiffHeight);
         out.writeString(this.name);
         out.writeList(this.coordinates);
     }
@@ -75,7 +90,8 @@ public class Hike implements Parcelable {
     
     private Hike(Parcel in) {
     	this.distance = in.readFloat();
-    	this.diffHeight = in.readFloat();
+    	this.positiveDiffHeight = in.readFloat();
+    	this.negativeDiffHeight = in.readFloat();
     	this.name = in.readString();
     	this.coordinates = new ArrayList<LatLng>();
       	in.readList(this.coordinates, LatLng.class.getClassLoader());

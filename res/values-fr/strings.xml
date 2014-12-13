@@ -62,6 +62,9 @@
     <string name="share_hike_succeded">Votre randonnée a été partagée!</string>
     <string name="name_your_hike">Vous n\'avez pas donné de nom à votre randonnée.</string>
     
+    <!-- Search Hikes Activity -->
+    <string name="distance">Distance : </string>
+    <string name="distance_unit">km</string>    
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Chercher une randonnée</string>

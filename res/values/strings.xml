@@ -62,6 +62,10 @@
     <string name="back_home">Back home</string>
     <string name="share_hike_succeded">Your hike has been shared!</string>
     <string name="name_your_hike">You have to give a name to your hike before uploading it.</string>
+    
+    <!-- Search Hikes Activity -->
+    <string name="distance">Distance: </string>
+    <string name="distance_unit">km</string>    
      
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>
