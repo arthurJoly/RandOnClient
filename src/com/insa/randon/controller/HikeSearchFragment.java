@@ -13,28 +13,55 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.insa.randon.R;
 import com.insa.randon.model.Hike;
+import com.insa.randon.services.HikeServices;
+import com.insa.randon.utilities.ResultObject;
+import com.insa.randon.utilities.TaskListener;
+import com.insa.randon.utilities.ErrorCode;
 
 public class HikeSearchFragment extends Fragment {
 	View rootView;
 	ListView hikeSearchListView ;
 	
+	Context context;
+	
 	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
 		rootView = inflater.inflate(R.layout.fragment_hike_search, container, false);
 		hikeSearchListView = (ListView) rootView.findViewById(R.id.hike_search_list);
+		context=getActivity();
 			
+		//TEST
+	    TaskListener getListHikeListener = new TaskListener() {
+
+			@Override
+			public void onSuccess(String content) {
+				Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();					
+			}
+
+			@Override
+			public void onFailure(ErrorCode errCode) {
+				if (errCode == ErrorCode.REQUEST_FAILED){
+					Toast.makeText(context,"request failed", Toast.LENGTH_SHORT).show();
+				} else if (errCode == ErrorCode.FAILED){
+					Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
+				}
+			}
+		};
+
+		ResultObject result = HikeServices.getHike(getListHikeListener);
+		Toast.makeText(context, result.getContent(), Toast.LENGTH_SHORT).show();
+		
 		List<Hike> hikes = new ArrayList<Hike>();	
 		hikes.add(new Hike("hike 1",12,5,5));
 		hikes.add(new Hike("hike 2",24,5,5));
 		
-		ListAdapter customAdapter = new ListAdapter(getActivity(), R.layout.search_list_item, hikes);
+		ListAdapter customAdapter = new ListAdapter(context, R.layout.search_list_item, hikes);
 
 		hikeSearchListView .setAdapter(customAdapter);
 		
@@ -61,7 +88,6 @@ public class HikeSearchFragment extends Fragment {
 		        LayoutInflater vi;
 		        vi = LayoutInflater.from(getContext());
 		        v = vi.inflate(R.layout.search_list_item, null);
-
 		    }
 
 		    Hike p = (Hike) getItem(position);

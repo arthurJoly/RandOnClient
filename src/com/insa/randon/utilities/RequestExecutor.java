@@ -20,7 +20,6 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	
 	RequestType requestType;
 	String url;
-	//List<NameValuePair> params;
 	TaskListener listener;
 	String paramsStringJson;
 
@@ -35,7 +34,6 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		this.url = url;
 		this.requestType = type;
 		this.listener = listener;
-		//this.params = null;
 	}
 	
 	

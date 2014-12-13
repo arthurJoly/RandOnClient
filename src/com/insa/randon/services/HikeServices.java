@@ -58,25 +58,23 @@ public class HikeServices {
 	{
 		//build url
 		String url = URL_BASE + URL_HIKE+ SERVICE_OVERVIEW;
+		String jsonParams = "";
 		
-		
-		RequestExecutor requestExecutor = new RequestExecutor(null, url, RequestExecutor.RequestType.POST, listener);
+		RequestExecutor requestExecutor = new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener);
 		requestExecutor.execute();
 		
-		ResultObject result=new ResultObject(ErrorCode.FAILED, "");
+		ResultObject result=new ResultObject(ErrorCode.OK, "bonjour");
 		try {
-			result = requestExecutor.get(5000, TimeUnit.MILLISECONDS);
+			result = requestExecutor.get();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (TimeoutException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		
+		System.out.println("result : " + result.getContent());
 		return result;
 		
 	}

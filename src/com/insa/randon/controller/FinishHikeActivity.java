@@ -56,8 +56,7 @@ public class FinishHikeActivity extends BaseActivity {
 	}
 	
 	public void onButtonClick(View view) {
-		if(view == shareButton) //We save the hike and share it
-		{
+		if(!nameEditText.getText().toString().isEmpty()){
 			TaskListener createHikeListener = new TaskListener() {
 
 				@Override
@@ -75,42 +74,22 @@ public class FinishHikeActivity extends BaseActivity {
 					}
 				}
 			};
-
-			if(!nameEditText.getText().toString().isEmpty()){
-				HikeServices.createHike(nameEditText.getText().toString(), hike.getCoordinates(),false, createHikeListener);
-			} else {
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-			    alertDialogBuilder.setMessage(R.string.name_your_hike);
-			    alertDialogBuilder.setNeutralButton(R.string.neutral_button, null);
-			    AlertDialog alertDialog = alertDialogBuilder.create();
-			    alertDialog.show();
+			if(view == shareButton) //We save the hike and share it
+			{
+				HikeServices.createHike(nameEditText.getText().toString(), hike.getCoordinates(),false , createHikeListener);
 			}
+			else if (view == backHomeButton) //We just save the hike in the history of the user
+			{
+				HikeServices.createHike(nameEditText.getText().toString(), hike.getCoordinates(),true , createHikeListener);	
+			} 
+			//then we go back to the history page
+			this.backToHistory();
+		} else {
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		    alertDialogBuilder.setMessage(R.string.name_your_hike);
+		    alertDialogBuilder.setNeutralButton(R.string.neutral_button, null);
+		    AlertDialog alertDialog = alertDialogBuilder.create();
+		    alertDialog.show();
 		}
-		else if (view == backHomeButton) //We just save the hike in the history of the user
-		{
-			//TEST
-			/*TaskListener getListHikeListener = new TaskListener() {
-
-				@Override
-				public void onSuccess(String content) {
-					Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();					
-				}
-
-				@Override
-				public void onFailure(ErrorCode errCode) {
-					if (errCode == ErrorCode.REQUEST_FAILED){
-						Toast.makeText(context,"request failed", Toast.LENGTH_SHORT).show();
-					} else if (errCode == ErrorCode.FAILED){
-						Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
-					}
-				}
-			};
-
-			ResultObject result = HikeServices.getHike(getListHikeListener);
-			Toast.makeText(context, result.getContent(), Toast.LENGTH_SHORT).show();*/
-			
-		} 
-		//then we go back to the history page
-		this.backToHistory();
     }
 }
