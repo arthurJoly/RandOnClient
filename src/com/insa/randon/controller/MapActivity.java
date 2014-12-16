@@ -106,6 +106,24 @@ public class MapActivity extends BaseActivity {
         startTime = System.currentTimeMillis();
         timerHandler.postDelayed(timerRunnable, 0);
         
+        
+         //Create a new hike
+        //TODO : test if we are in creation mode or not
+        newHike = new Hike();
+        
+//        //HIKE TEST
+//        newHike.extendHike(new LatLng(45.781307, 4.873902));
+//        newHike.extendHike(new LatLng(45.783971, 4.880210));
+//        newHike.extendHike(new LatLng(45.785347, 4.872700));
+//        newHike.extendHike(new LatLng(45.783641, 4.864847));
+//        
+//        distanceTextView.setText(newHike.getDistance() + DISTANCE_UNIT);
+       
+        map.initializeNewHike();//in creation mode
+        
+        //map.showRoute(newHike.getCoordinates());//in following an already existing hike mode   
+        
+        
         //check if GPS is enabled
         PackageManager pm = getPackageManager();
         boolean hasGps = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
@@ -116,22 +134,7 @@ public class MapActivity extends BaseActivity {
         } else {
         	 locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
         }
-        
-       
-        //Create a new hike
-        //TODO : test if we are in creation mode or not
-        newHike = new Hike();
-        
-        //HIKE TEST
-        newHike.extendHike(new LatLng(45.781307, 4.873902));
-        newHike.extendHike(new LatLng(45.783971, 4.880210));
-        newHike.extendHike(new LatLng(45.785347, 4.872700));
-        newHike.extendHike(new LatLng(45.783641, 4.864847));
-        
-        distanceTextView.setText(newHike.getDistance() + DISTANCE_UNIT);
-       
-        map.initializeNewHike();//in creation mode
-        map.showRoute(newHike.getCoordinates());//in following an already existing hike mode
+
     }
  
     @Override

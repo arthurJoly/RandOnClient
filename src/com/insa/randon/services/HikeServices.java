@@ -51,27 +51,27 @@ public class HikeServices {
 			new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();	
 		} catch (Exception e) {
 	    	e.printStackTrace();
+	    	listener.onFailure(ErrorCode.FAILED);
         }
 	}
 	
-	public static ResultObject getHike(TaskListener listener)
+	public static ResultObject getHikesShared(TaskListener listener)
 	{
 		//build url
 		String url = URL_BASE + URL_HIKE+ SERVICE_OVERVIEW;
-		String jsonParams = "";
 		
-		RequestExecutor requestExecutor = new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener);
+		RequestExecutor requestExecutor = new RequestExecutor(null, url, RequestExecutor.RequestType.POST, listener);
 		requestExecutor.execute();
 		
-		ResultObject result=new ResultObject(ErrorCode.OK, "bonjour");
+		ResultObject result=new ResultObject(ErrorCode.OK, "");
 		try {
 			result = requestExecutor.get();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			listener.onFailure(ErrorCode.FAILED);
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			listener.onFailure(ErrorCode.FAILED);
 		} 
 		
 		System.out.println("result : " + result.getContent());

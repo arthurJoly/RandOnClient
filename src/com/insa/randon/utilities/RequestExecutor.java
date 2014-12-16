@@ -29,6 +29,13 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		CookieHandler.setDefault(cookieManager);
 	}
 	
+	/**
+	 * RequestExecuter constructor
+	 * @param params Json string to send, send null if it is not used
+	 * @param url Url to call
+	 * @param type Request type
+	 * @param listener Listener to notify when the API call is finished
+	 */
 	public RequestExecutor(String params, String url, RequestType type, TaskListener listener){
 		this.paramsStringJson = params;
 		this.url = url;

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.insa.randon.controller.HomeActivity" >
+    tools:context="com.insa.randon.controller.HomeActivity" 
+    android:gravity="center">
 
     <ImageView
         android:contentDescription="@string/app_name"
@@ -17,7 +18,8 @@
             android:layout_height="wrap_content"
             android:textSize="22sp"
             android:layout_gravity="center_horizontal"
-            android:text="@string/welcome" />
+            android:text="@string/welcome" 
+            android:layout_margin="40dp"/>
     
     <Button
         android:id="@+id/button_open_newHike"
@@ -25,7 +27,8 @@
         android:layout_height="wrap_content"
         android:text="@string/new_hike_title" 
         android:textColor="@color/green_item"
-        android:onClick="onButtonClick"/>
+        android:onClick="onButtonClick"
+        android:layout_margin="5dp"/>
 
     <Button
         android:id="@+id/button_open_hikeSearch"
@@ -33,7 +36,8 @@
         android:layout_height="wrap_content"
         android:text="@string/hike_search_title" 
         android:textColor="@color/green_item"
-        android:onClick="onButtonClick"/>
+        android:onClick="onButtonClick"
+        android:layout_margin="5dp"/>
 
     <Button
         android:id="@+id/button_open_myHikes"
@@ -41,6 +45,7 @@
         android:layout_height="wrap_content"
         android:text="@string/hike_list_title" 
         android:textColor="@color/green_item"
-        android:onClick="onButtonClick"/>
+        android:onClick="onButtonClick"
+        android:layout_margin="5dp"/>
 
 </LinearLayout>

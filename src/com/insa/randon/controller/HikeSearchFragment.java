@@ -54,7 +54,7 @@ public class HikeSearchFragment extends Fragment {
 			}
 		};
 
-		ResultObject result = HikeServices.getHike(getListHikeListener);
+		ResultObject result = HikeServices.getHikesShared(getListHikeListener);
 		Toast.makeText(context, result.getContent(), Toast.LENGTH_SHORT).show();
 		
 		List<Hike> hikes = new ArrayList<Hike>();	
