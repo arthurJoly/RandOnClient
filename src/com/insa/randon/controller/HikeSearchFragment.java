@@ -3,13 +3,18 @@ package com.insa.randon.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.anim;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,12 +28,14 @@ import com.insa.randon.utilities.TaskListener;
 import com.insa.randon.utilities.ErrorCode;
 
 public class HikeSearchFragment extends Fragment {
+	static final String JSON_ARRAY_HIKES = "content";
+	static final String JSON_HIKE_NAME = "name";
+	static final String JSON_HIKE_ID = "_id";
 	View rootView;
 	ListView hikeSearchListView ;
+	TaskListener getListHikeListener;
 	
 	Context context;
-	
-	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,11 +44,11 @@ public class HikeSearchFragment extends Fragment {
 		context=getActivity();
 			
 		//TEST
-	    TaskListener getListHikeListener = new TaskListener() {
+	    getListHikeListener = new TaskListener() {
 
 			@Override
 			public void onSuccess(String content) {
-				Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();					
+				//Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();					
 			}
 
 			@Override
@@ -54,59 +61,75 @@ public class HikeSearchFragment extends Fragment {
 			}
 		};
 
-		ResultObject result = HikeServices.getHike(getListHikeListener);
-		Toast.makeText(context, result.getContent(), Toast.LENGTH_SHORT).show();
-		
-		List<Hike> hikes = new ArrayList<Hike>();	
-		hikes.add(new Hike("hike 1",12,5,5));
-		hikes.add(new Hike("hike 2",24,5,5));
-		
-		ListAdapter customAdapter = new ListAdapter(context, R.layout.search_list_item, hikes);
+		//Get the hikes of the database
+		ResultObject result = HikeServices.getHikesShared(getListHikeListener);
+		System.out.println(result.getContent());
+		List<Hike> hikes = new ArrayList<Hike>();
+		try {
+			JSONObject hikesList = new JSONObject(result.getContent());
+			JSONArray hikesArray = hikesList.getJSONArray(JSON_ARRAY_HIKES);
+			for(int i=0; i<hikesArray.length(); i++){
+				JSONObject hike = hikesArray.getJSONObject(i);
+				hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID))); 
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	
+		//Set up the hikes list
+		HikeListAdapter customAdapter = new HikeListAdapter(context, R.layout.search_list_item, hikes);
+		hikeSearchListView.setAdapter(customAdapter);
+		hikeSearchListView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Hike hike = (Hike) parent.getAdapter().getItem(position);
+				ResultObject resultSpecificHike = HikeServices.getSpecificHike(hike.getId(),getListHikeListener);
+				System.out.println(resultSpecificHike.getContent());
+		    }
+		});
 
-		hikeSearchListView .setAdapter(customAdapter);
-		
 		return rootView;
 	}
 	
-	public class ListAdapter extends ArrayAdapter<Hike> {
-
-		public ListAdapter(Context context, int textViewResourceId) {
+	//--------------- LIST ADAPTER ----------------------------
+	public class HikeListAdapter extends ArrayAdapter<Hike> {
+	
+		public HikeListAdapter(Context context, int textViewResourceId) {
 		    super(context, textViewResourceId);
 		}
-
-		public ListAdapter(Context context, int resource, List<Hike> items) {
+	
+		public HikeListAdapter(Context context, int resource, List<Hike> items) {
 		    super(context, resource, items);
 		}
-
+	
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-
-		    View v = convertView;
-
-		    if (v == null) {
-
+	
+		    View view = convertView;
+	
+		    if (view == null) {
+	
 		        LayoutInflater vi;
 		        vi = LayoutInflater.from(getContext());
-		        v = vi.inflate(R.layout.search_list_item, null);
+		        view = vi.inflate(R.layout.search_list_item, null);
 		    }
-
-		    Hike p = (Hike) getItem(position);
-
-		    if (p != null) {
-
-		        TextView tt = (TextView) v.findViewById(R.id.hike_name_item);
-		        TextView tt1 = (TextView) v.findViewById(R.id.hike_distance_item);
-		        if (tt != null) {
-		            tt.setText(p.getName());
+	
+		    Hike hike = (Hike) getItem(position);
+	
+		    if (hike != null) {
+	
+		        TextView nameTextView = (TextView) view.findViewById(R.id.hike_name_item);
+		        TextView distanceTextView = (TextView) view.findViewById(R.id.hike_distance_item);
+		        if (nameTextView != null) {
+		        	nameTextView.setText(hike.getName());
 		        }
-		        if (tt1 != null) {
-
-		            tt1.setText(String.valueOf(p.getDistance()));
+		        if (distanceTextView != null) {
+	
+		        	distanceTextView.setText(String.valueOf(hike.getDistance()));
 		        }
 		    }
-
-		    return v;
-
+	
+		    return view;
+	
 		}
 		
 	}

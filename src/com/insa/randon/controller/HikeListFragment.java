@@ -11,11 +11,13 @@ import com.insa.randon.R;
 public class HikeListFragment extends Fragment {
 	View rootView;
 	
+	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-		rootView = inflater.inflate(R.layout.fragment_hike_list, container, false);
-		return rootView;
+		rootView = inflater.inflate(R.layout.fragment_hike_list,container, false);
+
+        return rootView;
+
 	}
 }

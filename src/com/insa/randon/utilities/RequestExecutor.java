@@ -2,15 +2,21 @@ package com.insa.randon.utilities;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.CookieHandler;
 import java.net.CookieManager;
+import java.net.CookieStore;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+
 
 import android.os.AsyncTask;
 
@@ -29,6 +35,13 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		CookieHandler.setDefault(cookieManager);
 	}
 	
+	/**
+	 * RequestExecuter constructor
+	 * @param params Json string to send, send null if it is not used
+	 * @param url Url to call
+	 * @param type Request type
+	 * @param listener Listener to notify when the API call is finished
+	 */
 	public RequestExecutor(String params, String url, RequestType type, TaskListener listener){
 		this.paramsStringJson = params;
 		this.url = url;
@@ -39,8 +52,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	
 	@Override
 	protected ResultObject doInBackground(Void... params) {
-		ResultObject resultObject = null;
-		
+		ResultObject resultObject = null;	        
 		if (requestType == RequestType.GET){
 			resultObject = executeGET();
 		} else if (requestType == RequestType.POST){
@@ -133,7 +145,6 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			}
 					
 			int code = urlConnection.getResponseCode();
-			System.out.println("code : " + code);
 			if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
 				resultObject = new ResultObject(ErrorCode.OK, response);
 			} else if (code == HttpURLConnection.HTTP_FORBIDDEN){
@@ -166,8 +177,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			strFileContents += new String(contents, 0, bytesRead);               
 		}
 		return strFileContents;
-	}
-	
+	}	
 	
 	public enum RequestType{
 		GET,

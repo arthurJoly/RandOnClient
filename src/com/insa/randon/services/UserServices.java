@@ -82,7 +82,6 @@ public class UserServices {
 			JsonObject jsonObject = new JsonObject();
 			jsonObject.addProperty(PARAMETER_LOGIN, URLEncoder.encode(username, "UTF-8"));
 			jsonObject.addProperty(PARAMETER_PASSWORD, hashPassword);
-			
 			jsonParams = gson.toJson(jsonObject);
 	
 			new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();	

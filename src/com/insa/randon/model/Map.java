@@ -3,7 +3,6 @@ package com.insa.randon.model;
 import java.util.List;
 
 import android.app.Activity;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 

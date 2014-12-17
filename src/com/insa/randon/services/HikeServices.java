@@ -20,12 +20,14 @@ public class HikeServices {
 	private static final String URL_HIKE = "/hike";
 	private static final String SERVICE_CREATE_HIKE = "/create";
 	private static final String SERVICE_OVERVIEW = "/overview";
+	private static final String SERVICE_SPECIFIC_HIKE = "/specific";
 	
 	private static final String PARAMETER_HIKE_NAME = "name";
 	private static final String PARAMETER_COORDINATES = "coordinates";
 	private static final String PARAMETER_PRIVATE = "isPrivate";
 	private static final String PARAMETER_LATITUDE = "lat";
 	private static final String PARAMETER_LONGITUDE = "long";
+	private static final String PARAMETER_HIKE_ID = "hikeId";
 	
 	static Gson gson = new Gson();
 	/*
@@ -45,38 +47,62 @@ public class HikeServices {
 			jsonObject.addProperty(PARAMETER_PRIVATE, isPrivate);
 			
 			jsonParams = gson.toJson(jsonObject);
-
-			System.out.println(jsonParams);
 			
 			new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();	
 		} catch (Exception e) {
 	    	e.printStackTrace();
+	    	listener.onFailure(ErrorCode.FAILED);
         }
 	}
 	
-	public static ResultObject getHike(TaskListener listener)
+	public static ResultObject getHikesShared(TaskListener listener)
 	{
 		//build url
-		String url = URL_BASE + URL_HIKE+ SERVICE_OVERVIEW;
-		String jsonParams = "";
-		//new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();
+		String url = URL_BASE + URL_HIKE + SERVICE_OVERVIEW;
 
-		RequestExecutor requestExecutor = new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener);
+		RequestExecutor requestExecutor = new RequestExecutor(null, url, RequestExecutor.RequestType.GET, listener);
 		requestExecutor.execute();
 		
-		ResultObject result=new ResultObject(ErrorCode.OK, "bonjour");
-
+		ResultObject result=new ResultObject(ErrorCode.OK, "");
 		try {
 			result = requestExecutor.get();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			listener.onFailure(ErrorCode.FAILED);
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			listener.onFailure(ErrorCode.FAILED);
 		} 
 		
-		System.out.println("result : " + result.getContent());
+		return result;	
+	}
+	
+	//DOES NOT WORK YET
+	public static ResultObject getSpecificHike(String id, TaskListener listener)
+	{
+		//build url
+		String url = URL_BASE + URL_HIKE + SERVICE_SPECIFIC_HIKE;
+		
+		String jsonParams = "";
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty(PARAMETER_HIKE_ID, id);
+		
+		jsonParams = gson.toJson(jsonObject);
+
+		RequestExecutor requestExecutor = new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.GET, listener);
+		requestExecutor.execute();
+		
+		ResultObject result=new ResultObject(ErrorCode.OK, "");
+		try {
+			result = requestExecutor.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			listener.onFailure(ErrorCode.FAILED);
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+			listener.onFailure(ErrorCode.FAILED);
+		} 
+		
 		return result;	
 	}
 	

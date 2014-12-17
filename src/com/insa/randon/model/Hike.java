@@ -15,6 +15,7 @@ public class Hike implements Parcelable {
 	float distance;
 	float positiveDiffHeight;
 	float negativeDiffHeight;
+	String id;
 	
 	public Hike(){
 		this.name="";
@@ -22,6 +23,16 @@ public class Hike implements Parcelable {
 		this.distance=0;	
 		this.positiveDiffHeight=0;
 		this.negativeDiffHeight=0;
+		this.id="";
+	}
+	
+	public Hike(String name, String id){
+		this.name=name;
+		this.coordinates = new ArrayList<LatLng>();
+		this.distance=0;	
+		this.positiveDiffHeight=0;
+		this.negativeDiffHeight=0;
+		this.id=id;
 	}
 	
 	public Hike(String name, float distance, float positiveDiffHeight, float negativeDiffHeight){ //TODO : add coordinates in constructor
@@ -30,6 +41,7 @@ public class Hike implements Parcelable {
 		this.distance=distance;	
 		this.positiveDiffHeight=positiveDiffHeight;
 		this.negativeDiffHeight=negativeDiffHeight;
+		this.id="";
 	}
 	
 	/**
@@ -51,6 +63,10 @@ public class Hike implements Parcelable {
 	
 	public String getName(){
 		return this.name;
+	}
+	
+	public String getId(){
+		return this.id;
 	}
 	
 	public float getDistance(){
