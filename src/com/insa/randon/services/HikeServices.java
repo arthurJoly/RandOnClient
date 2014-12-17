@@ -59,11 +59,13 @@ public class HikeServices {
 		//build url
 		String url = URL_BASE + URL_HIKE+ SERVICE_OVERVIEW;
 		String jsonParams = "";
-		
+		//new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();
+
 		RequestExecutor requestExecutor = new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener);
 		requestExecutor.execute();
 		
 		ResultObject result=new ResultObject(ErrorCode.OK, "bonjour");
+
 		try {
 			result = requestExecutor.get();
 		} catch (InterruptedException e) {
@@ -75,8 +77,7 @@ public class HikeServices {
 		} 
 		
 		System.out.println("result : " + result.getContent());
-		return result;
-		
+		return result;	
 	}
 	
 	private static JsonArray createJsonArrayCoordinates(List<LatLng> coordinates)

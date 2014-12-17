@@ -123,7 +123,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			    out.flush ();
 			    out.close ();
 		    }
-
+		    
 		    //read response
 			String response = "";
 			try {
@@ -133,7 +133,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			}
 					
 			int code = urlConnection.getResponseCode();
-			System.out.println(code);
+			System.out.println("code : " + code);
 			if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
 				resultObject = new ResultObject(ErrorCode.OK, response);
 			} else if (code == HttpURLConnection.HTTP_FORBIDDEN){
