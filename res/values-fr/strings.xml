@@ -36,11 +36,12 @@
     <string name="uncorrect_email">Votre e-mail est incorrect</string>
     
     <!-- New Hike Activity -->
-    <string name="starting_new_hike">Vous êtes sur le point de commencer une nouvelle randonnée, assurez vous que votre GPS est en marche.</string>
-    <string name="button_newHike">Commencer une nouvelle randonnée</string>
+    <string name="starting_new_hike">Prêt pour une nouvelle randonnée ?</string>
+    <string name="button_newHike">Commencer !</string>
     
 	<!-- Main activity -->
 	<string name="logout_failed">Déconnexion impossible, merci de vous reconnecter et de réessayer</string>
+	<string name="exit_app">Appuyer encore une fois sur le bouton Retour pour quitter l\'application</string>
     
     <!-- Map Activity -->
     <string name="distance_done">Distance parcourue : </string>

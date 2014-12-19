@@ -37,11 +37,12 @@
 	<string name="uncorrect_email">Email format is not correct</string>
 	
 	<!-- New Hike Activity -->
-    <string name="starting_new_hike">You\'re about to start a new hike, make sure that your GPS is working.</string>
-    <string name="button_newHike">Start a new hike</string>
+    <string name="starting_new_hike">Ready for a new hike?</string>
+    <string name="button_newHike">Start!</string>
 	
 	<!-- Main activity -->
 	<string name="logout_failed">Unable to logout, please log in and try again</string>
+	<string name="exit_app">Press back button again if you want to close Rand\'on</string>
 	
 	<!-- Map Activity -->
     <string name="distance_done">Distance done: </string>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.insa.randon.R;
 import com.insa.randon.services.UserServices;
@@ -14,6 +15,7 @@ public class HomeActivity extends Activity {
 	public static final String FRAGMENT_EXTRA = "fragmentToStart";
 	Button newHike, hikeSearch, myHikes;
 	Context context;
+	private boolean backPressedOnce = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +51,17 @@ public class HomeActivity extends Activity {
 	
     @Override
     public void onBackPressed() {
-    	super.onBackPressed();
     	
-    	//call logout service
-    	//initialize task listener
-    	
+    	//initialize task listener    	
     	//TODO : what should we do when log out API call fails? We can't ask the user to try again...
-    	
-		UserServices.logout(null);
+    	if (backPressedOnce){
+    		backPressedOnce = false;
+    		UserServices.logout(null);
+    		super.onBackPressed();
+    	} else {
+    		backPressedOnce = true;
+    		Toast.makeText(this, R.string.exit_app, Toast.LENGTH_SHORT).show();
+    	}
     }
 
 }

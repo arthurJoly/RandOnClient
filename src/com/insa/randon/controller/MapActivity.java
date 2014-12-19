@@ -15,7 +15,9 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewStub;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -23,6 +25,8 @@ import com.insa.randon.R;
 import com.insa.randon.model.GoogleMap;
 import com.insa.randon.model.Hike;
 import com.insa.randon.model.Map;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 
 public class MapActivity extends BaseActivity {	
 	private static final int MIN_TIME_INTERVAL_MS = 1000;
@@ -42,6 +46,7 @@ public class MapActivity extends BaseActivity {
 	private TextView durationTextView;
 	private TextView positiveAltitudeTextView;
 	private TextView negativeAltitudeTextView;
+	private ImageView slidingIcon;
 	private FollowHikeLocationListener locListener;
 	private ViewStub mapContainer;
 	private AlertDialog alert = null;
@@ -70,7 +75,7 @@ public class MapActivity extends BaseActivity {
             if(previousDistance!=-1){
                 speed = (newHike.getDistance()-previousDistance)/DELAY;
             }
-            speedTextView.setText(speed*CONVERT_SPEED_UNIT_TO_KMH+SPEED_UNIT);
+            speedTextView.setText(String.format("%.2f", speed*CONVERT_SPEED_UNIT_TO_KMH) + SPEED_UNIT);
             previousDistance=newHike.getDistance();
 
             timerHandler.postDelayed(this, DELAY);
@@ -83,12 +88,10 @@ public class MapActivity extends BaseActivity {
         setContentView(R.layout.activity_map);
         context=this;
          
-        map = new GoogleMap();        
-        
+        map = new GoogleMap();      
         mapContainer = (ViewStub) findViewById(R.id.map_activity_container);
         mapContainer.setLayoutResource(map.getLayoutId());    
         mapContainer.inflate();
-        
         map.setUpMap(this);
         
         distanceTextView = (TextView) findViewById(R.id.distance_textView);
@@ -98,6 +101,13 @@ public class MapActivity extends BaseActivity {
         negativeAltitudeTextView = (TextView) findViewById(R.id.negative_altitude_textView);
         positiveAltitudeTextView.setText("0"+DISTANCE_UNIT);
         negativeAltitudeTextView.setText("0"+DISTANCE_UNIT);
+        distanceTextView.setText("0"+DISTANCE_UNIT);
+        
+        //setting PanelSlideListener listener
+        SlidingUpPanelLayout sPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_panel_map);
+        slidingIcon = (ImageView) findViewById(R.id.sliding_icon);
+        sPanelLayout.setPanelSlideListener(new SlidingUpPanelListener(slidingIcon));
+        
        
         locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         locListener = new FollowHikeLocationListener(); 
@@ -216,18 +226,22 @@ public class MapActivity extends BaseActivity {
 	    	//TODO : test if we are in creation mode
 	    	//if we follow a hike that we downloaded maybe we can create a new hike like but we don't call followingHike
 	    	map.followingHike(new LatLng(location.getLatitude(),location.getLongitude()));
-	    	newHike.extendHike(new LatLng(location.getLatitude(),location.getLongitude()));
-	    	distanceTextView.setText(newHike.getDistance() + DISTANCE_UNIT);
-
+	    	
+	    	//if the instantaneous speed is null, we do not change the distance done
+	    	if (location.getSpeed() > 0){
+	    		newHike.extendHike(new LatLng(location.getLatitude(),location.getLongitude()));
+		    	distanceTextView.setText(String.format("%.2f", newHike.getDistance()) + DISTANCE_UNIT);
+	    	}
+	    	
 	    	//Compute the positive difference of height
 	    	currentAltitude = location.getAltitude();
 	    	if(currentAltitude>previousAltitude && previousAltitude!=Double.NEGATIVE_INFINITY)
 	    	{
 	    		positiveHeightDifference+=currentAltitude-previousAltitude;
-	    		positiveAltitudeTextView.setText(positiveHeightDifference+DISTANCE_UNIT);
+	    		positiveAltitudeTextView.setText(String.format("%.2f", positiveHeightDifference)+DISTANCE_UNIT);
 	    	} else if(currentAltitude<previousAltitude && previousAltitude!=Double.NEGATIVE_INFINITY){
 	    		negativeHeightDifference+=currentAltitude-previousAltitude;
-	    		negativeAltitudeTextView.setText(negativeHeightDifference+DISTANCE_UNIT);
+	    		negativeAltitudeTextView.setText(String.format("%.2f", negativeHeightDifference)+DISTANCE_UNIT);
 	    	}
 	    	previousAltitude=currentAltitude;
 	    }
@@ -249,5 +263,39 @@ public class MapActivity extends BaseActivity {
 	    {
 
 	    }                
+	}
+	
+	//--------------- SlidingUpPlanel Listener
+	private class SlidingUpPanelListener implements PanelSlideListener{
+		private ImageView imageView;
+		
+		public SlidingUpPanelListener(ImageView imageView){
+			this.imageView = imageView;
+		}
+
+		@Override
+		public void onPanelSlide(View panel, float slideOffset) {
+		}
+
+		@Override
+		public void onPanelCollapsed(View panel) {
+			imageView.setImageResource(R.drawable.ic_action_collapse);
+		}
+
+		@Override
+		public void onPanelExpanded(View panel) {
+			imageView.setImageResource(R.drawable.ic_action_expand);
+		}
+
+		@Override
+		public void onPanelAnchored(View panel) {
+			
+		}
+
+		@Override
+		public void onPanelHidden(View panel) {
+			
+		}
+
 	}
 }

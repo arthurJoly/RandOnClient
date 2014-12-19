@@ -17,6 +17,7 @@ import com.insa.randon.utilities.TaskListener;
 
 public class ConnexionActivity extends Activity {
 	private static final int NUMBER_OF_TRY = 3;
+	private static final int REQUEST_CODE_ACCOUNT_CREATION = 1; 
 	
 	Button connexionButton;
 	EditText editTextUserName;
@@ -85,6 +86,15 @@ public class ConnexionActivity extends Activity {
 	
 	public void onClick(View view) {
 		Intent intent = new Intent(context, CreateAccountActivity.class);
-		startActivity(intent);
+		startActivityForResult(intent, REQUEST_CODE_ACCOUNT_CREATION);
     } 
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		 if (resultCode == RESULT_OK) {
+			 finish();
+	     }
+
+	}
 }

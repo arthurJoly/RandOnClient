@@ -14,7 +14,6 @@ import com.insa.randon.R;
 import com.insa.randon.model.Hike;
 import com.insa.randon.services.HikeServices;
 import com.insa.randon.utilities.ErrorCode;
-import com.insa.randon.utilities.ResultObject;
 import com.insa.randon.utilities.TaskListener;
 
 public class FinishHikeActivity extends BaseActivity {

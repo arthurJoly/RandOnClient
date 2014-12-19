@@ -2,21 +2,15 @@ package com.insa.randon.utilities;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.CookieHandler;
 import java.net.CookieManager;
-import java.net.CookieStore;
-import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
-
 
 import android.os.AsyncTask;
 
@@ -88,7 +82,13 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			URL urlGet = new URL(url);
 			urlConnection = (HttpURLConnection) urlGet.openConnection();
 			
-			String response = readInputStream(urlConnection.getInputStream());
+			//read response
+			String response = "";
+			try {
+				response = readInputStream(urlConnection.getInputStream());
+			} catch (FileNotFoundException e){
+				e.printStackTrace();
+			}
 			int code = urlConnection.getResponseCode();
 			if (code == HttpURLConnection.HTTP_OK){
 				resultObject = new ResultObject(ErrorCode.OK, response);
@@ -122,8 +122,8 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		try {
 			//To test post method, you can use this link: "http://postcatcher.in/catchers/546f635e9ac9260200000109"
 			//TODO : change with HttpsUrlConnection
-			URL urlGet = new URL(url);
-			urlConnection = (HttpURLConnection) urlGet.openConnection();
+			URL urlPost = new URL(url);
+			urlConnection = (HttpURLConnection) urlPost.openConnection();
 			urlConnection.setDoOutput(true);
 		    urlConnection.setChunkedStreamingMode(0);
 		    urlConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
@@ -141,7 +141,9 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			try {
 				response = readInputStream(urlConnection.getInputStream());
 			} catch (FileNotFoundException e){
-				e.printStackTrace();
+				if (e != null){
+					e.printStackTrace();
+				}				
 			}
 					
 			int code = urlConnection.getResponseCode();

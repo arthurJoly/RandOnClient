@@ -64,6 +64,7 @@ public class CreateAccountActivity extends BaseActivity {
 					Toast.makeText(context, R.string.account_creation_success, Toast.LENGTH_SHORT).show();	
 					Intent intent = new Intent(context, HomeActivity.class);
 					startActivity(intent);
+					setResult(RESULT_OK);
 					finish();
 				}
 

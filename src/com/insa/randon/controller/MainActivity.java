@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.insa.randon.R;
 import com.insa.randon.services.UserServices;
@@ -29,6 +30,7 @@ public class MainActivity extends BaseActivity {
     private CharSequence mTitle;
     private ActionBarDrawerToggle mDrawerToggle;
     private Context context;
+    private boolean backPressedOnce = false;
     
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -127,14 +129,18 @@ public class MainActivity extends BaseActivity {
     
     @Override
     public void onBackPressed() {
-    	super.onBackPressed();
-    	
-    	//call logout service
-    	//initialize task listener
-    	
+ 
+    	//initialize task listener    	
     	//TODO : what should we do when log out API call fails? We can't ask the user to try again...
-    	
-		UserServices.logout(null);
+    	if (backPressedOnce){
+    		backPressedOnce = false;
+    		UserServices.logout(null);
+    		super.onBackPressed();
+    	} else {
+    		backPressedOnce = true;
+    		Toast.makeText(this, R.string.exit_app, Toast.LENGTH_SHORT).show();
+    	}
+		
     }
     
     @Override

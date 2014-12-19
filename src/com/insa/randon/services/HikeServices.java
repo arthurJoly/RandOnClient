@@ -3,13 +3,11 @@ package com.insa.randon.services;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.Gson;
 import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.RequestExecutor;
 import com.insa.randon.utilities.ResultObject;
