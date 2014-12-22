@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,7 @@ import com.insa.randon.utilities.TaskListener;
 import com.insa.randon.utilities.ErrorCode;
 
 public class HikeSearchFragment extends Fragment {
-	static final String JSON_ARRAY_HIKES = "content";
+	static final String JSON_OBJECT = "content";
 	static final String JSON_HIKE_NAME = "name";
 	static final String JSON_HIKE_ID = "_id";
 	View rootView;
@@ -63,11 +64,10 @@ public class HikeSearchFragment extends Fragment {
 
 		//Get the hikes of the database
 		ResultObject result = HikeServices.getHikesShared(getListHikeListener);
-		System.out.println(result.getContent());
 		List<Hike> hikes = new ArrayList<Hike>();
 		try {
 			JSONObject hikesList = new JSONObject(result.getContent());
-			JSONArray hikesArray = hikesList.getJSONArray(JSON_ARRAY_HIKES);
+			JSONArray hikesArray = hikesList.getJSONArray(JSON_OBJECT);
 			for(int i=0; i<hikesArray.length(); i++){
 				JSONObject hike = hikesArray.getJSONObject(i);
 				hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID))); 
@@ -83,7 +83,18 @@ public class HikeSearchFragment extends Fragment {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Hike hike = (Hike) parent.getAdapter().getItem(position);
 				ResultObject resultSpecificHike = HikeServices.getSpecificHike(hike.getId(),getListHikeListener);
-				System.out.println(resultSpecificHike.getContent());
+				try {
+					JSONObject restultJSON = new JSONObject(resultSpecificHike.getContent());
+					JSONObject specificHike = restultJSON.getJSONObject(JSON_OBJECT);
+					Hike hikeToConsult = new Hike(specificHike.getString(JSON_HIKE_NAME), 0, 0, 0);
+					Intent intent = new Intent(context, ConsultingHikeActivity.class);
+	        		intent.putExtra(MapActivity.EXTRA_HIKE, hikeToConsult);
+	        		startActivity(intent);
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		    }
 		});
 

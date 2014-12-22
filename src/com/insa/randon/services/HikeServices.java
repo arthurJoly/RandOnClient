@@ -1,8 +1,12 @@
 package com.insa.randon.services;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
@@ -58,7 +62,7 @@ public class HikeServices {
 		//build url
 		String url = URL_BASE + URL_HIKE + SERVICE_OVERVIEW;
 
-		RequestExecutor requestExecutor = new RequestExecutor(null, url, RequestExecutor.RequestType.GET, listener);
+		RequestExecutor requestExecutor = new RequestExecutor("", url, RequestExecutor.RequestType.GET, listener);
 		requestExecutor.execute();
 		
 		ResultObject result=new ResultObject(ErrorCode.OK, "");
@@ -82,12 +86,14 @@ public class HikeServices {
 		String url = URL_BASE + URL_HIKE + SERVICE_SPECIFIC_HIKE;
 		
 		String jsonParams = "";
-		JsonObject jsonObject = new JsonObject();
+		/*JsonObject jsonObject = new JsonObject();
 		jsonObject.addProperty(PARAMETER_HIKE_ID, id);
 		
-		jsonParams = gson.toJson(jsonObject);
+		jsonParams = gson.toJson(jsonObject);*/
+		List<NameValuePair> listParams = new ArrayList<NameValuePair>();
+		listParams.add(new BasicNameValuePair(PARAMETER_HIKE_ID, id));
 
-		RequestExecutor requestExecutor = new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.GET, listener);
+		RequestExecutor requestExecutor = new RequestExecutor(listParams, url, RequestExecutor.RequestType.GET, listener);
 		requestExecutor.execute();
 		
 		ResultObject result=new ResultObject(ErrorCode.OK, "");

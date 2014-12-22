@@ -37,6 +37,7 @@ public class MapActivity extends BaseActivity {
 	private static final String MINUTE_UNIT = " min";
 	private static final String SPEED_UNIT = " km/h";
 	private static final float CONVERT_SPEED_UNIT_TO_KMH = (float) 0.06;
+	public static final String EXTRA_HIKE = "hike";
 	
 	private Map map;
 	private LocationManager locManager;
@@ -206,7 +207,7 @@ public class MapActivity extends BaseActivity {
             case R.id.action_finnish_hike:
             	timerHandler.removeCallbacks(timerRunnable); //Stop timer
         		Intent intent = new Intent(context, FinishHikeActivity.class);
-        		intent.putExtra("hike", newHike);
+        		intent.putExtra(EXTRA_HIKE, newHike);
         		startActivity(intent);
             default:
                 return super.onOptionsItemSelected(item);

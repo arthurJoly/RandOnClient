@@ -11,6 +11,9 @@ import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
 
 import android.os.AsyncTask;
 
@@ -22,6 +25,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	String url;
 	TaskListener listener;
 	String paramsStringJson;
+	List<NameValuePair> paramsNameValue;
 
 	static CookieManager cookieManager = new CookieManager();
 	
@@ -41,6 +45,15 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		this.url = url;
 		this.requestType = type;
 		this.listener = listener;
+		this.paramsNameValue=null;
+	}
+	
+	public RequestExecutor(List<NameValuePair> paramsNameValue, String url, RequestType type, TaskListener listener){
+		this.paramsStringJson = null;
+		this.url = url;
+		this.requestType = type;
+		this.listener = listener;
+		this.paramsNameValue=paramsNameValue;
 	}
 	
 	
@@ -79,9 +92,22 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		
 		try {
 			//To test get method, you can use this link: "http://blogname.tumblr.com/api/read/json?num=5"
+			if (paramsNameValue != null)
+		    {
+		    	url+="/?";
+		    	for(int i=0; i<paramsNameValue.size(); i++)
+		    	{
+		    		url+=paramsNameValue.get(i).getName()+"="+paramsNameValue.get(i).getValue();
+		    		if(i<paramsNameValue.size()-1)
+		    		{
+		    			url+="&";
+		    		}
+		    	}
+		    }
+			
 			URL urlGet = new URL(url);
 			urlConnection = (HttpURLConnection) urlGet.openConnection();
-			
+
 			//read response
 			String response = "";
 			try {
@@ -101,7 +127,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		} catch (IOException e) {
 			e.printStackTrace();
 			resultObject = new ResultObject(ErrorCode.FAILED, "");
-		} finally {
+		}  finally {
 			if (urlConnection != null){
 				urlConnection.disconnect();
 			}
@@ -109,6 +135,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 
 		return resultObject;
 	}
+	
 		
 	/**
 	 * Performs a POST request

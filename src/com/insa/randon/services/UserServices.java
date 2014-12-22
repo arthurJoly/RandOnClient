@@ -101,7 +101,7 @@ public class UserServices {
 	 */
 	public static void logout(TaskListener listener){
 		String url = URL_BASE + URL_USER + SERVICE_LOGOUT;
-		new RequestExecutor(null, url, RequestExecutor.RequestType.GET, listener).execute();
+		new RequestExecutor("", url, RequestExecutor.RequestType.GET, listener).execute();
 	}
 	
 	private static final String hashPassword(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException{

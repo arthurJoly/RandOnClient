@@ -36,7 +36,7 @@ public class FinishHikeActivity extends BaseActivity {
         context = this;
         
         Intent intent = getIntent();
-        this.hike = (Hike)intent.getParcelableExtra("hike");
+        this.hike = (Hike)intent.getParcelableExtra(MapActivity.EXTRA_HIKE);
         
         distanceTextView = (TextView) findViewById(R.id.distance_done_finish_textView);
         nameEditText = (EditText) findViewById(R.id.editText_hike_name);
