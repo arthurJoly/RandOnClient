@@ -54,7 +54,7 @@
     <string name="finishing_hike">Finish hike</string>
     
     <!-- Finish Hike Activity -->
-    <string name="hike_name">Hike name:</string>
+    <string name="hike_name">Hike name: </string>
     <string name="difficulty">Difficulty</string>
     <string name="interest">Interest</string>
     <string name="reliability">Reliability</string>
@@ -66,8 +66,12 @@
     
     <!-- Search Hikes Activity -->
     <string name="distance">Distance: </string>
-    <string name="distance_unit">km</string>    
-     
+    <string name="distance_unit">km</string>   
+    
+    <!-- Consulting Hike Activity -->
+    <string name="grades">Grades</string>
+    <string name="download_hike">Download</string>
+    
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>
     <string name="new_hike_title">New hike</string>
