@@ -37,6 +37,13 @@ public class HikeServices {
 	 * Services
 	 */
 
+	/**
+	 * Creates a hike in the database
+	 * @param hikeName Name of the created hike
+	 * @param coordinates Coordinates of the created hike
+	 * @param isPrivate boolean that indicates if the hike is shared or not
+	 * @param listener Listener to notify when the account is created
+	 */
 	public static void createHike(String hikeName, List<LatLng> coordinates, boolean isPrivate, TaskListener listener)
 	{
 		//build url
@@ -58,55 +65,46 @@ public class HikeServices {
         }
 	}
 	
-	public static ResultObject getHikesShared(TaskListener listener)
+	/**
+	 * Get the list of all the shared hikes
+	 * @param listener Listener to notify when the account is created
+	 * @return an object of type ResultObject that contains a String object that represent the list of hikes in JSON format
+	 */
+	public static void getHikesShared(TaskListener listener)
 	{
 		//build url
 		String url = URL_BASE + URL_HIKE + SERVICE_OVERVIEW;
 
 		RequestExecutor requestExecutor = new RequestExecutor("", url, RequestExecutor.RequestType.GET, listener);
 		requestExecutor.execute();
-		
-		ResultObject result=new ResultObject(ErrorCode.OK, "");
-		try {
-			result = requestExecutor.get();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			listener.onFailure(ErrorCode.FAILED);
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-			listener.onFailure(ErrorCode.FAILED);
-		} 
-		
-		return result;	
 	}
 	
-	public static ResultObject getClosestSharedHikes(LatLng coordinates, TaskListener listener)
+	/**
+	 * Get the list of the shared hikes that are the closest to a given position
+	 * @param coordinates Coordinates from which we would like to find the closest shared hikes
+	 * @param listener Listener to notify when the account is created
+	 * @return an object of type ResultObject that contains a String object that represent the list of hikes in JSON format
+	 */
+	public static void getClosestSharedHikes(LatLng coordinates, TaskListener listener)
 	{
 		//build url
 		String url = URL_BASE + URL_HIKE + SERVICE_OVERVIEW + SERVICE_PROXIMITY;
 
 		List<NameValuePair> listParams = new ArrayList<NameValuePair>();
-		listParams.add(new BasicNameValuePair(PARAMETER_LONGITUDE, String.valueOf(coordinates.longitude)));
 		listParams.add(new BasicNameValuePair(PARAMETER_LATITUDE, String.valueOf(coordinates.latitude)));
-
+		listParams.add(new BasicNameValuePair(PARAMETER_LONGITUDE, String.valueOf(coordinates.longitude)));
+		
 		RequestExecutor requestExecutor = new RequestExecutor(listParams, url, RequestExecutor.RequestType.GET, listener);
 		requestExecutor.execute();
-		
-		ResultObject result=new ResultObject(ErrorCode.OK, "");
-		try {
-			result = requestExecutor.get();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			listener.onFailure(ErrorCode.FAILED);
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-			listener.onFailure(ErrorCode.FAILED);
-		} 
-		
-		return result;	
 	}
 	
-	public static ResultObject getSpecificHike(String id, TaskListener listener)
+	/**
+	 * Get all the information of one specific hike
+	 * @param id Identifier of the hike we would like to get
+	 * @param listener Listener to notify when the account is created
+	 * @return an object of type ResultObject that contains a String object that represent a hike in JSON format
+	 */
+	public static void getSpecificHike(String id, TaskListener listener)
 	{
 		//build url
 		String url = URL_BASE + URL_HIKE + SERVICE_SPECIFIC_HIKE;
@@ -116,19 +114,6 @@ public class HikeServices {
 
 		RequestExecutor requestExecutor = new RequestExecutor(listParams, url, RequestExecutor.RequestType.GET, listener);
 		requestExecutor.execute();
-		
-		ResultObject result=new ResultObject(ErrorCode.OK, "");
-		try {
-			result = requestExecutor.get();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			listener.onFailure(ErrorCode.FAILED);
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-			listener.onFailure(ErrorCode.FAILED);
-		} 
-		
-		return result;	
 	}
 	
 	private static JsonArray createJsonArrayCoordinates(List<LatLng> coordinates)

@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.CookieHandler;
 import java.net.CookieManager;
+import java.net.CookieStore;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -59,6 +61,12 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 	
 	@Override
 	protected ResultObject doInBackground(Void... params) {
+		 CookieStore cookieJar =  cookieManager.getCookieStore();
+	        List <HttpCookie> cookies =
+	            cookieJar.getCookies();
+	        for (HttpCookie cookie: cookies) {
+	          System.out.println("CookieHandler retrieved cookie: " + cookie);
+	        }
 		ResultObject resultObject = null;	        
 		if (requestType == RequestType.GET){
 			resultObject = executeGET();

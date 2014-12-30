@@ -68,6 +68,7 @@
     <!-- Search Hikes Activity -->
     <string name="distance">Distance : </string>
     <string name="distance_unit">km</string>  
+    <string name="fail_retrieving_hikes">Impossible de récupérer des randonnées</string>
     
     <!-- Consulting Hike Activity -->
     <string name="grades">Notes</string>

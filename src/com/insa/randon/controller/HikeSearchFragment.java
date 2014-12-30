@@ -25,7 +25,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.insa.randon.R;
 import com.insa.randon.model.Hike;
 import com.insa.randon.services.HikeServices;
-import com.insa.randon.utilities.ResultObject;
 import com.insa.randon.utilities.TaskListener;
 import com.insa.randon.utilities.ErrorCode;
 
@@ -36,6 +35,7 @@ public class HikeSearchFragment extends Fragment {
 	View rootView;
 	ListView hikeSearchListView ;
 	TaskListener getListHikeListener;
+	TaskListener getSpecificHikeListener;
 	
 	Context context;
 	
@@ -44,65 +44,76 @@ public class HikeSearchFragment extends Fragment {
 		rootView = inflater.inflate(R.layout.fragment_hike_search, container, false);
 		hikeSearchListView = (ListView) rootView.findViewById(R.id.hike_search_list);
 		context=getActivity();
-			
-		//TEST
+		
 	    getListHikeListener = new TaskListener() {
 
 			@Override
 			public void onSuccess(String content) {
-				//Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show();					
+				//Set up the hikes list
+				List<Hike> hikes = new ArrayList<Hike>();
+				try {
+					JSONObject hikesList = new JSONObject(content);
+					JSONArray hikesArray = hikesList.getJSONArray(JSON_OBJECT);
+					for(int i=0; i<hikesArray.length(); i++){
+						JSONObject hike = hikesArray.getJSONObject(i);
+						hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID))); 
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}		
+				HikeListAdapter customAdapter = new HikeListAdapter(context, R.layout.search_list_item, hikes);
+				hikeSearchListView.setAdapter(customAdapter);
 			}
 
 			@Override
 			public void onFailure(ErrorCode errCode) {
 				if (errCode == ErrorCode.REQUEST_FAILED){
-					Toast.makeText(context,"request failed", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
 				} else if (errCode == ErrorCode.FAILED){
-					Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context,R.string.fail_retrieving_hikes, Toast.LENGTH_SHORT).show();
 				}
 			}
 		};
-
-		//Get the hikes of the database
-		//ResultObject result = HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
-		ResultObject result = HikeServices.getHikesShared(getListHikeListener);
-		List<Hike> hikes = new ArrayList<Hike>();
-		try {
-			System.out.println(result.getContent());;
-			JSONObject hikesList = new JSONObject(result.getContent());
-			JSONArray hikesArray = hikesList.getJSONArray(JSON_OBJECT);
-			for(int i=0; i<hikesArray.length(); i++){
-				JSONObject hike = hikesArray.getJSONObject(i);
-				hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID))); 
-			}
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-	
-		//Set up the hikes list
-		HikeListAdapter customAdapter = new HikeListAdapter(context, R.layout.search_list_item, hikes);
-		hikeSearchListView.setAdapter(customAdapter);
-		hikeSearchListView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Hike hike = (Hike) parent.getAdapter().getItem(position);
-				ResultObject resultSpecificHike = HikeServices.getSpecificHike(hike.getId(),getListHikeListener);
+		
+		getSpecificHikeListener = new TaskListener() {
+			@Override
+			public void onSuccess(String content) {
 				try {
-					JSONObject restultJSON = new JSONObject(resultSpecificHike.getContent());
+					JSONObject restultJSON = new JSONObject(content);
 					JSONObject specificHike = restultJSON.getJSONObject(JSON_OBJECT);
 					Hike hikeToConsult = new Hike(specificHike.getString(JSON_HIKE_NAME), 0, 0, 0);
 					Intent intent = new Intent(context, ConsultingHikeActivity.class);
 	        		intent.putExtra(MapActivity.EXTRA_HIKE, hikeToConsult);
 	        		startActivity(intent);
-					
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}				
+			}
+
+			@Override
+			public void onFailure(ErrorCode errCode) {
+				if (errCode == ErrorCode.REQUEST_FAILED){
+					Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
+				} else if (errCode == ErrorCode.FAILED){
+					Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
 				}
+			}
+		};
+				
+
+		//Get the hikes of the database
+		//HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
+		HikeServices.getHikesShared(getListHikeListener);
+		
+		hikeSearchListView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Hike hike = (Hike) parent.getAdapter().getItem(position);
+				HikeServices.getSpecificHike(hike.getId(),getSpecificHikeListener);
 		    }
 		});
 
 		return rootView;
-	}
+	}	
 	
 	//--------------- LIST ADAPTER ----------------------------
 	public class HikeListAdapter extends ArrayAdapter<Hike> {
@@ -117,11 +128,9 @@ public class HikeSearchFragment extends Fragment {
 	
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-	
 		    View view = convertView;
 	
 		    if (view == null) {
-	
 		        LayoutInflater vi;
 		        vi = LayoutInflater.from(getContext());
 		        view = vi.inflate(R.layout.search_list_item, null);
@@ -130,7 +139,6 @@ public class HikeSearchFragment extends Fragment {
 		    Hike hike = (Hike) getItem(position);
 	
 		    if (hike != null) {
-	
 		        TextView nameTextView = (TextView) view.findViewById(R.id.hike_name_item);
 		        TextView distanceTextView = (TextView) view.findViewById(R.id.hike_distance_item);
 		        if (nameTextView != null) {
@@ -140,11 +148,7 @@ public class HikeSearchFragment extends Fragment {
 		        	distanceTextView.setText(String.valueOf(hike.getDistance()));
 		        }
 		    }
-	
 		    return view;
-	
-		}
-		
+		}	
 	}
-
 }
