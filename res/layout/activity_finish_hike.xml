@@ -1,149 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-   
-    <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="15dp"
-                android:text="@string/hike_name"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-    
-    <EditText
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/finished"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/hike_name"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
             android:id="@+id/editText_hike_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" />
-    
-    <LinearLayout
+            android:layout_marginBottom="5dp"
+            android:inputType="textCapSentences|textAutoCorrect" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="15dp"
+                android:paddingRight="30dp"
                 android:text="@string/distance_done"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/distance_done_finish_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp" />
-		</LinearLayout>
-		
-		<LinearLayout
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal" >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="15dp"
+                android:paddingRight="30dp"
                 android:text="@string/duration"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/duration_finish_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp" />
-    </LinearLayout>
-    
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="15dp"
-                android:text="@string/difficulty"
-                android:textSize="18sp"/>
-
-            <SeekBar 
-		        android:id="@+id/difficulty_seekBar"
-		        android:layout_width="match_parent" 
-		        android:layout_height="wrap_content" 
-		        android:max="5"/>
         </LinearLayout>
-        
-    <LinearLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@drawable/border"
+            android:orientation="vertical" >
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="15dp"
-                android:text="@string/interest"
-                android:textSize="18sp"/>
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/marks"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <SeekBar 
-		        android:id="@+id/interest_seekBar"
-		        android:layout_width="match_parent" 
-		        android:layout_height="wrap_content" 
-		        android:max="5"/>
-       </LinearLayout>
-       
-    <LinearLayout
-            android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="15dp"
+                    android:text="@string/difficulty"
+                    android:textSize="18sp" />
+
+                <SeekBar
+                    android:id="@+id/difficulty_seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="15dp"
+                    android:text="@string/interest"
+                    android:textSize="18sp" />
+
+                <SeekBar
+                    android:id="@+id/interest_seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="15dp"
+                    android:text="@string/reliability"
+                    android:textSize="18sp" />
+
+                <SeekBar
+                    android:id="@+id/reliability_seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="5" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="20dp"
+            android:paddingRight="15dp"
+            android:text="@string/comments"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="15dp"
-                android:text="@string/reliability"
-                android:textSize="18sp"/>
-
-            <SeekBar 
-		        android:id="@+id/reliability_seekBar"
-		        android:layout_width="match_parent" 
-		        android:layout_height="wrap_content" 
-		        android:max="5"/>
-     </LinearLayout>
-     
-    <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="15dp"
-                android:text="@string/comments"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-    
-    <EditText
+        <EditText
             android:id="@+id/editText_comments"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:inputType="text" 
-            android:lines="6"/>
-    
-    <Button
+            android:layout_marginBottom="10dp"
+            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+            android:lines="2" />
+
+        <Button
             android:id="@+id/button_share_hike"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:onClick="onButtonClick"
             android:text="@string/share_hike" />
-    
-    <Button
+
+        <Button
             android:id="@+id/button_back_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:onClick="onButtonClick"
             android:text="@string/back_home" />
+    </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

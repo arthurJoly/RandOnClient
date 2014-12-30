@@ -53,7 +53,7 @@
     <string name="finishing_hike">Finir randonnée</string>
     
     <!-- Finish Hike Activity -->
-    <string name="hike_name">Nom de la randonnée : </string>
+    <string name="hike_name">Nom de la randonnée</string>
     <string name="difficulty">Difficulté</string>
     <string name="interest">Intérêt</string>
     <string name="reliability">Fiabilité</string>
@@ -62,6 +62,8 @@
     <string name="back_home">Retour à l\'accueil</string>
     <string name="share_hike_succeded">Votre randonnée a été partagée !</string>
     <string name="name_your_hike">Vous n\'avez pas donné de nom à votre randonnée</string>
+    <string name="finished">Randonnée terminée !</string>
+    <string name="marks">Notes</string>
     
     <!-- Search Hikes Activity -->
     <string name="distance">Distance : </string>

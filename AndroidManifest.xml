@@ -85,7 +85,8 @@
         <activity
             android:name="com.insa.randon.controller.ConsultingHikeActivity"
             android:label="@string/app_name"
-            android:parentActivityName=".controller.MainActivity" >
+            android:parentActivityName=".controller.MainActivity" 
+            android:launchMode="singleTop">
             
             <!-- Parent activity meta-data to support 4.0 -->
             <meta-data

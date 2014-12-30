@@ -20,7 +20,7 @@ public abstract class Map {
 	public abstract void setUpMap(Activity activity);
 	
 	/**
-	 * Draw a route on the map
+	 * Draw a route on the map and center the map on it
 	 * @param hike List of GPS coordinates which represents the hike
 	 */
 	public abstract void showRoute(List<LatLng> route);
@@ -35,5 +35,10 @@ public abstract class Map {
 	 * @param newPoint a GPS coordinate that is added to the current new hike
 	 */
 	public abstract void followingHike(LatLng newPoint);
+	
+	/**
+	 * Center the map on user's current location
+	 */
+	public abstract void centerOnMyLocation();
 	
 }

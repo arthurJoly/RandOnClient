@@ -77,6 +77,22 @@ public class Hike implements Parcelable {
 		return this.coordinates;
 	}
 	
+	public void setPositiveDiffHeight(float positiveDiffHeight) {
+		this.positiveDiffHeight = positiveDiffHeight;
+	}
+
+	public void setNegativeDiffHeight(float negativeDiffHeight) {
+		this.negativeDiffHeight = negativeDiffHeight;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDistance(float distance) {
+		this.distance = distance;
+	}
+	
 	//-----------------------------------------------------------------
 	//Parcelable : in order to pass a hike between activities
 	public int describeContents() {
