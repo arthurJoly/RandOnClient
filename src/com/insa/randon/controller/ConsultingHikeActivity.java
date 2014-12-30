@@ -45,6 +45,7 @@ public class ConsultingHikeActivity extends BaseActivity {
         distanceTextView.setText(String.valueOf(hike.getDistance()));
         
         //TEST COMMENTS LIST
+        // we can live this feature apart! We won't have time to develop it
         //TODO : replace by hike.getComments();
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
@@ -53,7 +54,7 @@ public class ConsultingHikeActivity extends BaseActivity {
         List<Comment> comments = new ArrayList<Comment>();
         comments.add(new Comment("Trop Bien", "rando bien",formattedDate));
         comments.add(new Comment("Trop cool", "rando cool",formattedDate));
-        comments.add(new Comment("Trop génial", "rando géniale",formattedDate));
+        comments.add(new Comment("Trop gï¿½nial", "rando gï¿½niale",formattedDate));
         
         //Set up the hikes list
         CommentsListAdapter customAdapter = new CommentsListAdapter(context, R.layout.search_list_item, comments);
