@@ -23,6 +23,7 @@ public class HikeServices {
 	private static final String SERVICE_CREATE_HIKE = "/create";
 	private static final String SERVICE_OVERVIEW = "/overview";
 	private static final String SERVICE_SPECIFIC_HIKE = "/specific";
+	private static final String SERVICE_PROXIMITY = "/proximity";
 	
 	private static final String PARAMETER_HIKE_NAME = "name";
 	private static final String PARAMETER_COORDINATES = "coordinates";
@@ -79,17 +80,37 @@ public class HikeServices {
 		return result;	
 	}
 	
-	//DOES NOT WORK YET
+	public static ResultObject getClosestSharedHikes(LatLng coordinates, TaskListener listener)
+	{
+		//build url
+		String url = URL_BASE + URL_HIKE + SERVICE_OVERVIEW + SERVICE_PROXIMITY;
+
+		List<NameValuePair> listParams = new ArrayList<NameValuePair>();
+		listParams.add(new BasicNameValuePair(PARAMETER_LONGITUDE, String.valueOf(coordinates.longitude)));
+		listParams.add(new BasicNameValuePair(PARAMETER_LATITUDE, String.valueOf(coordinates.latitude)));
+
+		RequestExecutor requestExecutor = new RequestExecutor(listParams, url, RequestExecutor.RequestType.GET, listener);
+		requestExecutor.execute();
+		
+		ResultObject result=new ResultObject(ErrorCode.OK, "");
+		try {
+			result = requestExecutor.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			listener.onFailure(ErrorCode.FAILED);
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+			listener.onFailure(ErrorCode.FAILED);
+		} 
+		
+		return result;	
+	}
+	
 	public static ResultObject getSpecificHike(String id, TaskListener listener)
 	{
 		//build url
 		String url = URL_BASE + URL_HIKE + SERVICE_SPECIFIC_HIKE;
-		
-		String jsonParams = "";
-		/*JsonObject jsonObject = new JsonObject();
-		jsonObject.addProperty(PARAMETER_HIKE_ID, id);
-		
-		jsonParams = gson.toJson(jsonObject);*/
+
 		List<NameValuePair> listParams = new ArrayList<NameValuePair>();
 		listParams.add(new BasicNameValuePair(PARAMETER_HIKE_ID, id));
 

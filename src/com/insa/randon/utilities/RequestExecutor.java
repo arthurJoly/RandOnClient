@@ -104,7 +104,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 		    		}
 		    	}
 		    }
-			
+			System.out.println(url);
 			URL urlGet = new URL(url);
 			urlConnection = (HttpURLConnection) urlGet.openConnection();
 
@@ -116,6 +116,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 				e.printStackTrace();
 			}
 			int code = urlConnection.getResponseCode();
+			System.out.println(code);
 			if (code == HttpURLConnection.HTTP_OK){
 				resultObject = new ResultObject(ErrorCode.OK, response);
 			} else {

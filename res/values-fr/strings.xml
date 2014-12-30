@@ -14,8 +14,8 @@
     
     <!-- Connexion activity -->
     <string name="background_description">Paysage de montagne</string>
-    <string name="user_name">Nom d\'utilisateur :</string>
-    <string name="user_password">Mot de passe :</string>
+    <string name="user_name">Nom d\'utilisateur : </string>
+    <string name="user_password">Mot de passe : </string>
     <string name="connexion">Connexion</string>
     <string name="create_account">Vous n\'avez pas encore de compte ? Cliquez </string>
     <string name="click_here">ici</string>
@@ -67,7 +67,11 @@
     
     <!-- Search Hikes Activity -->
     <string name="distance">Distance : </string>
-    <string name="distance_unit">km</string>    
+    <string name="distance_unit">km</string>  
+    
+    <!-- Consulting Hike Activity -->
+    <string name="grades">Notes</string>
+    <string name="download_hike">Télécharger</string>
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Chercher une randonnée</string>
@@ -76,5 +80,5 @@
     <string name="title_activity_home">Accueil</string>
     <string name="action_settings">Paramètres</string>
     <string name="welcome">Bienvenue sur Rand\'On !</string>
-
+    
 </resources>

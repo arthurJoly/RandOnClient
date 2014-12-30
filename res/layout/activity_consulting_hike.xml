@@ -4,15 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <RelativeLayout
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop= "10dp">
+            android:paddingTop= "10dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingRight="20dp"
+                android:paddingRight= "10dp"
                 android:text="@string/hike_name"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -21,8 +22,72 @@
                 android:id="@+id/name_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp" 
-                android:layout_alignParentRight="true"/>
-    </RelativeLayout>
+                android:textSize="20sp"/>
+    </LinearLayout>
+    
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop= "10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight= "10dp"
+                android:text="@string/distance"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/distance_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"/>
+    </LinearLayout>
+    
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight= "10dp"
+            android:paddingTop= "10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/duration"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/duration_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"/>
+    </LinearLayout>
+    
+   	<TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:paddingRight="20dp"
+       android:text="@string/grades"
+       android:textSize="20sp"
+       android:textStyle="bold"/>
+   
+       <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:paddingRight="20dp"
+       android:text="@string/comments"
+       android:textColor="@color/green_item"
+       android:textSize="20sp"
+       android:textStyle="bold"/>
+   
+       <ListView
+            android:id="@+id/comments_list"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+       </ListView>
 
 </LinearLayout>

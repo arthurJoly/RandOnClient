@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.insa.randon.R;
 import com.insa.randon.model.Hike;
 import com.insa.randon.services.HikeServices;
@@ -63,9 +64,11 @@ public class HikeSearchFragment extends Fragment {
 		};
 
 		//Get the hikes of the database
+		//ResultObject result = HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
 		ResultObject result = HikeServices.getHikesShared(getListHikeListener);
 		List<Hike> hikes = new ArrayList<Hike>();
 		try {
+			System.out.println(result.getContent());;
 			JSONObject hikesList = new JSONObject(result.getContent());
 			JSONArray hikesArray = hikesList.getJSONArray(JSON_OBJECT);
 			for(int i=0; i<hikesArray.length(); i++){
@@ -134,7 +137,6 @@ public class HikeSearchFragment extends Fragment {
 		        	nameTextView.setText(hike.getName());
 		        }
 		        if (distanceTextView != null) {
-	
 		        	distanceTextView.setText(String.valueOf(hike.getDistance()));
 		        }
 		    }

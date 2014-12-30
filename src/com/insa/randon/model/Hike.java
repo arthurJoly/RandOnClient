@@ -16,6 +16,7 @@ public class Hike implements Parcelable {
 	float positiveDiffHeight;
 	float negativeDiffHeight;
 	String id;
+	//TODO : add Comments, grades, duration
 	
 	public Hike(){
 		this.name="";
