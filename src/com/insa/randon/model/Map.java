@@ -37,8 +37,9 @@ public abstract class Map {
 	public abstract void followingHike(LatLng newPoint);
 	
 	/**
-	 * Center the map on user's current location
+	 * Center the map on location
+	 * @param latLong Location to show up on map
 	 */
-	public abstract void centerOnMyLocation();
+	public abstract void centerOnLocation(LatLng latLong);
 	
 }

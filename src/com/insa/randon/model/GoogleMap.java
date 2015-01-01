@@ -69,10 +69,8 @@ public class GoogleMap extends Map {
 	}
 
 	@Override
-	public void centerOnMyLocation() {
+	public void centerOnLocation(LatLng myLatLong) {
 
-        Location myLocation = googleMap.getMyLocation();
-        LatLng myLatLong = new LatLng(myLocation.getLatitude(), myLocation.getLatitude());
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLong));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
 		
