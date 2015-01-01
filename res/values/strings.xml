@@ -70,9 +70,9 @@
     <string name="distance">Distance: </string>
     <string name="distance_unit">km</string>   
     <string name="fail_retrieving_hikes">Could not retrieve any hikes</string>
+    <string name="average_mark">Average mark</string>
     
     <!-- Consulting Hike Activity -->
-    <string name="grades">Grades</string>
     <string name="download_hike">Download</string>
     
     <!-- Navigation item names -->

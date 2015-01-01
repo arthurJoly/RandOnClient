@@ -2,33 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/name_textView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="32sp"/>
     
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop= "10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight= "10dp"
-                android:text="@string/hike_name"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/name_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"/>
-    </LinearLayout>
-    
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop= "10dp"
+            android:paddingTop= "3dp"
             android:orientation="horizontal">
 
             <TextView
@@ -36,58 +25,141 @@
                 android:layout_height="wrap_content"
                 android:paddingRight= "10dp"
                 android:text="@string/distance"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/distance_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft= "10dp"
+                android:text="@string/distance_unit"
+                android:textSize="18sp"/>
     </LinearLayout>
     
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight= "10dp"
-            android:paddingTop= "10dp"
+            android:paddingTop= "3dp"
+            android:paddingBottom= "3dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/duration"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/duration_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
     </LinearLayout>
     
-   	<TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:paddingRight="20dp"
-       android:text="@string/grades"
-       android:textSize="20sp"
-       android:textStyle="bold"/>
-   
-       <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:paddingRight="20dp"
-       android:text="@string/comments"
-       android:textColor="@color/green_item"
-       android:textSize="20sp"
-       android:textStyle="bold"/>
-   
-       <ListView
-            android:id="@+id/comments_list"
+    <View
+	    android:layout_width="match_parent"
+	    android:layout_height="5dp"
+	    android:background="@drawable/separator_line"/>
+    
+    <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
-       </ListView>
+            android:orientation="vertical"
+            android:paddingTop="3dp" >
+            
+		   	<TextView
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content"
+		       android:paddingRight="20dp"
+		       android:text="@string/marks"
+		       android:textSize="20sp"
+		       android:textStyle="bold"/>
+		   	
+		   	<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="15dp"
+                    android:text="@string/difficulty"
+                    android:textSize="18sp" />
+
+                <SeekBar
+                    android:id="@+id/difficulty_seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="5"/>
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="15dp"
+                    android:text="@string/interest"
+                    android:textSize="18sp" />
+
+                <SeekBar
+                    android:id="@+id/interest_seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="5" />
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="15dp"
+                    android:text="@string/reliability"
+                    android:textSize="18sp" />
+
+                <SeekBar
+                    android:id="@+id/reliability_seekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="5" />
+            </LinearLayout>
+   	
+   	</LinearLayout>
+   	
+	 <View
+	   android:layout_width="match_parent"
+	   android:layout_height="5dp"
+	   android:background="@drawable/separator_line"/>
+ 	 
+    <TextView
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:paddingTop="3dp"
+	    android:text="@string/comments"
+	    android:textColor="@color/green_item"
+	    android:textSize="20sp"
+	    android:textStyle="bold"/>
+
+    <ListView
+         android:id="@+id/comments_list"
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:background="@color/grey_item">
+    </ListView>
 
 </LinearLayout>

@@ -11,7 +11,7 @@
                 android:id="@+id/title_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@color/green_item"
                 android:textStyle="bold" />
 
@@ -19,7 +19,7 @@
                 android:id="@+id/date_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp" 
+                android:textSize="14sp" 
                 android:layout_alignParentRight="true"/>
     </RelativeLayout>
     
@@ -28,6 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 	   
 </LinearLayout>

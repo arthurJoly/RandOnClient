@@ -54,6 +54,8 @@ public class ConsultingHikeActivity extends BaseActivity {
         comments.add(new Comment("Trop Bien", "rando bien",formattedDate));
         comments.add(new Comment("Trop cool", "rando cool",formattedDate));
         comments.add(new Comment("Trop génial", "rando géniale",formattedDate));
+        comments.add(new Comment("Trop génial", "test",formattedDate));
+        comments.add(new Comment("Trop génial", "test",formattedDate));
         
         //Set up the hikes list
         CommentsListAdapter customAdapter = new CommentsListAdapter(context, R.layout.search_list_item, comments);
