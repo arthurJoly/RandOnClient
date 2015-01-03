@@ -60,8 +60,9 @@ public class FinishHikeActivity extends BaseActivity {
 
 				@Override
 				public void onSuccess(String content) {
-					Toast.makeText(context, R.string.share_hike_succeded, Toast.LENGTH_SHORT).show();					
-					
+					Toast.makeText(context, R.string.share_hike_succeded, Toast.LENGTH_SHORT).show();			
+					setResult(RESULT_OK);
+					finish();
 				}
 
 				@Override
@@ -81,8 +82,6 @@ public class FinishHikeActivity extends BaseActivity {
 			{
 				HikeServices.createHike(nameEditText.getText().toString(), hike.getCoordinates(),true , createHikeListener);	
 			} 
-			//then we go back to the history page
-			this.backToHistory();
 		} else {
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		    alertDialogBuilder.setMessage(R.string.name_your_hike);

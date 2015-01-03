@@ -1,9 +1,21 @@
 package com.insa.randon.services;
 
 
+import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
+import static com.insa.randon.services.Constants.PARAMETER_HIKE_ID;
+import static com.insa.randon.services.Constants.PARAMETER_HIKE_NAME;
+import static com.insa.randon.services.Constants.PARAMETER_LATITUDE;
+import static com.insa.randon.services.Constants.PARAMETER_LONGITUDE;
+import static com.insa.randon.services.Constants.PARAMETER_PRIVATE;
+import static com.insa.randon.services.Constants.SERVICE_CREATE_HIKE;
+import static com.insa.randon.services.Constants.SERVICE_OVERVIEW;
+import static com.insa.randon.services.Constants.SERVICE_PROXIMITY;
+import static com.insa.randon.services.Constants.SERVICE_SPECIFIC_HIKE;
+import static com.insa.randon.services.Constants.URL_BASE;
+import static com.insa.randon.services.Constants.URL_HIKE;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -14,23 +26,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.RequestExecutor;
-import com.insa.randon.utilities.ResultObject;
 import com.insa.randon.utilities.TaskListener;
 
 public class HikeServices {
-	private static final String URL_BASE = "https://randon.herokuapp.com" ;
-	private static final String URL_HIKE = "/hike";
-	private static final String SERVICE_CREATE_HIKE = "/create";
-	private static final String SERVICE_OVERVIEW = "/overview";
-	private static final String SERVICE_SPECIFIC_HIKE = "/specific";
-	private static final String SERVICE_PROXIMITY = "/proximity";
-	
-	private static final String PARAMETER_HIKE_NAME = "name";
-	private static final String PARAMETER_COORDINATES = "coordinates";
-	private static final String PARAMETER_PRIVATE = "isPrivate";
-	private static final String PARAMETER_LATITUDE = "lat";
-	private static final String PARAMETER_LONGITUDE = "long";
-	private static final String PARAMETER_HIKE_ID = "hikeId";
 	
 	static Gson gson = new Gson();
 	/*

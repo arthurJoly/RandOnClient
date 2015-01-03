@@ -38,6 +38,7 @@ public class MapActivity extends BaseActivity {
 	private static final String SPEED_UNIT = " km/h";
 	private static final float CONVERT_SPEED_UNIT_TO_KMH = 0.06f;
 	public static final String EXTRA_HIKE = "hike";
+	private static final int REQUEST_CODE_FINISH_HIKE = 1;
 
 	private Map map;
 	private LocationManager locManager;
@@ -51,7 +52,6 @@ public class MapActivity extends BaseActivity {
 	private FollowHikeLocationListener locListener;
 	private ViewStub mapContainer;
 	private AlertDialog alert = null;
-	private boolean locationFound = false;
 
 	private Context context;
 	private long startTime = 0;
@@ -70,7 +70,7 @@ public class MapActivity extends BaseActivity {
 			seconds = seconds % 60;
 			minutes = minutes % 60;
 
-			durationTextView.setText(String.format("%d"+HOUR_UNIT+" %d"+MINUTE_UNIT, hours, minutes));
+;			durationTextView.setText(String.format("%d"+HOUR_UNIT+" %d"+MINUTE_UNIT, hours, minutes));
 
 			//compute average speed
 			speed = newHike.getDistance()/millis/1000;
@@ -103,6 +103,7 @@ public class MapActivity extends BaseActivity {
 
 		//setting PanelSlideListener listener
 		SlidingUpPanelLayout sPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_panel_map);
+		sPanelLayout.expandPanel();
 		slidingIcon = (ImageView) findViewById(R.id.sliding_icon);
 		sPanelLayout.setPanelSlideListener(new SlidingUpPanelListener(slidingIcon));
 
@@ -166,7 +167,6 @@ public class MapActivity extends BaseActivity {
 	@Override
 	protected void onResume(){
 		super.onResume();
-		locationFound = false;
 
 		//resume timer
 		timerHandler.postDelayed(timerRunnable, 0);
@@ -206,12 +206,26 @@ public class MapActivity extends BaseActivity {
 		switch (item.getItemId()) {
 		case R.id.action_finnish_hike:
 			timerHandler.removeCallbacks(timerRunnable); //Stop timer
-			Intent intent = new Intent(context, FinishHikeActivity.class);
-			intent.putExtra(EXTRA_HIKE, newHike);
-			startActivity(intent);
+			
+			if (newHike.getCoordinates().size() == 0){
+				finish();
+			} else {
+				Intent intent = new Intent(context, FinishHikeActivity.class);
+				intent.putExtra(EXTRA_HIKE, newHike);
+				startActivityForResult(intent, REQUEST_CODE_FINISH_HIKE);;
+			}
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		 if (resultCode == RESULT_OK) {
+			 finish();
+	     }
+
 	}
 
 	//------------------ LOCATION LISTENER ------------------------------------
@@ -224,17 +238,12 @@ public class MapActivity extends BaseActivity {
 		@Override
 		public void onLocationChanged(Location location)
 		{    
-			if (!locationFound){
-				LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-				map.centerOnLocation(latLng);
-				locationFound = true;
-			}
-			//TODO : test if we are in creation mode
-			//if we follow a hike that we downloaded maybe we can create a new hike like but we don't call followingHike
-			map.followingHike(new LatLng(location.getLatitude(),location.getLongitude()));
-
 			//if the instantaneous speed is null, we do not change the distance done
-			if (location.getSpeed() > 0){
+			if (location.getSpeed() >= 0){
+				//TODO : test if we are in creation mode
+				//if we follow a hike that we downloaded maybe we can create a new hike like but we don't call followingHike
+				map.followingHike(new LatLng(location.getLatitude(),location.getLongitude()));
+				
 				newHike.extendHike(new LatLng(location.getLatitude(),location.getLongitude()));
 				distanceTextView.setText(String.format("%.2f", newHike.getDistance()) + DISTANCE_UNIT);
 
