@@ -5,6 +5,7 @@ package com.insa.randon.controller;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -36,7 +37,7 @@ public class MapActivity extends BaseActivity {
 	private static final String HOUR_UNIT = " h";
 	private static final String MINUTE_UNIT = " min";
 	private static final String SPEED_UNIT = " km/h";
-	private static final float CONVERT_SPEED_UNIT_TO_KMH = 0.06f;
+	private static final float CONVERT_SPEED_UNIT_TO_KMH = 3.6f;
 	public static final String EXTRA_HIKE = "hike";
 	private static final int REQUEST_CODE_FINISH_HIKE = 1;
 
@@ -70,10 +71,14 @@ public class MapActivity extends BaseActivity {
 			seconds = seconds % 60;
 			minutes = minutes % 60;
 
-;			durationTextView.setText(String.format("%d"+HOUR_UNIT+" %d"+MINUTE_UNIT, hours, minutes));
+			durationTextView.setText(String.format("%d"+HOUR_UNIT+" %d"+MINUTE_UNIT, hours, minutes));
 
 			//compute average speed
-			speed = newHike.getDistance()/millis/1000;
+			if (speed == 0){
+				speed = 0;
+			} else {
+				speed = newHike.getDistance()/(millis/1000);
+			}			
 			speedTextView.setText(String.format("%.2f", speed*CONVERT_SPEED_UNIT_TO_KMH) + SPEED_UNIT);
 
 			timerHandler.postDelayed(this, DELAY);
@@ -172,6 +177,35 @@ public class MapActivity extends BaseActivity {
 		timerHandler.postDelayed(timerRunnable, 0);
 	}
 
+	@Override
+	public void onBackPressed() {
+		if (newHike.getCoordinates().size() <= 1){
+			super.onBackPressed();
+		} else {
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+			alertDialogBuilder.setMessage(R.string.exit_confirmation)
+			.setNeutralButton(R.string.dialog_cancel, null)
+			.setPositiveButton(R.string.dialog_save, new OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					Intent intent = new Intent(context, FinishHikeActivity.class);
+					intent.putExtra(EXTRA_HIKE, newHike);
+					startActivityForResult(intent, REQUEST_CODE_FINISH_HIKE);
+				}
+			})
+			.setNegativeButton(R.string.dialog_quit, new OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					finish();					
+				}
+			});
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		}
+	}
+
 	private void showAlertMessageNoGps() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(R.string.gps_disabled)
@@ -206,25 +240,31 @@ public class MapActivity extends BaseActivity {
 		switch (item.getItemId()) {
 		case R.id.action_finnish_hike:
 			timerHandler.removeCallbacks(timerRunnable); //Stop timer
-			
+
 			if (newHike.getCoordinates().size() == 0){
 				finish();
 			} else {
 				Intent intent = new Intent(context, FinishHikeActivity.class);
 				intent.putExtra(EXTRA_HIKE, newHike);
-				startActivityForResult(intent, REQUEST_CODE_FINISH_HIKE);;
+				startActivityForResult(intent, REQUEST_CODE_FINISH_HIKE);
 			}
-		default:
-			return super.onOptionsItemSelected(item);
+			
+		break;
+		case android.R.id.home:
+			onBackPressed();
+			return true;
 		}
+		
+		return super.onOptionsItemSelected(item);
+		
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		 if (resultCode == RESULT_OK) {
-			 finish();
-	     }
+		if (resultCode == RESULT_OK) {
+			finish();
+		}
 
 	}
 
@@ -243,7 +283,7 @@ public class MapActivity extends BaseActivity {
 				//TODO : test if we are in creation mode
 				//if we follow a hike that we downloaded maybe we can create a new hike like but we don't call followingHike
 				map.followingHike(new LatLng(location.getLatitude(),location.getLongitude()));
-				
+
 				newHike.extendHike(new LatLng(location.getLatitude(),location.getLongitude()));
 				distanceTextView.setText(String.format("%.2f", newHike.getDistance()) + DISTANCE_UNIT);
 
