@@ -50,7 +50,6 @@ public class GoogleMap extends Map {
 					ignoreNextChange = false;
 				} else {
 					centerOnMylocation = false;
-					ignoreNextChange = false;
 				}				
 			}
 		});
@@ -102,8 +101,8 @@ public class GoogleMap extends Map {
 	@Override
 	public void centerOnLocation(LatLng myLatLong) {
 		ignoreNextChange = true;
-		googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLong));
-		googleMap.animateCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
+		CameraPosition cameraPosition = CameraPosition.fromLatLngZoom(myLatLong, ZOOM_LEVEL) ;
+		googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 	}
 

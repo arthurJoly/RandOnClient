@@ -52,6 +52,10 @@
     <string name="negative_difference_in_height">Negative difference in height: </string>
     <string name="gps_disabled">Your GPS seems to be disabled, do you want to enable it?</string>
     <string name="finishing_hike">Finish hike</string>
+    <string name="exit_confirmation">You are about to quit the map, your path will be lost. Do you want to it?</string>
+    <string name="dialog_save">Save</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_quit">Don\'t save</string>
     
     <!-- Finish Hike Activity -->
     <string name="hike_name">Hike name: </string>

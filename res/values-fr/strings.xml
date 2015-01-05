@@ -51,6 +51,10 @@
     <string name="negative_difference_in_height">Dénivelé négatif : </string>
     <string name="gps_disabled">Votre GPS est désactivé, voulez-vous l\'activer ?</string>
     <string name="finishing_hike">Finir randonnée</string>
+    <string name="exit_confirmation">Si vous quittez la carte, votre parcours sera perdu. Voulez vous le sauvegarder ?</string>
+    <string name="dialog_save">Sauvegarder</string>
+    <string name="dialog_cancel">Annuler</string>
+    <string name="dialog_quit">Ne pas sauvegarder</string>
     
     <!-- Finish Hike Activity -->
     <string name="hike_name">Nom de la randonnée</string>
