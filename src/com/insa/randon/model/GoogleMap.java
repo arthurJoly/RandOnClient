@@ -7,7 +7,10 @@ import android.content.Context;
 import android.location.Location;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -20,16 +23,40 @@ public class GoogleMap extends Map {
 	private Polyline line;
 	private PolylineOptions lineOptions;
 	private Context context;
-	
+	private boolean centerOnMylocation = true;
+	private boolean ignoreNextChange = true; //we need to know when user detects a camera change, so we ignore the cahnges we make ourselves
+
 
 	@Override
 	public void setUpMap(Activity activity) {
 		MapFragment fm = (MapFragment) activity.getFragmentManager().findFragmentById(R.id.map);
-        googleMap = fm.getMap();
-        googleMap.setMyLocationEnabled(true);
-       
-        context = activity;
-   	}
+		googleMap = fm.getMap();
+		googleMap.setMyLocationEnabled(true);
+		googleMap.setOnMyLocationButtonClickListener(new OnMyLocationButtonClickListener() {
+			
+			@Override
+			public boolean onMyLocationButtonClick() {
+				centerOnMylocation = true;
+				ignoreNextChange = true;
+				return false;
+			}
+		});
+		
+		googleMap.setOnCameraChangeListener(new OnCameraChangeListener() {
+			
+			@Override
+			public void onCameraChange(CameraPosition arg0) {
+				if (ignoreNextChange){
+					ignoreNextChange = false;
+				} else {
+					centerOnMylocation = false;
+					ignoreNextChange = false;
+				}				
+			}
+		});
+		
+		context = activity;
+	}
 
 	@Override
 	public void showRoute(List<LatLng> route) {
@@ -40,27 +67,31 @@ public class GoogleMap extends Map {
 			{
 				//route.add(route.get(0)); //Close the loop
 				googleMap.addPolyline(new PolylineOptions()
-			     .addAll(route)
-			     .width(LINE_WIDTH)
-			     .color(context.getResources().getColor(R.color.path)));		
+				.addAll(route)
+				.width(LINE_WIDTH)
+				.color(context.getResources().getColor(R.color.path)));		
 			}	
 		}
-		
+
 	}
-	
+
 	@Override
 	public void initializeNewHike() {
-	    lineOptions = new PolylineOptions()
-	    .width(LINE_WIDTH)
-	    .color(context.getResources().getColor(R.color.path));
-	    line = googleMap.addPolyline(lineOptions);
+		lineOptions = new PolylineOptions()
+		.width(LINE_WIDTH)
+		.color(context.getResources().getColor(R.color.path));
+		line = googleMap.addPolyline(lineOptions);
 	}
-	
+
 	@Override
 	public void followingHike(LatLng newPoint){
 		List<LatLng> points = line.getPoints();
 		points.add(newPoint);
 		line.setPoints(points);
+		
+		if (centerOnMylocation){
+			centerOnLocation(newPoint);
+		}
 	}
 
 	@Override
@@ -70,10 +101,10 @@ public class GoogleMap extends Map {
 
 	@Override
 	public void centerOnLocation(LatLng myLatLong) {
+		ignoreNextChange = true;
+		googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLong));
+		googleMap.animateCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(myLatLong));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(ZOOM_LEVEL));
-		
 	}
-	
+
 }

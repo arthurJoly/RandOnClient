@@ -10,20 +10,17 @@ import com.google.gson.JsonObject;
 import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.RequestExecutor;
 import com.insa.randon.utilities.TaskListener;
+import static com.insa.randon.services.Constants.URL_BASE;
+import static com.insa.randon.services.Constants.URL_USER;
+import static com.insa.randon.services.Constants.SERVICE_CREATE_ACCOUNT;
+import static com.insa.randon.services.Constants.PARAMETER_EMAIL;
+import static com.insa.randon.services.Constants.PARAMETER_LOGIN;
+import static com.insa.randon.services.Constants.PARAMETER_PASSWORD;
+import static com.insa.randon.services.Constants.SERVICE_CONNECT;
+import static com.insa.randon.services.Constants.SERVICE_LOGOUT;
 
-public class UserServices {
-	private static final String URL_BASE = "https://randon.herokuapp.com" ;
 
-	private static final String URL_USER = "/user";
-	private static final String SERVICE_CREATE_ACCOUNT = "/register";
-	private static final String SERVICE_CONNECT = "/login";
-	private static final String SERVICE_LOGOUT = "/logout";
-
-	
-	private static final String PARAMETER_LOGIN = "username";
-	private static final String PARAMETER_PASSWORD = "password";
-	private static final String PARAMETER_EMAIL = "email";
-	
+public class UserServices {	
 	static Gson gson = new Gson();
 	
 	/*

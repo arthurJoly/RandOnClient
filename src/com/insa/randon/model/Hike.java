@@ -54,7 +54,7 @@ public class Hike implements Parcelable {
 		this.coordinates.add(newPoint);
 		
 		int size = this.coordinates.size();
-		if(size>2)
+		if(size >= 2)
 		{
 			float[] results = new float[1];
 			Location.distanceBetween(this.coordinates.get(size-2).latitude, this.coordinates.get(size-2).longitude, this.coordinates.get(size-1).latitude, this.coordinates.get(size-1).longitude, results);
