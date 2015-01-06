@@ -36,9 +36,9 @@ public class Hike implements Parcelable {
 		this.id=id;
 	}
 	
-	public Hike(String name, float distance, float positiveDiffHeight, float negativeDiffHeight){ //TODO : add coordinates in constructor
+	public Hike(String name, List<LatLng> coordinates, float distance, float positiveDiffHeight, float negativeDiffHeight){ 
 		this.name=name;
-		this.coordinates = new ArrayList<LatLng>();
+		this.coordinates = coordinates;
 		this.distance=distance;	
 		this.positiveDiffHeight=positiveDiffHeight;
 		this.negativeDiffHeight=negativeDiffHeight;

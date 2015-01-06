@@ -17,7 +17,7 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop= "3dp"
+            android:layout_marginTop= "3dp"
             android:orientation="horizontal">
 
             <TextView
@@ -45,8 +45,8 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop= "3dp"
-            android:paddingBottom= "3dp"
+            android:layout_marginTop= "3dp"
+            android:layout_marginBottom= "3dp"
             android:orientation="horizontal">
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"/>
     </LinearLayout>
-    
+
     <View
 	    android:layout_width="match_parent"
 	    android:layout_height="5dp"
@@ -72,12 +72,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="3dp" >
+            android:layout_marginTop="3dp" >
             
 		   	<TextView
 		       android:layout_width="wrap_content"
 		       android:layout_height="wrap_content"
-		       android:paddingRight="20dp"
 		       android:text="@string/marks"
 		       android:textSize="20sp"
 		       android:textStyle="bold"/>
@@ -140,26 +139,23 @@
             </LinearLayout>
    	
    	</LinearLayout>
-   	
-	 <View
-	   android:layout_width="match_parent"
-	   android:layout_height="5dp"
-	   android:background="@drawable/separator_line"/>
- 	 
-    <TextView
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:paddingTop="3dp"
-	    android:text="@string/comments"
-	    android:textColor="@color/green_item"
-	    android:textSize="20sp"
-	    android:textStyle="bold"/>
 
-    <ListView
-         android:id="@+id/comments_list"
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:background="@color/grey_item">
-    </ListView>
+    <View
+	    android:layout_width="match_parent"
+	    android:layout_height="5dp"
+	    android:background="@drawable/separator_line"
+	    android:layout_marginTop="5dp"/>
+    
+    <ViewStub
+        android:id="@+id/map_activity_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+    
+    <View
+	    android:layout_width="match_parent"
+	    android:layout_height="5dp"
+	    android:background="@drawable/separator_line"
+	    android:layout_marginBottom="10dp"/>
 
 </LinearLayout>
