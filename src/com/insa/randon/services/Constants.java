@@ -24,7 +24,7 @@ public final class Constants {
 	public static final String PARAMETER_EMAIL = "email";	
 	public static final String PARAMETER_HIKE_NAME = "name";
 	public static final String PARAMETER_COORDINATES = "coordinates";
-	public static final String PARAMETER_PRIVATE = "ispublic";
+	public static final String PARAMETER_PRIVATE = "isPrivate";
 	public static final String PARAMETER_LATITUDE = "lat";
 	public static final String PARAMETER_LONGITUDE = "long";
 	public static final String PARAMETER_HIKE_ID = "hikeId";
