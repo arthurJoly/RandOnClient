@@ -74,7 +74,7 @@ public class MapActivity extends BaseActivity {
 			durationTextView.setText(String.format("%d"+HOUR_UNIT+" %d"+MINUTE_UNIT, hours, minutes));
 
 			//compute average speed
-			if (speed == 0){
+			if (millis == 0){
 				speed = 0;
 			} else {
 				speed = newHike.getDistance()/(millis/1000);
