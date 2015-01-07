@@ -55,7 +55,6 @@ public class HikeServices {
 			jsonObject.addProperty(PARAMETER_PRIVATE, isPrivate);
 			
 			jsonParams = gson.toJson(jsonObject);
-			System.out.println(jsonParams);
 			
 			new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();	
 		} catch (Exception e) {
