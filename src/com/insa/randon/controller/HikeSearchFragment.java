@@ -27,11 +27,9 @@ import com.insa.randon.model.Hike;
 import com.insa.randon.services.HikeServices;
 import com.insa.randon.utilities.TaskListener;
 import com.insa.randon.utilities.ErrorCode;
+import com.insa.randon.services.Constants;
 
 public class HikeSearchFragment extends Fragment {
-	static final String JSON_OBJECT = "content";
-	static final String JSON_HIKE_NAME = "name";
-	static final String JSON_HIKE_ID = "_id";
 	View rootView;
 	ListView hikeSearchListView ;
 	TaskListener getListHikeListener;
@@ -53,10 +51,10 @@ public class HikeSearchFragment extends Fragment {
 				List<Hike> hikes = new ArrayList<Hike>();
 				try {
 					JSONObject hikesList = new JSONObject(content);
-					JSONArray hikesArray = hikesList.getJSONArray(JSON_OBJECT);
+					JSONArray hikesArray = hikesList.getJSONArray(Constants.JSON_OBJECT);
 					for(int i=0; i<hikesArray.length(); i++){
 						JSONObject hike = hikesArray.getJSONObject(i);
-						hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID))); 
+						hikes.add(new Hike(hike.getString(Constants.JSON_HIKE_NAME),hike.getString(Constants.JSON_HIKE_ID))); 
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -79,9 +77,15 @@ public class HikeSearchFragment extends Fragment {
 			@Override
 			public void onSuccess(String content) {
 				try {
+					System.out.println(content);
 					JSONObject restultJSON = new JSONObject(content);
-					JSONObject specificHike = restultJSON.getJSONObject(JSON_OBJECT);
-					Hike hikeToConsult = new Hike(specificHike.getString(JSON_HIKE_NAME), 0, 0, 0);
+					JSONObject specificHike = restultJSON.getJSONObject(Constants.JSON_OBJECT);
+					
+					//Parse JSON coordinates to create a list of LatLng
+					JSONArray JSONCoordinates = specificHike.getJSONArray(Constants.PARAMETER_COORDINATES);
+					List<LatLng> coordinates = Constants.parseCoordinates(JSONCoordinates);
+										
+					Hike hikeToConsult = new Hike(specificHike.getString(Constants.JSON_HIKE_NAME),coordinates, 0, 0, 0);
 					Intent intent = new Intent(context, ConsultingHikeActivity.class);
 	        		intent.putExtra(MapActivity.EXTRA_HIKE, hikeToConsult);
 	        		startActivity(intent);

@@ -5,6 +5,7 @@ import java.util.List;
 import android.app.Activity;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 public abstract class Map {
 	/**
@@ -41,5 +42,11 @@ public abstract class Map {
 	 * @param latLong Location to show up on map
 	 */
 	public abstract void centerOnLocation(LatLng latLong);
+	
+	/**
+	 * Set the map to display a specific area 
+	 * @param bounds bounds of the area to display
+	 */
+	public abstract void setBounds(LatLngBounds bounds);
 	
 }

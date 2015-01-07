@@ -1,34 +1,36 @@
 package com.insa.randon.controller;
 
-import java.text.SimpleDateFormat;
+
+
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.ViewStub;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.insa.randon.R;
-import com.insa.randon.model.Comment;
+import com.insa.randon.model.GoogleMap;
 import com.insa.randon.model.Hike;
+import com.insa.randon.model.Map;
 
 public class ConsultingHikeActivity extends BaseActivity {
 	Hike hike;
 	Context context;
+	List<LatLng> testCoordinates;
 	
 	private TextView nameTextView;
 	private TextView distanceTextView;
-	private ListView commentsListView ;
+	private ViewStub mapContainer;
+	private Map map;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,31 +40,51 @@ public class ConsultingHikeActivity extends BaseActivity {
         Intent intent = getIntent();
         hike = (Hike)intent.getParcelableExtra(MapActivity.EXTRA_HIKE);
         
-        commentsListView = (ListView) findViewById(R.id.comments_list);       
         nameTextView = (TextView) findViewById(R.id.name_textView);
         distanceTextView = (TextView) findViewById(R.id.distance_textView);
         nameTextView.setText(hike.getName());
         distanceTextView.setText(String.valueOf(hike.getDistance()));
         
-        //TEST COMMENTS LIST
-        // we can live this feature apart! We won't have time to develop it
-        //TODO : replace by hike.getComments();
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-        String formattedDate = df.format(c.getTime());
-        
-        List<Comment> comments = new ArrayList<Comment>();
-        comments.add(new Comment("Trop Bien", "rando bien",formattedDate));
-        comments.add(new Comment("Trop cool", "rando cool",formattedDate));
-        comments.add(new Comment("Trop génial", "rando géniale",formattedDate));
-        comments.add(new Comment("Trop génial", "test",formattedDate));
-        comments.add(new Comment("Trop génial", "test",formattedDate));
+        map = new GoogleMap();      
+		mapContainer = (ViewStub) findViewById(R.id.map_activity_container);
+		mapContainer.setLayoutResource(map.getLayoutId());    
+		mapContainer.inflate();
+		map.setUpMap(this);
 
-        
-        //Set up the hikes list
-        CommentsListAdapter customAdapter = new CommentsListAdapter(context, R.layout.search_list_item, comments);
-        commentsListView.setAdapter(customAdapter);
-	}
+		map.showRoute(hike.getCoordinates());
+		
+		//Listen for the layout to be complete
+		nameTextView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+            	List<LatLng> coordinates = hike.getCoordinates();
+            	double minLatitude = coordinates.get(0).latitude;
+            	double minLongitude = coordinates.get(0).longitude;
+            	double maxLatitude =coordinates.get(0).latitude;
+            	double maxLongitude = coordinates.get(0).longitude;
+            	
+            	for(int i=1 ; i<coordinates.size() ; i++){
+            		System.out.println(coordinates.get(i).latitude);
+            		System.out.println(coordinates.get(i).longitude);
+            		if(minLatitude>coordinates.get(i).latitude){
+            			minLatitude=coordinates.get(i).latitude;
+            		}
+            		if(minLongitude>coordinates.get(i).longitude){
+            			minLongitude=coordinates.get(i).longitude;
+            		}
+            		if(maxLatitude<coordinates.get(i).latitude){
+            			maxLatitude=coordinates.get(i).latitude;
+            		}
+            		if(maxLongitude<coordinates.get(i).longitude){
+            			maxLongitude=coordinates.get(i).longitude;
+            		}
+            	}
+            	
+		    	LatLngBounds boundsToDisplay = new LatLngBounds(new LatLng(minLatitude, minLongitude), new LatLng(maxLatitude, maxLongitude));
+				map.setBounds(boundsToDisplay);
+             }
+        });
+	}	
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,54 +99,10 @@ public class ConsultingHikeActivity extends BaseActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_download_hike:
-            	
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-	
-	//--------------- LIST ADAPTER ----------------------------
-	public class CommentsListAdapter extends ArrayAdapter<Comment> {
-	
-		public CommentsListAdapter(Context context, int textViewResourceId) {
-		    super(context, textViewResourceId);
-		}
-	
-		public CommentsListAdapter(Context context, int resource, List<Comment> items) {
-		    super(context, resource, items);
-		}
-	
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-	
-		    View view = convertView;
-	
-		    if (view == null) {
-	
-		        LayoutInflater vi;
-		        vi = LayoutInflater.from(getContext());
-		        view = vi.inflate(R.layout.comments_list_item, null);
-		    }
-	
-		    Comment comment = (Comment) getItem(position);
-	
-		    if (comment != null) {
-		        TextView contentTextView = (TextView) view.findViewById(R.id.content_item);
-		        TextView titleTextView = (TextView) view.findViewById(R.id.title_item);
-		        TextView dateTextView = (TextView) view.findViewById(R.id.date_item);
-		        if (contentTextView != null) {
-		        	contentTextView.setText(comment.getContent());
-		        }
-		        if (titleTextView != null) {
-		        	titleTextView.setText(comment.getTitle());
-		        }
-		        if (dateTextView != null) {
-		        	dateTextView.setText(comment.getDate());
-		        }
-		    }
-		    return view;
-		}
-	}
 }
 

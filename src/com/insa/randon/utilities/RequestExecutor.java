@@ -183,6 +183,7 @@ public class RequestExecutor extends AsyncTask<Void, Void, ResultObject>{
 			}
 					
 			int code = urlConnection.getResponseCode();
+			System.out.println(code);
 			if (code == HttpURLConnection.HTTP_CREATED || code == HttpURLConnection.HTTP_OK){
 				resultObject = new ResultObject(ErrorCode.OK, response);
 			} else if (code == HttpURLConnection.HTTP_FORBIDDEN){

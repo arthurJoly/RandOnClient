@@ -57,7 +57,6 @@ public class FinishHikeActivity extends BaseActivity {
 	public void onButtonClick(View view) {
 		if(!nameEditText.getText().toString().isEmpty()){
 			TaskListener createHikeListener = new TaskListener() {
-
 				@Override
 				public void onSuccess(String content) {
 					Toast.makeText(context, R.string.share_hike_succeded, Toast.LENGTH_SHORT).show();			
@@ -74,6 +73,7 @@ public class FinishHikeActivity extends BaseActivity {
 					}
 				}
 			};
+			
 			if(view == shareButton) //We save the hike and share it
 			{
 				HikeServices.createHike(nameEditText.getText().toString(), hike.getCoordinates(),false , createHikeListener);
