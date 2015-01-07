@@ -55,6 +55,7 @@ public class HikeServices {
 			jsonObject.addProperty(PARAMETER_PRIVATE, isPrivate);
 			
 			jsonParams = gson.toJson(jsonObject);
+			System.out.println(jsonParams);
 			
 			new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();	
 		} catch (Exception e) {
@@ -117,18 +118,12 @@ public class HikeServices {
 	private static JsonArray createJsonArrayCoordinates(List<LatLng> coordinates)
 	{
 		JsonArray coordinatesJson = new JsonArray();
-		LatLng point = coordinates.get(0);
-		JsonObject jsonPoint = new JsonObject();
-		jsonPoint.addProperty(PARAMETER_LATITUDE, point.latitude);
-		jsonPoint.addProperty(PARAMETER_LONGITUDE, point.longitude);
-		coordinatesJson.add(jsonPoint);
-		for(int i=1 ; i<coordinates.size() ; i++)
+		for(int i=0 ; i<coordinates.size() ; i++)
 		{
-			point = coordinates.get(i);
-			jsonPoint.remove(PARAMETER_LATITUDE);
-			jsonPoint.remove(PARAMETER_LONGITUDE);
-			jsonPoint.addProperty(PARAMETER_LATITUDE, point.latitude);
-			jsonPoint.addProperty(PARAMETER_LONGITUDE, point.longitude);
+			LatLng point = coordinates.get(i);
+			JsonObject jsonPoint = new JsonObject();
+			jsonPoint.addProperty(PARAMETER_LATITUDE, String.valueOf(point.latitude));
+			jsonPoint.addProperty(PARAMETER_LONGITUDE, String.valueOf(point.longitude));
 			coordinatesJson.add(jsonPoint);
 		}
 		return coordinatesJson;

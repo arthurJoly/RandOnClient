@@ -50,38 +50,33 @@ public class ConsultingHikeActivity extends BaseActivity {
 		mapContainer.setLayoutResource(map.getLayoutId());    
 		mapContainer.inflate();
 		map.setUpMap(this);
-		
 
-		//TODO : change with hike.getCoordinates() when there will be no longer the same coordinates in the lists
-		testCoordinates = new ArrayList<LatLng>();
-		testCoordinates.add(new LatLng(45.781307, 4.873902));
-		testCoordinates.add(new LatLng(45.783971, 4.880210));
-		testCoordinates.add(new LatLng(45.785347, 4.872700));
-		testCoordinates.add(new LatLng(45.783641, 4.864847));
-
-		map.showRoute(testCoordinates);
+		map.showRoute(hike.getCoordinates());
 		
 		//Listen for the layout to be complete
 		nameTextView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-            	double minLatitude = testCoordinates.get(0).latitude;
-            	double minLongitude = testCoordinates.get(0).longitude;
-            	double maxLatitude =testCoordinates.get(0).latitude;
-            	double maxLongitude = testCoordinates.get(0).longitude;
+            	List<LatLng> coordinates = hike.getCoordinates();
+            	double minLatitude = coordinates.get(0).latitude;
+            	double minLongitude = coordinates.get(0).longitude;
+            	double maxLatitude =coordinates.get(0).latitude;
+            	double maxLongitude = coordinates.get(0).longitude;
             	
-            	for(int i=1 ; i<testCoordinates.size() ; i++){
-            		if(minLatitude>testCoordinates.get(i).latitude){
-            			minLatitude=testCoordinates.get(i).latitude;
+            	for(int i=1 ; i<coordinates.size() ; i++){
+            		System.out.println(coordinates.get(i).latitude);
+            		System.out.println(coordinates.get(i).longitude);
+            		if(minLatitude>coordinates.get(i).latitude){
+            			minLatitude=coordinates.get(i).latitude;
             		}
-            		if(minLongitude>testCoordinates.get(i).longitude){
-            			minLongitude=testCoordinates.get(i).longitude;
+            		if(minLongitude>coordinates.get(i).longitude){
+            			minLongitude=coordinates.get(i).longitude;
             		}
-            		if(maxLatitude<testCoordinates.get(i).latitude){
-            			maxLatitude=testCoordinates.get(i).latitude;
+            		if(maxLatitude<coordinates.get(i).latitude){
+            			maxLatitude=coordinates.get(i).latitude;
             		}
-            		if(maxLongitude<testCoordinates.get(i).longitude){
-            			maxLongitude=testCoordinates.get(i).longitude;
+            		if(maxLongitude<coordinates.get(i).longitude){
+            			maxLongitude=coordinates.get(i).longitude;
             		}
             	}
             	
@@ -89,8 +84,6 @@ public class ConsultingHikeActivity extends BaseActivity {
 				map.setBounds(boundsToDisplay);
              }
         });
-
-		//map.showRoute(hike.getCoordinates());
 	}	
 	
 	@Override
