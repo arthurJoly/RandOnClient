@@ -11,8 +11,10 @@ import static com.insa.randon.services.Constants.SERVICE_CREATE_HIKE;
 import static com.insa.randon.services.Constants.SERVICE_OVERVIEW;
 import static com.insa.randon.services.Constants.SERVICE_PROXIMITY;
 import static com.insa.randon.services.Constants.SERVICE_SPECIFIC_HIKE;
+import static com.insa.randon.services.Constants.SERVICE_HIKE_EXIST;
 import static com.insa.randon.services.Constants.URL_BASE;
 import static com.insa.randon.services.Constants.URL_HIKE;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,13 +57,30 @@ public class HikeServices {
 			jsonObject.addProperty(PARAMETER_PRIVATE, String.valueOf(isPrivate));
 			
 			jsonParams = gson.toJson(jsonObject);
-			System.out.println(jsonParams);
 			
 			new RequestExecutor(jsonParams, url, RequestExecutor.RequestType.POST, listener).execute();	
 		} catch (Exception e) {
 	    	e.printStackTrace();
 	    	listener.onFailure(ErrorCode.FAILED);
         }
+	}
+	
+	/**
+	 * Creates a hike in the database
+	 * @param hikeName Name of the created hike
+	 * @param coordinates Coordinates of the created hike
+	 * @param isPrivate boolean that indicates if the hike is shared or not
+	 * @param listener Listener to notify when the account is created
+	 */
+	public static void hikeNameExist(String hikeName, TaskListener listener)
+	{
+		//build url
+		String url = URL_BASE + URL_HIKE + SERVICE_HIKE_EXIST;
+		
+		List<NameValuePair> listParams = new ArrayList<NameValuePair>();
+		listParams.add(new BasicNameValuePair(PARAMETER_HIKE_NAME, hikeName));
+			
+		new RequestExecutor(listParams, url, RequestExecutor.RequestType.GET, listener).execute();	
 	}
 	
 	/**

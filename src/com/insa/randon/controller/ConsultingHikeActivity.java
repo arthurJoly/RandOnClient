@@ -2,12 +2,13 @@ package com.insa.randon.controller;
 
 
 
-import java.util.ArrayList;
 import java.util.List;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -64,8 +65,6 @@ public class ConsultingHikeActivity extends BaseActivity {
             	double maxLongitude = coordinates.get(0).longitude;
             	
             	for(int i=1 ; i<coordinates.size() ; i++){
-            		System.out.println(coordinates.get(i).latitude);
-            		System.out.println(coordinates.get(i).longitude);
             		if(minLatitude>coordinates.get(i).latitude){
             			minLatitude=coordinates.get(i).latitude;
             		}
@@ -85,6 +84,19 @@ public class ConsultingHikeActivity extends BaseActivity {
              }
         });
 	}	
+	
+	@Override
+	public void onBackPressed(){
+	    // TODO Auto-generated method stub
+	    super.onBackPressed();
+	    try {
+	    	FragmentManager fragmentManager = getFragmentManager();
+	    	fragmentManager.beginTransaction().remove(fragmentManager.findFragmentById(R.id.map)).commit();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

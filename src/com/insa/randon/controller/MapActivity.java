@@ -131,11 +131,9 @@ public class MapActivity extends BaseActivity {
 		//        newHike.extendHike(new LatLng(45.785347, 4.872700));
 		//        newHike.extendHike(new LatLng(45.783641, 4.864847));
 
-
 		map.initializeNewHike();//in creation mode
 
 		//map.showRoute(newHike.getCoordinates());//in following an already existing hike mode   
-
 
 		//check if GPS is enabled
 		PackageManager pm = getPackageManager();
@@ -158,7 +156,7 @@ public class MapActivity extends BaseActivity {
 		}
 		if (locManager != null){
 			locManager.removeUpdates(locListener);
-		}    	
+		}    
 	}
 
 	@Override
