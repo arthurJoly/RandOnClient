@@ -80,7 +80,7 @@ public class HikeListFragment extends Fragment {
 					e.printStackTrace();
 				}	
 
-				if (hikes.size() == 0){
+				if (hikes.size() > 0){
 					hikesListView.setVisibility(View.VISIBLE);
 					noItemTextView.setVisibility(View.GONE);
 					
