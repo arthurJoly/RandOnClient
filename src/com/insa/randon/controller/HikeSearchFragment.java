@@ -124,7 +124,7 @@ public class HikeSearchFragment extends Fragment {
 			}
 		};
 		
-		HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
+		//HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
 		
 		locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 		locListener = new GetCurrentLocationListener(); 
