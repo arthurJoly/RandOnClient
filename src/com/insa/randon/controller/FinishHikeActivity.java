@@ -1,10 +1,20 @@
 package com.insa.randon.controller;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static com.insa.randon.services.Constants.JSON_OBJECT;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +31,7 @@ public class FinishHikeActivity extends BaseActivity {
 	
 	Context context;
 	private Hike hike;
+	private Boolean nameAlreadyExists;
 	
 	private TextView distanceTextView;
 	private EditText nameEditText;
@@ -34,6 +45,7 @@ public class FinishHikeActivity extends BaseActivity {
         getActionBar().setTitle(R.string.app_name);
         
         context = this;
+        nameAlreadyExists=false;
         
         Intent intent = getIntent();
         this.hike = (Hike)intent.getParcelableExtra(MapActivity.EXTRA_HIKE);
@@ -42,6 +54,42 @@ public class FinishHikeActivity extends BaseActivity {
         nameEditText = (EditText) findViewById(R.id.editText_hike_name);
         shareButton = (Button) findViewById(R.id.button_share_hike);
         backHomeButton = (Button) findViewById(R.id.button_back_home);
+        
+        
+		//Verify if hike name already exists
+        nameEditText.addTextChangedListener(new TextWatcher(){
+        	TaskListener nameExistsListener = new TaskListener() {
+    			@Override
+    			public void onSuccess(String content) {
+    				try {
+    					System.out.println(content);
+						JSONObject alreadyExistJSON = new JSONObject(content);
+						nameAlreadyExists=alreadyExistJSON.getBoolean(JSON_OBJECT);
+						if(nameAlreadyExists){
+							Toast.makeText(context,R.string.name_already_exists, Toast.LENGTH_SHORT).show();
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+    			}
+
+    			@Override
+    			public void onFailure(ErrorCode errCode) {
+    				if (errCode == ErrorCode.REQUEST_FAILED){
+    					Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
+    				} else if (errCode == ErrorCode.FAILED){
+    					Toast.makeText(context, R.string.request_failed, Toast.LENGTH_SHORT).show();
+    				}
+    			}
+    		};
+    		
+            public void afterTextChanged(Editable s) {
+            	  HikeServices.hikeNameExist(nameEditText.getText().toString(), nameExistsListener);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after){}
+            public void onTextChanged(CharSequence s, int start, int before, int count){}
+         });
+        
         
         distanceTextView.setText(this.hike.getDistance() + DISTANCE_UNIT);        
 	}
@@ -74,14 +122,18 @@ public class FinishHikeActivity extends BaseActivity {
 				}
 			};
 			
-			if(view == shareButton) //We save the hike and share it
+			if(view == shareButton && !nameAlreadyExists) //We save the hike and share it
 			{
 				HikeServices.createHike(nameEditText.getText().toString(), hike.getCoordinates(),false , createHikeListener);
 			}
-			else if (view == backHomeButton) //We just save the hike in the history of the user
+			else if (view == backHomeButton && !nameAlreadyExists) //We just save the hike in the history of the user
 			{
 				HikeServices.createHike(nameEditText.getText().toString(), hike.getCoordinates(),true , createHikeListener);	
 			} 
+			else
+			{
+				Toast.makeText(context,R.string.name_already_exists, Toast.LENGTH_SHORT).show();
+			}
 		} else {
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		    alertDialogBuilder.setMessage(R.string.name_your_hike);

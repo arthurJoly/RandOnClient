@@ -27,6 +27,7 @@ public final class Constants {
 	public static final String SERVICE_OVERVIEW = "/overview";
 	public static final String SERVICE_SPECIFIC_HIKE = "/specific";
 	public static final String SERVICE_PROXIMITY = "/proximity";
+	public static final String SERVICE_HIKE_EXIST = "/exists";
 	
 	public static final String PARAMETER_LOGIN = "username";
 	public static final String PARAMETER_PASSWORD = "password";
