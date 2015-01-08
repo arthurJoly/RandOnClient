@@ -25,7 +25,7 @@ import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.TaskListener;
 
 public class FinishHikeActivity extends BaseActivity {
-	private static final String DISTANCE_UNIT = " m";
+	private static final String DISTANCE_UNIT = " km";
 
 	Context context;
 	private Hike hike;
@@ -93,7 +93,7 @@ public class FinishHikeActivity extends BaseActivity {
 		});
 
 
-		distanceTextView.setText(this.hike.getDistance() + DISTANCE_UNIT);    
+		distanceTextView.setText(String.format("%.2f", this.hike.getDistance()) + DISTANCE_UNIT);    
 		durationTextView.setText(this.hike.getDuration());
 	}
 

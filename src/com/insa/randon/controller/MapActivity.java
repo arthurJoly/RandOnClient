@@ -33,11 +33,11 @@ public class MapActivity extends BaseActivity {
 	private static final int MIN_TIME_INTERVAL_MS = 1000;
 	private static final int MIN_DISTANCE_INTERVAL_M = 3;
 	private static final int DELAY = 60000;
-	private static final String DISTANCE_UNIT = " m";
+	private static final String DISTANCE_UNIT = " km";
 	private static final String HOUR_UNIT = " h";
 	private static final String MINUTE_UNIT = " min";
 	private static final String SPEED_UNIT = " km/h";
-	private static final float CONVERT_SPEED_UNIT_TO_KMH = 3.6f;
+	private static final float CONVERT_SPEED_UNIT_TO_KMH = 3600;
 	public static final String EXTRA_HIKE = "hike";
 	private static final int REQUEST_CODE_FINISH_HIKE = 1;
 
@@ -79,9 +79,10 @@ public class MapActivity extends BaseActivity {
 			if (millis == 0){
 				speed = 0;
 			} else {
-				speed = newHike.getDistance()*1000/millis;
+				speed = newHike.getDistance()*1000/millis*CONVERT_SPEED_UNIT_TO_KMH;
 			}			
-			speedTextView.setText(String.format("%.2f", speed*CONVERT_SPEED_UNIT_TO_KMH) + SPEED_UNIT);
+			newHike.setAverageSpeed(speed);
+			speedTextView.setText(String.format("%.2f", speed) + SPEED_UNIT);
 
 			timerHandler.postDelayed(this, DELAY);
 		}

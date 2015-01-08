@@ -23,6 +23,7 @@ public class Hike implements Parcelable {
 	String date;
 	String duration = "0 min";
 	String id;
+	float averageSpeed;
 	//TODO : add Comments, grades
 
 
@@ -75,7 +76,7 @@ public class Hike implements Parcelable {
 		{
 			float[] results = new float[1];
 			Location.distanceBetween(this.coordinates.get(size-2).latitude, this.coordinates.get(size-2).longitude, this.coordinates.get(size-1).latitude, this.coordinates.get(size-1).longitude, results);
-			this.distance+=results[0];
+			this.distance+=results[0]/1000;
 		}
 	}
 	
@@ -132,6 +133,14 @@ public class Hike implements Parcelable {
 		return date;
 	}
 
+	public float getAverageSpeed() {
+		return averageSpeed;
+	}
+
+	public void setAverageSpeed(float averageSpeed) {
+		this.averageSpeed = averageSpeed;
+	}
+
 	//-----------------------------------------------------------------
 	//Parcelable : in order to pass a hike between activities
 	public int describeContents() {
@@ -144,6 +153,7 @@ public class Hike implements Parcelable {
         out.writeFloat(this.distance);
         out.writeFloat(this.positiveDiffHeight);
         out.writeFloat(this.negativeDiffHeight);
+        out.writeFloat(this.averageSpeed);
         out.writeString(this.name);
         out.writeString(this.duration);
         out.writeString(this.date);
@@ -165,6 +175,7 @@ public class Hike implements Parcelable {
     	this.distance = in.readFloat();
     	this.positiveDiffHeight = in.readFloat();
     	this.negativeDiffHeight = in.readFloat();
+    	this.averageSpeed = in.readFloat();
     	this.name = in.readString();
     	this.duration = in.readString();
     	this.date = in.readString();    	

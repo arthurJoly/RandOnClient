@@ -9,6 +9,7 @@ import static com.insa.randon.services.Constants.PARAMETER_DURATION;
 import static com.insa.randon.services.Constants.PARAMETER_LENGTH;
 import static com.insa.randon.services.Constants.PARAMETER_POS_DIFF_HEIGHT;
 import static com.insa.randon.services.Constants.PARAMETER_NEG_DIFF_HEIGHT;
+import static com.insa.randon.services.Constants.PARAMETER_AVERAGE_SPEED;
 import static com.insa.randon.services.Constants.PARAMETER_LATITUDE;
 import static com.insa.randon.services.Constants.PARAMETER_LONGITUDE;
 import static com.insa.randon.services.Constants.PARAMETER_PRIVATE;
@@ -65,6 +66,7 @@ public class HikeServices {
 			jsonObject.addProperty(PARAMETER_LENGTH, String.valueOf(hike.getDistance()));
 			jsonObject.addProperty(PARAMETER_POS_DIFF_HEIGHT, String.valueOf(hike.getPositiveDiffHeight()));
 			jsonObject.addProperty(PARAMETER_NEG_DIFF_HEIGHT, String.valueOf(hike.getNegativeDiffHeight()));
+			jsonObject.addProperty(PARAMETER_AVERAGE_SPEED, String.valueOf(hike.getAverageSpeed()));
 			
 			jsonParams = gson.toJson(jsonObject);
 			
