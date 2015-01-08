@@ -74,7 +74,7 @@ public class HikeListFragment extends Fragment {
 					JSONArray hikesArray = hikesList.getJSONArray(JSON_OBJECT);
 					for(int i=0; i<hikesArray.length(); i++){
 						JSONObject hike = hikesArray.getJSONObject(i);
-						hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID),hike.getString(JSON_HIKE_DURATION),(float)hike.getDouble(JSON_HIKE_LENGTH), (float) hike.getDouble(PARAMETER_AVERAGE_SPEED))); 
+						hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID),hike.getString(JSON_HIKE_DURATION),(float)hike.getDouble(JSON_HIKE_LENGTH))); 
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
