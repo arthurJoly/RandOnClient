@@ -44,8 +44,10 @@ public class UserServices {
 			
 			String jsonParams = "";
 			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty(PARAMETER_EMAIL, URLEncoder.encode(email, "UTF-8"));
-			jsonObject.addProperty(PARAMETER_LOGIN, URLEncoder.encode(username, "UTF-8"));
+			
+			//TODO: I have to remove encoding temporarily
+			jsonObject.addProperty(PARAMETER_EMAIL, /*URLEncoder.encode(*/email/*, "UTF-8")*/);
+			jsonObject.addProperty(PARAMETER_LOGIN, /*URLEncoder.encode(*/username/*, "UTF-8")*/);
 			jsonObject.addProperty(PARAMETER_PASSWORD, hashPassword);
 			
 			jsonParams = gson.toJson(jsonObject);
