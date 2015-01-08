@@ -4,6 +4,11 @@ package com.insa.randon.services;
 import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
 import static com.insa.randon.services.Constants.PARAMETER_HIKE_ID;
 import static com.insa.randon.services.Constants.PARAMETER_HIKE_NAME;
+import static com.insa.randon.services.Constants.PARAMETER_DATE;
+import static com.insa.randon.services.Constants.PARAMETER_DURATION;
+import static com.insa.randon.services.Constants.PARAMETER_LENGTH;
+import static com.insa.randon.services.Constants.PARAMETER_POS_DIFF_HEIGHT;
+import static com.insa.randon.services.Constants.PARAMETER_NEG_DIFF_HEIGHT;
 import static com.insa.randon.services.Constants.PARAMETER_LATITUDE;
 import static com.insa.randon.services.Constants.PARAMETER_LONGITUDE;
 import static com.insa.randon.services.Constants.PARAMETER_PRIVATE;
@@ -26,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.insa.randon.model.Hike;
 import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.RequestExecutor;
 import com.insa.randon.utilities.TaskListener;
@@ -39,22 +45,26 @@ public class HikeServices {
 
 	/**
 	 * Creates a hike in the database
-	 * @param hikeName Name of the created hike
-	 * @param coordinates Coordinates of the created hike
+	 * @param hike Hike object to send
 	 * @param isPrivate boolean that indicates if the hike is shared or not
 	 * @param listener Listener to notify when the account is created
 	 */
-	public static void createHike(String hikeName, List<LatLng> coordinates, boolean isPrivate, TaskListener listener)
+	public static void createHike(Hike hike, boolean isPrivate, TaskListener listener)
 	{
 		//build url
 		String url = URL_BASE + URL_HIKE+ SERVICE_CREATE_HIKE;
 		try {		
 			String jsonParams = "";
 			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty(PARAMETER_HIKE_NAME, hikeName);
-			JsonArray coordinatesJson = createJsonArrayCoordinates(coordinates);
+			jsonObject.addProperty(PARAMETER_HIKE_NAME, hike.getName());
+			JsonArray coordinatesJson = createJsonArrayCoordinates(hike.getCoordinates());
 			jsonObject.add(PARAMETER_COORDINATES, coordinatesJson);
 			jsonObject.addProperty(PARAMETER_PRIVATE, String.valueOf(isPrivate));
+			jsonObject.addProperty(PARAMETER_DATE, hike.getDate());
+			jsonObject.addProperty(PARAMETER_DURATION, hike.getDuration());
+			jsonObject.addProperty(PARAMETER_LENGTH, String.valueOf(hike.getDistance()));
+			jsonObject.addProperty(PARAMETER_POS_DIFF_HEIGHT, String.valueOf(hike.getPositiveDiffHeight()));
+			jsonObject.addProperty(PARAMETER_NEG_DIFF_HEIGHT, String.valueOf(hike.getNegativeDiffHeight()));
 			
 			jsonParams = gson.toJson(jsonObject);
 			
