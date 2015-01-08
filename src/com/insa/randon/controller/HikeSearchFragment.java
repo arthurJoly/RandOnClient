@@ -139,7 +139,7 @@ public class HikeSearchFragment extends Fragment {
 		
 		locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 		locListener = new GetCurrentLocationListener(); 
-		
+
 		//Get the hikes of the database
 		//check if GPS is enabled
 		PackageManager pm = getActivity().getPackageManager();
