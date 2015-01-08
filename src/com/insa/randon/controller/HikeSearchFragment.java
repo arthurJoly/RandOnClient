@@ -79,7 +79,7 @@ public class HikeSearchFragment extends Fragment {
 					JSONArray hikesArray = hikesList.getJSONArray(JSON_OBJECT);
 					for(int i=0; i<hikesArray.length(); i++){
 						JSONObject hike = hikesArray.getJSONObject(i);
-						hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID),hike.getString(JSON_HIKE_DURATION),(float)hike.getDouble(JSON_HIKE_LENGTH),hike.getString(JSON_HIKE_DATE))); 
+						hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID),hike.getString(JSON_HIKE_DURATION),(float)hike.getDouble(JSON_HIKE_LENGTH))); 
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -136,7 +136,7 @@ public class HikeSearchFragment extends Fragment {
 			}
 		};
 		
-		//HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
+		HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
 		
 		locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 		locListener = new GetCurrentLocationListener(); 
@@ -198,7 +198,6 @@ public class HikeSearchFragment extends Fragment {
 		        TextView nameTextView = (TextView) view.findViewById(R.id.hike_name_item);
 		        TextView distanceTextView = (TextView) view.findViewById(R.id.hike_distance_item);
 		        TextView durationTextView = (TextView) view.findViewById(R.id.hike_duration_item);
-		        TextView dateTextView = (TextView) view.findViewById(R.id.hike_date_item);
 		        if (nameTextView != null) {
 		        	nameTextView.setText(hike.getName());
 		        }
@@ -207,9 +206,6 @@ public class HikeSearchFragment extends Fragment {
 		        }
 		        if (durationTextView != null) {
 		        	durationTextView.setText(hike.getDuration());
-		        }
-		        if (dateTextView != null) {
-		        	dateTextView.setText(hike.getDate());
 		        }
 		    }
 		    return view;
