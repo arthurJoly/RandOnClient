@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
     
     
@@ -17,27 +17,35 @@
             android:padding="10dp"
             android:orientation="vertical"
             android:gravity="center_vertical">
+            
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop= "10dp"
+            android:gravity="center_vertical">
     
-	    <TextView
-	        android:id="@+id/hike_name_item"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:gravity="center_vertical"
-	        android:textSize="20sp" 
-	        android:textColor="@color/green_item"/>
+			    <TextView
+			        android:id="@+id/hike_name_item"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:paddingRight="20dp"
+			        android:textSize="20sp" 
+			        android:textColor="@color/green_item"/>
+			    
+			    <TextView
+	                android:id="@+id/hike_date_item"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textSize="16sp" 
+	                android:layout_alignParentRight="true"/>
 	    
-	    <LinearLayout
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:orientation="horizontal"
-	            android:baselineAligned="false">
+		</RelativeLayout>
 	            
 	        	<LinearLayout
-	        	    android:layout_width="0dp"
+	        	    android:layout_width="match_parent"
 	                android:layout_height="wrap_content"
 	                android:orientation="horizontal"
-	                android:paddingRight="10dp"
-	                android:layout_weight="1">
+	                android:paddingRight="10dp">
 	        	  
 		        	 <TextView
 		                android:layout_width="wrap_content"
@@ -54,7 +62,7 @@
 				        android:gravity="center_vertical"
 				        android:textSize="14sp" />
 		            
-		            <TextView
+		           <TextView
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        android:gravity="center_vertical"
@@ -84,7 +92,7 @@
 				        android:textSize="14sp" />
 		        </LinearLayout>
 		        
-	        </LinearLayout>
+	        
 	        
 <!-- 	        <LinearLayout -->
 <!-- 	            android:layout_width="match_parent" -->

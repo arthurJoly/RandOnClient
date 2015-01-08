@@ -48,6 +48,9 @@ public final class Constants {
 	public static final String JSON_OBJECT = "content";
 	public static final String JSON_HIKE_NAME = "name";
 	public static final String JSON_HIKE_ID = "_id";
+	public static final String JSON_HIKE_DURATION = "duration";
+	public static final String JSON_HIKE_LENGTH = "length";
+	public static final String JSON_HIKE_DATE = "date";
 	
 	public static List<LatLng> parseCoordinates(JSONArray JSONCoordinates) throws JSONException{
 		List<LatLng> coordinates = new ArrayList<LatLng>();

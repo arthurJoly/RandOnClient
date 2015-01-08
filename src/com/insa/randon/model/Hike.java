@@ -2,9 +2,7 @@ package com.insa.randon.model;
 
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -23,9 +21,11 @@ public class Hike implements Parcelable {
 	String date;
 	String duration = "0 min";
 	String id;
+	
+	//TODO : add Comments, grades, duration
+	
 	float averageSpeed;
 	//TODO : add Comments, grades
-
 
 	public Hike(){
 		this.name="";
@@ -34,15 +34,16 @@ public class Hike implements Parcelable {
 		this.positiveDiffHeight=0;
 		this.negativeDiffHeight=0;
 		this.id="";
-		
 		DateFormat df = DateFormat.getDateInstance();
 		this.date = df.format(new Date());
 	}
 	
-	public Hike(String name, String id){
+	public Hike(String name, String id, String duration, float distance, String date){
 		this.name=name;
 		this.coordinates = new ArrayList<LatLng>();
-		this.distance=0;	
+		this.distance=distance;	
+		this.duration=duration;
+		this.date=date;
 		this.positiveDiffHeight=0;
 		this.negativeDiffHeight=0;
 		this.id=id;
@@ -92,6 +93,14 @@ public class Hike implements Parcelable {
 		return this.distance;
 	}
 	
+	public String getDuration(){
+		return this.duration;
+	}
+	
+	public String getDate(){
+		return this.date;
+	}
+	
 	public List<LatLng> getCoordinates(){
 		return this.coordinates;
 	}
@@ -120,17 +129,8 @@ public class Hike implements Parcelable {
 		this.distance = distance;
 	}
 
-	public String getDuration() {
-		return duration;
-	}
-
 	public void setDuration(String duration) {
 		this.duration = duration;
-	}
-	
-
-	public String getDate() {
-		return date;
 	}
 
 	public float getAverageSpeed() {

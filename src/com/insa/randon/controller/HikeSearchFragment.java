@@ -6,6 +6,9 @@ import java.util.List;
 import static com.insa.randon.services.Constants.JSON_HIKE_NAME;
 import static com.insa.randon.services.Constants.JSON_OBJECT;
 import static com.insa.randon.services.Constants.JSON_HIKE_ID;
+import static com.insa.randon.services.Constants.JSON_HIKE_DURATION;
+import static com.insa.randon.services.Constants.JSON_HIKE_LENGTH;
+import static com.insa.randon.services.Constants.JSON_HIKE_DATE;
 import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
 import static com.insa.randon.services.Constants.parseCoordinates;
 
@@ -67,13 +70,14 @@ public class HikeSearchFragment extends Fragment {
 			@Override
 			public void onSuccess(String content) {
 				//Set up the hikes list
+				System.out.println(content);
 				List<Hike> hikes = new ArrayList<Hike>();
 				try {
 					JSONObject hikesList = new JSONObject(content);
 					JSONArray hikesArray = hikesList.getJSONArray(JSON_OBJECT);
 					for(int i=0; i<hikesArray.length(); i++){
 						JSONObject hike = hikesArray.getJSONObject(i);
-						hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID))); 
+						hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID),hike.getString(JSON_HIKE_DURATION),(float)hike.getDouble(JSON_HIKE_LENGTH),hike.getString(JSON_HIKE_DATE))); 
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -138,14 +142,14 @@ public class HikeSearchFragment extends Fragment {
 		//check if GPS is enabled
 		PackageManager pm = getActivity().getPackageManager();
 		boolean hasGps = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
-		//if(!hasGps){
-			HikeServices.getHikesShared(getListHikeListener);
-			//locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
-		/*} else if (hasGps && !locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+		if(!hasGps){
+			//HikeServices.getHikesShared(getListHikeListener);
+			locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
+		} else if (hasGps && !locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			HikeServices.getHikesShared(getListHikeListener);
 		} else {
 			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
-		}*/
+		}
 		
 		hikeSearchListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -191,11 +195,19 @@ public class HikeSearchFragment extends Fragment {
 		    if (hike != null) {
 		        TextView nameTextView = (TextView) view.findViewById(R.id.hike_name_item);
 		        TextView distanceTextView = (TextView) view.findViewById(R.id.hike_distance_item);
+		        TextView durationTextView = (TextView) view.findViewById(R.id.hike_duration_item);
+		        TextView dateTextView = (TextView) view.findViewById(R.id.hike_date_item);
 		        if (nameTextView != null) {
 		        	nameTextView.setText(hike.getName());
 		        }
 		        if (distanceTextView != null) {
-		        	distanceTextView.setText(String.valueOf(hike.getDistance()));
+		        	distanceTextView.setText(String.format("%.2f", hike.getDistance()));
+		        }
+		        if (durationTextView != null) {
+		        	durationTextView.setText(hike.getDuration());
+		        }
+		        if (dateTextView != null) {
+		        	dateTextView.setText(hike.getDate());
 		        }
 		    }
 		    return view;
@@ -207,9 +219,8 @@ public class HikeSearchFragment extends Fragment {
 			@Override
 			public void onLocationChanged(Location location)
 			{    
-				System.out.println("bonjour" + location.getLatitude());
 				currentLocation=new LatLng(location.getLatitude(),location.getLongitude());
-				//HikeServices.getClosestSharedHikes(currentLocation, getListHikeListener);
+				HikeServices.getClosestSharedHikes(currentLocation, getListHikeListener);
 			}
 
 			@Override
