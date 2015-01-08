@@ -15,7 +15,10 @@ public class Hike implements Parcelable {
 	float distance;
 	float positiveDiffHeight;
 	float negativeDiffHeight;
+	String duration;
+	String date;
 	String id;
+	
 	//TODO : add Comments, grades, duration
 	
 	public Hike(){
@@ -25,12 +28,16 @@ public class Hike implements Parcelable {
 		this.positiveDiffHeight=0;
 		this.negativeDiffHeight=0;
 		this.id="";
+		this.duration="";
+		this.date="";
 	}
 	
-	public Hike(String name, String id){
+	public Hike(String name, String id, String duration, float distance, String date){
 		this.name=name;
 		this.coordinates = new ArrayList<LatLng>();
-		this.distance=0;	
+		this.distance=distance;	
+		this.duration=duration;
+		this.date=date;
 		this.positiveDiffHeight=0;
 		this.negativeDiffHeight=0;
 		this.id=id;
@@ -72,6 +79,14 @@ public class Hike implements Parcelable {
 	
 	public float getDistance(){
 		return this.distance;
+	}
+	
+	public String getDuration(){
+		return this.duration;
+	}
+	
+	public String getDate(){
+		return this.date;
 	}
 	
 	public List<LatLng> getCoordinates(){

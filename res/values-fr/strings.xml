@@ -72,7 +72,7 @@
     
     <!-- Search Hikes Activity -->
     <string name="distance">Distance : </string>
-    <string name="distance_unit">km</string>  
+    <string name="distance_unit">m</string>  
     <string name="fail_retrieving_hikes">Impossible de récupérer des randonnées</string>
     <string name="average_mark">Note moyenne</string>
     
