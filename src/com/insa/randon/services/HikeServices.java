@@ -54,7 +54,7 @@ public class HikeServices {
 			jsonObject.addProperty(PARAMETER_HIKE_NAME, hikeName);
 			JsonArray coordinatesJson = createJsonArrayCoordinates(coordinates);
 			jsonObject.add(PARAMETER_COORDINATES, coordinatesJson);
-			jsonObject.addProperty(PARAMETER_PRIVATE, isPrivate);
+			jsonObject.addProperty(PARAMETER_PRIVATE, String.valueOf(isPrivate));
 			
 			jsonParams = gson.toJson(jsonObject);
 			
