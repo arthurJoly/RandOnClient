@@ -20,6 +20,7 @@ import static com.insa.randon.services.Constants.SERVICE_SPECIFIC_HIKE;
 import static com.insa.randon.services.Constants.SERVICE_HIKE_EXIST;
 import static com.insa.randon.services.Constants.URL_BASE;
 import static com.insa.randon.services.Constants.URL_HIKE;
+import static com.insa.randon.services.Constants.URL_HISTORY;
 
 
 import java.util.ArrayList;
@@ -143,6 +144,20 @@ public class HikeServices {
 		listParams.add(new BasicNameValuePair(PARAMETER_HIKE_ID, id));
 
 		RequestExecutor requestExecutor = new RequestExecutor(listParams, url, RequestExecutor.RequestType.GET, listener);
+		requestExecutor.execute();
+	}
+	
+	/**
+	 * Get the list of all the user hikes
+	 * @param listener Listener to notify when the account is created
+	 * @return an object of type ResultObject that contains a String object that represent the list of hikes in JSON format
+	 */
+	public static void getMyHikes(TaskListener listener)
+	{
+		//build url
+		String url = URL_BASE + URL_HISTORY;
+
+		RequestExecutor requestExecutor = new RequestExecutor("", url, RequestExecutor.RequestType.GET, listener);
 		requestExecutor.execute();
 	}
 	

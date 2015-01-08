@@ -6,7 +6,8 @@
     <ListView
         android:id="@+id/hike_search_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+        android:visibility="gone">
     </ListView>
     
     <TextView 
@@ -16,7 +17,6 @@
         android:gravity="center"
         android:textStyle="italic"
         android:layout_margin="20dp"
-        android:text="@string/no_item"
-        android:visibility="gone"/>
+        android:text="@string/no_item"/>
 
 </LinearLayout>

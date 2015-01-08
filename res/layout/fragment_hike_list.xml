@@ -1,7 +1,22 @@
- <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="15dp"
-                android:text="@string/hike_list_title"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/my_hike_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:visibility="gone">
+    </ListView>
+    
+    <TextView 
+        android:id="@+id/tv_no_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="italic"
+        android:layout_margin="20dp"
+        android:text="@string/no_item"/>
+
+</LinearLayout>
