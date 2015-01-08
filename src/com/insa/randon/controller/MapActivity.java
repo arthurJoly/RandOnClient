@@ -77,7 +77,7 @@ public class MapActivity extends BaseActivity {
 			if (millis == 0){
 				speed = 0;
 			} else {
-				speed = newHike.getDistance()/(millis/1000);
+				speed = newHike.getDistance()*1000/millis;
 			}			
 			speedTextView.setText(String.format("%.2f", speed*CONVERT_SPEED_UNIT_TO_KMH) + SPEED_UNIT);
 
@@ -278,7 +278,7 @@ public class MapActivity extends BaseActivity {
 		public void onLocationChanged(Location location)
 		{    
 			//if the instantaneous speed is null, we do not change the distance done
-			if (location.getSpeed() > 0){
+			if (location.getSpeed() >= 0){
 				//TODO : test if we are in creation mode
 				//if we follow a hike that we downloaded maybe we can create a new hike like but we don't call followingHike
 				map.followingHike(new LatLng(location.getLatitude(),location.getLongitude()));

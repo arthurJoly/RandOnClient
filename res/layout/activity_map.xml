@@ -46,7 +46,7 @@
                 android:paddingRight="20dp"
                 android:text="@string/distance_done"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textColor="@color/green_item"/>
 
             <TextView
                 android:id="@+id/distance_textView"
@@ -66,7 +66,7 @@
                 android:paddingRight="20dp"
                 android:text="@string/speed"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textColor="@color/green_item" />
 
             <TextView
                 android:id="@+id/speed_textView"
@@ -87,7 +87,7 @@
                 android:paddingRight="20dp"
                 android:text="@string/duration"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textColor="@color/green_item" />
 
             <TextView
                 android:id="@+id/duration_textView"
@@ -108,7 +108,7 @@
                 android:paddingRight="20dp"
                 android:text="@string/positive_difference_in_height"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textColor="@color/green_item" />
 
             <TextView
                 android:id="@+id/positive_altitude_textView"
@@ -130,7 +130,7 @@
                 android:paddingRight="20dp"
                 android:text="@string/negative_difference_in_height"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textColor="@color/green_item" />
 
             <TextView
                 android:id="@+id/negative_altitude_textView"
