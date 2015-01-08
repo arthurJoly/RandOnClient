@@ -38,6 +38,12 @@ public final class Constants {
 	public static final String PARAMETER_LATITUDE = "lat";
 	public static final String PARAMETER_LONGITUDE = "long";
 	public static final String PARAMETER_HIKE_ID = "hikeId";
+	public static final String PARAMETER_DATE = "date";
+	public static final String PARAMETER_DURATION = "duration";
+	public static final String PARAMETER_LENGTH = "length";
+	public static final String PARAMETER_POS_DIFF_HEIGHT = "positiveHeightDiff";
+	public static final String PARAMETER_NEG_DIFF_HEIGHT = "negativeHeightDiff";
+	public static final String PARAMETER_AVERAGE_SPEED = "averageSpeed";
 	
 	public static final String JSON_OBJECT = "content";
 	public static final String JSON_HIKE_NAME = "name";

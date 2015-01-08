@@ -63,7 +63,7 @@
     <string name="reliability">Fiabilité</string>
     <string name="comments">Commentaires</string>
     <string name="share_hike">Partager la randonnée</string>
-    <string name="back_home">Retour à l\'accueil</string>
+    <string name="save_hike">Enregistrer</string>
     <string name="share_hike_succeded">Votre randonnée a été partagée !</string>
     <string name="name_your_hike">Vous n\'avez pas donné de nom à votre randonnée</string>
     <string name="name_already_exists">Ce nom de randonnée existe déjà. Changez le.</string>

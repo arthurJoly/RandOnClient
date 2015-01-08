@@ -63,8 +63,8 @@
     <string name="interest">Interest</string>
     <string name="reliability">Reliability</string>
     <string name="comments">Comments</string>
-    <string name="share_hike">Share hike</string>
-    <string name="back_home">Back home</string>
+    <string name="share_hike">Share my hike</string>
+    <string name="save_hike">Save</string>
     <string name="share_hike_succeded">Your hike has been shared!</string>
     <string name="name_your_hike">You have to give a name to your hike before uploading it.</string>
     <string name="name_already_exists">Hike name already exists. You should change it.</string>

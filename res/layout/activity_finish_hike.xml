@@ -6,8 +6,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
                     android:id="@+id/interest_seekBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:max="5"/>
+                    android:max="5" />
             </LinearLayout>
 
             <LinearLayout
@@ -165,21 +165,38 @@
             android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
             android:lines="2" />
 
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+            
+            <TextView 
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:text="@string/share_hike"/>
+            
+            <CheckBox 
+                android:id="@+id/check_share_hike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"/>
+            
+        </LinearLayout>
+        
         <Button
             android:id="@+id/button_share_hike"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:onClick="onButtonClick"
-            android:text="@string/share_hike" />
-
-        <Button
-            android:id="@+id/button_back_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:onClick="onButtonClick"
-            android:text="@string/back_home" />
+            android:text="@string/save_hike" >
+        </Button>
     </LinearLayout>
 
 </ScrollView>
