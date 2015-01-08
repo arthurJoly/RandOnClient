@@ -12,6 +12,7 @@
     <string name="neutral_button">OK</string>
     <string name="positive_button">Yes</string>
     <string name="negative_button">No</string>
+    <string name="no_item">There is no hike yet</string>
     
     <!-- Connexion activity -->
     <string name="background_description">Mountain landscape</string>

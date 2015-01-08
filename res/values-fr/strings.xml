@@ -11,6 +11,7 @@
     <!-- Common -->
     <string name="positive_button">Oui</string>
     <string name="negative_button">Non</string>
+    <string name="no_item">Il n\'y a pas encore de randonnée</string>
     
     <!-- Connexion activity -->
     <string name="background_description">Paysage de montagne</string>
