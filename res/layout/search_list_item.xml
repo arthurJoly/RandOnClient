@@ -21,7 +21,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop= "10dp"
             android:gravity="center_vertical">
     
 			    <TextView
@@ -39,6 +38,7 @@
 	                android:textSize="14sp" 
 	                android:textStyle="italic"
 	                android:layout_alignParentRight="true"/>
+
 	    
 		</RelativeLayout>
 	            
@@ -68,7 +68,8 @@
 				        android:layout_height="wrap_content"
 				        android:gravity="center_vertical"
 				        android:text="@string/distance_unit"
-				        android:textSize="14sp" />
+				        android:textSize="14sp" 
+				        android:paddingLeft="5dp"/>
 	        	    
 	        	</LinearLayout>
 	

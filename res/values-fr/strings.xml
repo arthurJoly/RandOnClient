@@ -11,6 +11,7 @@
     <!-- Common -->
     <string name="positive_button">Oui</string>
     <string name="negative_button">Non</string>
+    <string name="no_item">Il n\'y a pas encore de randonnée</string>
     
     <!-- Connexion activity -->
     <string name="background_description">Paysage de montagne</string>
@@ -72,7 +73,7 @@
     
     <!-- Search Hikes Activity -->
     <string name="distance">Distance : </string>
-    <string name="distance_unit">m</string>  
+    <string name="distance_unit">km</string>  
     <string name="fail_retrieving_hikes">Impossible de récupérer des randonnées</string>
     <string name="average_mark">Note moyenne</string>
     

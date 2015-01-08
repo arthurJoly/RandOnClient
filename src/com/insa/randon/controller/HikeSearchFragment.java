@@ -49,6 +49,7 @@ public class HikeSearchFragment extends Fragment {
 	
 	private View rootView;
 	private ListView hikeSearchListView ;
+	private TextView noItemTextView;
 	private TaskListener getListHikeListener;
 	private TaskListener getSpecificHikeListener;
 	private LocationManager locManager;
@@ -63,6 +64,7 @@ public class HikeSearchFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_hike_search, container, false);
 		hikeSearchListView = (ListView) rootView.findViewById(R.id.hike_search_list);
+		noItemTextView = (TextView) rootView.findViewById(R.id.tv_no_item);
 		context=getActivity();
 		
 	    getListHikeListener = new TaskListener() {
@@ -81,9 +83,16 @@ public class HikeSearchFragment extends Fragment {
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
-				}		
-				HikeListAdapter customAdapter = new HikeListAdapter(context, R.layout.search_list_item, hikes);
-				hikeSearchListView.setAdapter(customAdapter);
+				}	
+				
+				if (hikes.size() == 0){
+					hikeSearchListView.setVisibility(View.GONE);
+					noItemTextView.setVisibility(View.VISIBLE);
+				} else {
+					HikeListAdapter customAdapter = new HikeListAdapter(context, R.layout.search_list_item, hikes);
+					hikeSearchListView.setAdapter(customAdapter);
+				}
+
 			}
 
 			@Override
@@ -127,7 +136,7 @@ public class HikeSearchFragment extends Fragment {
 			}
 		};
 		
-		HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
+		//HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
 		
 		locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 		locListener = new GetCurrentLocationListener(); 
