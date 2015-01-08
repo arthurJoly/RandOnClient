@@ -51,6 +51,8 @@ public final class Constants {
 	public static final String JSON_HIKE_DURATION = "duration";
 	public static final String JSON_HIKE_LENGTH = "length";
 	public static final String JSON_HIKE_DATE = "date";
+	public static final String JSON_HIKE_POSITIVE_HEIGHT_DIFF = "positiveHeightDiff";
+	public static final String JSON_HIKE_NEGATIVE_HEIGHT_DIFF = "negativeHeightDiff";
 	
 	public static List<LatLng> parseCoordinates(JSONArray JSONCoordinates) throws JSONException{
 		List<LatLng> coordinates = new ArrayList<LatLng>();

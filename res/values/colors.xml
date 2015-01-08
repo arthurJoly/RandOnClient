@@ -6,6 +6,6 @@
     <color name="green_item">#159F00</color>
     <color name="black_item">#000000</color>
     <color name="path">#660099</color>
-    <color name="separator">#77FFFFFF</color>
+    <color name="separator">#77159F00</color>
 
 </resources>

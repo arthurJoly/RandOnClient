@@ -10,6 +10,8 @@ import static com.insa.randon.services.Constants.JSON_HIKE_DURATION;
 import static com.insa.randon.services.Constants.JSON_HIKE_LENGTH;
 import static com.insa.randon.services.Constants.JSON_HIKE_DATE;
 import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
+import static com.insa.randon.services.Constants.JSON_HIKE_POSITIVE_HEIGHT_DIFF;
+import static com.insa.randon.services.Constants.JSON_HIKE_NEGATIVE_HEIGHT_DIFF;
 import static com.insa.randon.services.Constants.parseCoordinates;
 
 import org.json.JSONArray;
@@ -98,6 +100,7 @@ public class HikeSearchFragment extends Fragment {
 			@Override
 			public void onSuccess(String content) {
 				try {
+					System.out.println(content);
 					JSONObject restultJSON = new JSONObject(content);
 					JSONObject specificHike = restultJSON.getJSONObject(JSON_OBJECT);
 					
@@ -105,7 +108,7 @@ public class HikeSearchFragment extends Fragment {
 					JSONArray JSONCoordinates = specificHike.getJSONArray(PARAMETER_COORDINATES);
 					List<LatLng> coordinates = parseCoordinates(JSONCoordinates);
 										
-					Hike hikeToConsult = new Hike(specificHike.getString(JSON_HIKE_NAME),coordinates, 0, 0, 0);
+					Hike hikeToConsult = new Hike(specificHike.getString(JSON_HIKE_NAME),coordinates, (float)specificHike.getDouble(JSON_HIKE_LENGTH), specificHike.getString(JSON_HIKE_DURATION), (float)specificHike.getDouble(JSON_HIKE_POSITIVE_HEIGHT_DIFF), (float)specificHike.getDouble(JSON_HIKE_NEGATIVE_HEIGHT_DIFF),specificHike.getString(JSON_HIKE_DATE));
 					Intent intent = new Intent(context, ConsultingHikeActivity.class);
 	        		intent.putExtra(MapActivity.EXTRA_HIKE, hikeToConsult);
 	        		startActivity(intent);
@@ -124,7 +127,7 @@ public class HikeSearchFragment extends Fragment {
 			}
 		};
 		
-		//HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
+		HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
 		
 		locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 		locListener = new GetCurrentLocationListener(); 
@@ -134,7 +137,6 @@ public class HikeSearchFragment extends Fragment {
 		PackageManager pm = getActivity().getPackageManager();
 		boolean hasGps = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
 		if(!hasGps){
-			//HikeServices.getHikesShared(getListHikeListener);
 			locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
 		} else if (hasGps && !locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			HikeServices.getHikesShared(getListHikeListener);

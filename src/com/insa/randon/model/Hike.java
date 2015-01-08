@@ -20,12 +20,8 @@ public class Hike implements Parcelable {
 	float negativeDiffHeight;
 	String date;
 	String duration = "0 min";
-	String id;
-	
-	//TODO : add Comments, grades, duration
-	
+	String id;	
 	float averageSpeed;
-	//TODO : add Comments, grades
 
 	public Hike(){
 		this.name="";
@@ -43,25 +39,27 @@ public class Hike implements Parcelable {
 		this.coordinates = new ArrayList<LatLng>();
 		this.distance=distance;	
 		this.duration=duration;
-		this.date=date;
 		this.positiveDiffHeight=0;
 		this.negativeDiffHeight=0;
 		this.id=id;
+		this.date=date;
 		
-		DateFormat df = DateFormat.getDateInstance();
-		this.date = df.format(new Date());
+		//DateFormat df = DateFormat.getDateInstance();
+		//this.date = df.format(new Date());
 	}
 	
-	public Hike(String name, List<LatLng> coordinates, float distance, float positiveDiffHeight, float negativeDiffHeight){ 
+	public Hike(String name, List<LatLng> coordinates, float distance, String duration, float positiveDiffHeight, float negativeDiffHeight, String date){ 
 		this.name=name;
 		this.coordinates = coordinates;
 		this.distance=distance;	
 		this.positiveDiffHeight=positiveDiffHeight;
 		this.negativeDiffHeight=negativeDiffHeight;
 		this.id="";
+		this.duration=duration;
+		this.date=date;
 		
-		DateFormat df = DateFormat.getDateInstance();
-		this.date = df.format(new Date());
+		//DateFormat df = DateFormat.getDateInstance();
+		//this.date = df.format(new Date());
 	}
 	
 	/**
@@ -80,7 +78,7 @@ public class Hike implements Parcelable {
 			this.distance+=results[0]/1000;
 		}
 	}
-	
+
 	public String getName(){
 		return this.name;
 	}
@@ -149,7 +147,6 @@ public class Hike implements Parcelable {
 
     // write your object's data to the passed-in Parcel
     public void writeToParcel(Parcel out, int flags) {
-    	//TODO : write the coordinates
         out.writeFloat(this.distance);
         out.writeFloat(this.positiveDiffHeight);
         out.writeFloat(this.negativeDiffHeight);
