@@ -12,6 +12,7 @@ import static com.insa.randon.services.Constants.JSON_HIKE_DATE;
 import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
 import static com.insa.randon.services.Constants.JSON_HIKE_POSITIVE_HEIGHT_DIFF;
 import static com.insa.randon.services.Constants.JSON_HIKE_NEGATIVE_HEIGHT_DIFF;
+import static com.insa.randon.services.Constants.PARAMETER_AVERAGE_SPEED;
 import static com.insa.randon.services.Constants.parseCoordinates;
 
 import org.json.JSONArray;
@@ -117,7 +118,7 @@ public class HikeSearchFragment extends Fragment {
 					JSONArray JSONCoordinates = specificHike.getJSONArray(PARAMETER_COORDINATES);
 					List<LatLng> coordinates = parseCoordinates(JSONCoordinates);
 										
-					Hike hikeToConsult = new Hike(specificHike.getString(JSON_HIKE_NAME),coordinates, (float)specificHike.getDouble(JSON_HIKE_LENGTH), specificHike.getString(JSON_HIKE_DURATION), (float)specificHike.getDouble(JSON_HIKE_POSITIVE_HEIGHT_DIFF), (float)specificHike.getDouble(JSON_HIKE_NEGATIVE_HEIGHT_DIFF),specificHike.getString(JSON_HIKE_DATE));
+					Hike hikeToConsult = new Hike(specificHike.getString(JSON_HIKE_NAME),coordinates, (float)specificHike.getDouble(JSON_HIKE_LENGTH), specificHike.getString(JSON_HIKE_DURATION), (float)specificHike.getDouble(JSON_HIKE_POSITIVE_HEIGHT_DIFF), (float)specificHike.getDouble(JSON_HIKE_NEGATIVE_HEIGHT_DIFF), (float) specificHike.getDouble(PARAMETER_AVERAGE_SPEED), specificHike.getString(JSON_HIKE_DATE));
 					Intent intent = new Intent(context, ConsultingHikeActivity.class);
 	        		intent.putExtra(MapActivity.EXTRA_HIKE, hikeToConsult);
 	        		startActivity(intent);
@@ -135,8 +136,6 @@ public class HikeSearchFragment extends Fragment {
 				}
 			}
 		};
-		
-		HikeServices.getClosestSharedHikes(new LatLng(45.785347, 4.872700), getListHikeListener);
 		
 		locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 		locListener = new GetCurrentLocationListener(); 

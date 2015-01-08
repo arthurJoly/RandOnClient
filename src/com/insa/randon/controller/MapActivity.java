@@ -33,7 +33,8 @@ public class MapActivity extends BaseActivity {
 	private static final int MIN_TIME_INTERVAL_MS = 1000;
 	private static final int MIN_DISTANCE_INTERVAL_M = 3;
 	private static final int DELAY = 60000;
-	private static final String DISTANCE_UNIT = " km";
+	private static final String DISTANCE_UNIT_DISTANCE = " km";
+	private static final String DISTANCE_UNIT_DIFF = " km";
 	private static final String HOUR_UNIT = " h";
 	private static final String MINUTE_UNIT = " min";
 	private static final String SPEED_UNIT = " km/h";
@@ -105,9 +106,9 @@ public class MapActivity extends BaseActivity {
 		durationTextView = (TextView) findViewById(R.id.duration_textView);
 		positiveAltitudeTextView = (TextView) findViewById(R.id.positive_altitude_textView);
 		negativeAltitudeTextView = (TextView) findViewById(R.id.negative_altitude_textView);
-		positiveAltitudeTextView.setText("0"+DISTANCE_UNIT);
-		negativeAltitudeTextView.setText("0"+DISTANCE_UNIT);
-		distanceTextView.setText("0"+DISTANCE_UNIT);
+		positiveAltitudeTextView.setText("0"+DISTANCE_UNIT_DIFF);
+		negativeAltitudeTextView.setText("0"+DISTANCE_UNIT_DIFF);
+		distanceTextView.setText("0"+DISTANCE_UNIT_DISTANCE);
 
 		//setting PanelSlideListener listener
 		SlidingUpPanelLayout sPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_panel_map);
@@ -285,18 +286,18 @@ public class MapActivity extends BaseActivity {
 				map.followingHike(new LatLng(location.getLatitude(),location.getLongitude()));
 
 				newHike.extendHike(new LatLng(location.getLatitude(),location.getLongitude()));
-				distanceTextView.setText(String.format("%.2f", newHike.getDistance()) + DISTANCE_UNIT);
+				distanceTextView.setText(String.format("%.2f", newHike.getDistance()) + DISTANCE_UNIT_DISTANCE);
 
 				//Compute the positive difference of height
 				currentAltitude = location.getAltitude();
 				if(currentAltitude>previousAltitude && previousAltitude!=Double.NEGATIVE_INFINITY)
 				{
 					positiveHeightDifference+=currentAltitude-previousAltitude;
-					positiveAltitudeTextView.setText(String.format("%.2f", positiveHeightDifference)+DISTANCE_UNIT);
+					positiveAltitudeTextView.setText(String.format("%.2f", positiveHeightDifference)+DISTANCE_UNIT_DIFF);
 					newHike.setPositiveDiffHeight((float) positiveHeightDifference);
 				} else if(currentAltitude<previousAltitude && previousAltitude!=Double.NEGATIVE_INFINITY){
 					negativeHeightDifference+=currentAltitude-previousAltitude;
-					negativeAltitudeTextView.setText(String.format("%.2f", negativeHeightDifference)+DISTANCE_UNIT);
+					negativeAltitudeTextView.setText(String.format("%.2f", negativeHeightDifference)+DISTANCE_UNIT_DIFF);
 					newHike.setNegativeDiffHeight((float) negativeHeightDifference);
 				}
 				previousAltitude=currentAltitude;

@@ -34,6 +34,7 @@ public class ConsultingHikeActivity extends BaseActivity {
 	private TextView positiveDiffTextView;
 	private TextView negativeDiffTextView;
 	private TextView dateTextView;
+	private TextView speedTextView;
 	private ViewStub mapContainer;
 	private Map map;
 	
@@ -47,12 +48,15 @@ public class ConsultingHikeActivity extends BaseActivity {
         
         nameTextView = (TextView) findViewById(R.id.name_textView);
         distanceTextView = (TextView) findViewById(R.id.distance_textView);
+        speedTextView = (TextView) findViewById(R.id.speed_textView);
         durationTextView = (TextView) findViewById(R.id.duration_textView);
         positiveDiffTextView = (TextView) findViewById(R.id.positive_diiference_textView);
         negativeDiffTextView = (TextView) findViewById(R.id.negative_difference_textView);
         dateTextView = (TextView) findViewById(R.id.date_textView);
+        
         nameTextView.setText(hike.getName());
         distanceTextView.setText(String.valueOf(hike.getDistance()));
+        speedTextView.setText(String.valueOf(hike.getAverageSpeed()));
         durationTextView.setText(hike.getDuration());
         positiveDiffTextView.setText(String.valueOf(hike.getPositiveDiffHeight()));
         negativeDiffTextView.setText(String.valueOf(hike.getNegativeDiffHeight()));

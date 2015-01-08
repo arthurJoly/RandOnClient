@@ -38,7 +38,7 @@
 		                android:layout_height="wrap_content"
 		                android:text="@string/distance"
 		                android:paddingRight="12dp"
-		                android:textSize="14sp"
+		                android:textSize="16sp"
 		                android:textStyle="bold" />
 		
 		            <TextView
@@ -46,14 +46,14 @@
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        android:gravity="center_vertical"
-				        android:textSize="14sp" />
+				        android:textSize="16sp" />
 		            
 		           <TextView
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        android:gravity="center_vertical"
-				        android:text="@string/distance_unit"
-				        android:textSize="14sp" 
+				        android:text="@string/distance_unit_km"
+				        android:textSize="16sp" 
 				        android:paddingLeft="5dp"/>
 	        	    
 	        	</LinearLayout>
@@ -68,7 +68,7 @@
 		                android:layout_height="wrap_content"
 		                android:paddingRight="12dp"
 		                android:text="@string/duration"
-		                android:textSize="14sp"
+		                android:textSize="16sp"
 		                android:textStyle="bold" />
 		
 		            <TextView
@@ -76,7 +76,7 @@
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        android:gravity="center_vertical"
-				        android:textSize="14sp" />
+				        android:textSize="16sp" />
 		        </LinearLayout>
 		        
 	        
