@@ -1,13 +1,5 @@
 package com.insa.randon.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.android.gms.maps.model.LatLng;
 
 public final class Constants {
 
@@ -18,6 +10,7 @@ public final class Constants {
 	public static final String URL_BASE = "https://randon.herokuapp.com" ;
 	
 	public static final String URL_HIKE = "/hike";
+	public static final String URL_HISTORY = "/history/overview";
 	public static final String URL_USER = "/user";
 	
 	public static final String SERVICE_CREATE_ACCOUNT = "/register";
@@ -53,14 +46,4 @@ public final class Constants {
 	public static final String JSON_HIKE_DATE = "date";
 	public static final String JSON_HIKE_POSITIVE_HEIGHT_DIFF = "positiveHeightDiff";
 	public static final String JSON_HIKE_NEGATIVE_HEIGHT_DIFF = "negativeHeightDiff";
-	
-	public static List<LatLng> parseCoordinates(JSONArray JSONCoordinates) throws JSONException{
-		List<LatLng> coordinates = new ArrayList<LatLng>();
-		for(int i=0 ; i<JSONCoordinates.length() ; i++){
-			JSONObject oneCoordinate = (JSONObject)JSONCoordinates.get(i);
-			coordinates.add(new LatLng(oneCoordinate.getDouble(PARAMETER_LATITUDE),oneCoordinate.getDouble(PARAMETER_LONGITUDE)));
-		}
-		
-		return coordinates;
-	}
 }

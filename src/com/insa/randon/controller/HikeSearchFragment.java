@@ -13,7 +13,7 @@ import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
 import static com.insa.randon.services.Constants.JSON_HIKE_POSITIVE_HEIGHT_DIFF;
 import static com.insa.randon.services.Constants.JSON_HIKE_NEGATIVE_HEIGHT_DIFF;
 import static com.insa.randon.services.Constants.PARAMETER_AVERAGE_SPEED;
-import static com.insa.randon.services.Constants.parseCoordinates;
+import static com.insa.randon.utilities.ParserTool.parseCoordinates;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,9 +87,8 @@ public class HikeSearchFragment extends Fragment {
 				}	
 				
 				if (hikes.size() == 0){
-					hikeSearchListView.setVisibility(View.GONE);
-					noItemTextView.setVisibility(View.VISIBLE);
-				} else {
+					hikeSearchListView.setVisibility(View.VISIBLE);
+					noItemTextView.setVisibility(View.GONE);
 					HikeListAdapter customAdapter = new HikeListAdapter(context, R.layout.search_list_item, hikes);
 					hikeSearchListView.setAdapter(customAdapter);
 				}
