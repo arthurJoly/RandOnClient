@@ -21,7 +21,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop= "10dp"
             android:gravity="center_vertical">
     
 			    <TextView
@@ -37,7 +36,8 @@
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:textSize="16sp" 
-	                android:layout_alignParentRight="true"/>
+	                android:layout_alignParentRight="true"
+	                android:layout_alignBottom="@id/hike_name_item"/>
 	    
 		</RelativeLayout>
 	            
@@ -67,7 +67,8 @@
 				        android:layout_height="wrap_content"
 				        android:gravity="center_vertical"
 				        android:text="@string/distance_unit"
-				        android:textSize="14sp" />
+				        android:textSize="14sp" 
+				        android:paddingLeft="5dp"/>
 	        	    
 	        	</LinearLayout>
 	

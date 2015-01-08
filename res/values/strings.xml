@@ -75,7 +75,7 @@
     
     <!-- Search Hikes Activity -->
     <string name="distance">Distance: </string>
-    <string name="distance_unit">m</string>    
+    <string name="distance_unit">km</string>    
     <string name="fail_retrieving_hikes">Could not retrieve any hikes</string>
     <string name="average_mark">Average mark</string>
     
