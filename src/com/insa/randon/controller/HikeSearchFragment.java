@@ -86,7 +86,7 @@ public class HikeSearchFragment extends Fragment {
 					e.printStackTrace();
 				}	
 				
-				if (hikes.size() == 0){
+				if (hikes.size() > 0){
 					hikeSearchListView.setVisibility(View.VISIBLE);
 					noItemTextView.setVisibility(View.GONE);
 					HikeListAdapter customAdapter = new HikeListAdapter(context, R.layout.search_list_item, hikes);
