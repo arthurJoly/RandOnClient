@@ -55,8 +55,8 @@ public class ConsultingHikeActivity extends BaseActivity {
         dateTextView = (TextView) findViewById(R.id.date_textView);
         
         nameTextView.setText(hike.getName());
-        distanceTextView.setText(String.valueOf(hike.getDistance()));
-        speedTextView.setText(String.valueOf(hike.getAverageSpeed()));
+        distanceTextView.setText(String.format("%.2f",hike.getDistance()));
+        speedTextView.setText(String.format("%.2f",hike.getAverageSpeed()));
         durationTextView.setText(hike.getDuration());
         positiveDiffTextView.setText(String.valueOf(hike.getPositiveDiffHeight()));
         negativeDiffTextView.setText(String.valueOf(hike.getNegativeDiffHeight()));
