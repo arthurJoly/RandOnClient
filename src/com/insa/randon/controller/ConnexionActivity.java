@@ -2,6 +2,7 @@ package com.insa.randon.controller;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.insa.randon.R;
 import com.insa.randon.services.UserServices;
 import com.insa.randon.utilities.ErrorCode;
+import com.insa.randon.utilities.SpinnerDialog;
 import com.insa.randon.utilities.TaskListener;
 
 public class ConnexionActivity extends Activity {
@@ -24,6 +26,7 @@ public class ConnexionActivity extends Activity {
 	EditText editTextPassword;
 	Context context;
 	int tries; //count the number of attempt to connect
+	SpinnerDialog waitingSpinnerDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,11 @@ public class ConnexionActivity extends Activity {
 		     AlertDialog alertDialog = alertDialogBuilder.create();
 		     alertDialog.show();
 		} else {
+			//Start waiting dialog
+			FragmentManager fm = getFragmentManager();
+			waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.connection_dialog));
+			waitingSpinnerDialog.show(fm, "");
+			
 			//Check if all field are completed
 			String username = editTextUserName.getText().toString();
 			String password = editTextPassword.getText().toString();
@@ -61,6 +69,8 @@ public class ConnexionActivity extends Activity {
 
 					@Override
 					public void onSuccess(String content) {
+						//Stop waiting dialog
+						waitingSpinnerDialog.dismiss();
 						Toast.makeText(context, R.string.connexion_success, Toast.LENGTH_SHORT).show();					
 						Intent intent = new Intent(context, HomeActivity.class);
 						startActivity(intent);
@@ -69,6 +79,8 @@ public class ConnexionActivity extends Activity {
 
 					@Override
 					public void onFailure(ErrorCode errCode) {
+						//Stop waiting dialog
+						waitingSpinnerDialog.dismiss();
 						if (errCode == ErrorCode.REQUEST_FAILED){
 							Toast.makeText(context, R.string.request_failed, Toast.LENGTH_SHORT).show();
 						} else if (errCode == ErrorCode.FAILED){

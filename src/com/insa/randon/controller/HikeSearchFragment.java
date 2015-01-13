@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -44,6 +45,7 @@ import com.insa.randon.model.Hike;
 import com.insa.randon.services.HikeServices;
 import com.insa.randon.utilities.TaskListener;
 import com.insa.randon.utilities.ErrorCode;
+import com.insa.randon.utilities.SpinnerDialog;
 
 public class HikeSearchFragment extends Fragment {
 	private static final int MIN_TIME_INTERVAL_MS = 3000;
@@ -58,6 +60,7 @@ public class HikeSearchFragment extends Fragment {
 	private LocationManager locManager;
 	private GetCurrentLocationListener locListener;
 	private LatLng currentLocation;
+	private SpinnerDialog waitingSpinnerDialog;
 	
 	Context context;
 	
@@ -75,6 +78,9 @@ public class HikeSearchFragment extends Fragment {
 
 			@Override
 			public void onSuccess(String content) {
+				//Stop waiting dialog
+				waitingSpinnerDialog.dismiss();
+				
 				//Set up the hikes list
 				System.out.println(content);
 				List<Hike> hikes = new ArrayList<Hike>();
@@ -100,6 +106,8 @@ public class HikeSearchFragment extends Fragment {
 
 			@Override
 			public void onFailure(ErrorCode errCode) {
+				//Stop waiting dialog
+				waitingSpinnerDialog.dismiss();
 				if (errCode == ErrorCode.REQUEST_FAILED){
 					Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
 				} else if (errCode == ErrorCode.FAILED){
@@ -111,8 +119,9 @@ public class HikeSearchFragment extends Fragment {
 		getSpecificHikeListener = new TaskListener() {
 			@Override
 			public void onSuccess(String content) {
+				//Stop waiting dialog
+				waitingSpinnerDialog.dismiss();
 				try {
-					System.out.println(content);
 					JSONObject restultJSON = new JSONObject(content);
 					JSONObject specificHike = restultJSON.getJSONObject(JSON_OBJECT);
 					
@@ -131,6 +140,8 @@ public class HikeSearchFragment extends Fragment {
 
 			@Override
 			public void onFailure(ErrorCode errCode) {
+				//Stop waiting dialog
+				waitingSpinnerDialog.dismiss();
 				if (errCode == ErrorCode.REQUEST_FAILED){
 					Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
 				} else if (errCode == ErrorCode.FAILED){
@@ -139,12 +150,22 @@ public class HikeSearchFragment extends Fragment {
 			}
 		};
 
+		//Start waiting dialog
+		FragmentManager fm = getFragmentManager();
+		waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
+		waitingSpinnerDialog.show(fm, "");
+		
 		//Get the hikes of the database
 		HikeServices.getHikesShared(getListHikeListener);
 		
 		closestHikesButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				//Start waiting dialog
+				FragmentManager fm = getFragmentManager();
+				waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
+				waitingSpinnerDialog.show(fm, "");
+				
 				locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
 				locListener = new GetCurrentLocationListener(); 
 				//check if GPS is enabled
@@ -160,6 +181,11 @@ public class HikeSearchFragment extends Fragment {
 		
 		hikeSearchListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//Start waiting dialog
+				FragmentManager fm = getFragmentManager();
+				waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_specific_hike));
+				waitingSpinnerDialog.show(fm, "");
+				
 				Hike hike = (Hike) parent.getAdapter().getItem(position);
 				HikeServices.getSpecificHike(hike.getId(),getSpecificHikeListener);
 		    }

@@ -25,6 +25,7 @@
     <string name="connexion_success">Connexion succeeded</string>
     <string name="request_failed">Failed to reach server</string>
     <string name="too_many_attempt_to_connect">You failed to connect too many times, wait a moment before trying again</string>
+    <string name="connection_dialog">Connecting...</string>
 
     <!-- Create Account activity -->
     <string name="confirm_user_password">Confirm password</string>
@@ -72,6 +73,7 @@
     <string name="empty_hike">Your hike is empty</string>
     <string name="finished">Completed hike!</string>
     <string name="marks">Marks</string>
+    <string name="uploading_hike">Uploading your hike to server...</string>
     
     <!-- Search Hikes Activity -->
     <string name="distance">Distance: </string>
@@ -81,6 +83,8 @@
     <string name="fail_retrieving_hikes">Could not retrieve any hikes</string>
     <string name="average_mark">Average mark</string>
     <string name="proximity_search">Search closest hikes</string>
+    <string name="retrieving_hikes">Retrieving hikes list...</string>
+    <string name="retrieving_specific_hike">Retrieving hike\'s data...</string>
     
     <!-- Consulting Hike Activity -->
     <string name="download_hike">Download</string>

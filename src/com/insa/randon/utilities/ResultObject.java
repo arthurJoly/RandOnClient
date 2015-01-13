@@ -11,7 +11,7 @@ public class ResultObject/* <T> */{
 	//TODO : we may need to change content type
 	public ResultObject(ErrorCode errCode, String content) {
 		this.errCode = errCode;
-		this.content = Html.fromHtml(content).toString();;
+		this.content = Html.fromHtml(content).toString();
 	}
 
 	public ErrorCode getErrCode() {
