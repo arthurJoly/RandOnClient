@@ -1,27 +1,26 @@
 package com.insa.randon.services;
 
 
+import static com.insa.randon.services.Constants.PARAMETER_AVERAGE_SPEED;
 import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
-import static com.insa.randon.services.Constants.PARAMETER_HIKE_ID;
-import static com.insa.randon.services.Constants.PARAMETER_HIKE_NAME;
 import static com.insa.randon.services.Constants.PARAMETER_DATE;
 import static com.insa.randon.services.Constants.PARAMETER_DURATION;
-import static com.insa.randon.services.Constants.PARAMETER_LENGTH;
-import static com.insa.randon.services.Constants.PARAMETER_POS_DIFF_HEIGHT;
-import static com.insa.randon.services.Constants.PARAMETER_NEG_DIFF_HEIGHT;
-import static com.insa.randon.services.Constants.PARAMETER_AVERAGE_SPEED;
+import static com.insa.randon.services.Constants.PARAMETER_HIKE_ID;
+import static com.insa.randon.services.Constants.PARAMETER_HIKE_NAME;
 import static com.insa.randon.services.Constants.PARAMETER_LATITUDE;
+import static com.insa.randon.services.Constants.PARAMETER_LENGTH;
 import static com.insa.randon.services.Constants.PARAMETER_LONGITUDE;
+import static com.insa.randon.services.Constants.PARAMETER_NEG_DIFF_HEIGHT;
+import static com.insa.randon.services.Constants.PARAMETER_POS_DIFF_HEIGHT;
 import static com.insa.randon.services.Constants.PARAMETER_PRIVATE;
 import static com.insa.randon.services.Constants.SERVICE_CREATE_HIKE;
+import static com.insa.randon.services.Constants.SERVICE_HIKE_EXIST;
 import static com.insa.randon.services.Constants.SERVICE_OVERVIEW;
 import static com.insa.randon.services.Constants.SERVICE_PROXIMITY;
 import static com.insa.randon.services.Constants.SERVICE_SPECIFIC_HIKE;
-import static com.insa.randon.services.Constants.SERVICE_HIKE_EXIST;
 import static com.insa.randon.services.Constants.URL_BASE;
 import static com.insa.randon.services.Constants.URL_HIKE;
 import static com.insa.randon.services.Constants.URL_HISTORY;
-
 
 import java.util.ArrayList;
 import java.util.List;

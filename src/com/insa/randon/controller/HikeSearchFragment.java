@@ -1,19 +1,19 @@
 package com.insa.randon.controller;
 
+import static com.insa.randon.services.Constants.JSON_HIKE_DATE;
+import static com.insa.randon.services.Constants.JSON_HIKE_DURATION;
+import static com.insa.randon.services.Constants.JSON_HIKE_ID;
+import static com.insa.randon.services.Constants.JSON_HIKE_LENGTH;
+import static com.insa.randon.services.Constants.JSON_HIKE_NAME;
+import static com.insa.randon.services.Constants.JSON_HIKE_NEGATIVE_HEIGHT_DIFF;
+import static com.insa.randon.services.Constants.JSON_HIKE_POSITIVE_HEIGHT_DIFF;
+import static com.insa.randon.services.Constants.JSON_OBJECT;
+import static com.insa.randon.services.Constants.PARAMETER_AVERAGE_SPEED;
+import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
+import static com.insa.randon.utilities.ParserTool.parseCoordinates;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.insa.randon.services.Constants.JSON_HIKE_NAME;
-import static com.insa.randon.services.Constants.JSON_OBJECT;
-import static com.insa.randon.services.Constants.JSON_HIKE_ID;
-import static com.insa.randon.services.Constants.JSON_HIKE_DURATION;
-import static com.insa.randon.services.Constants.JSON_HIKE_LENGTH;
-import static com.insa.randon.services.Constants.JSON_HIKE_DATE;
-import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
-import static com.insa.randon.services.Constants.JSON_HIKE_POSITIVE_HEIGHT_DIFF;
-import static com.insa.randon.services.Constants.JSON_HIKE_NEGATIVE_HEIGHT_DIFF;
-import static com.insa.randon.services.Constants.PARAMETER_AVERAGE_SPEED;
-import static com.insa.randon.utilities.ParserTool.parseCoordinates;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,8 +41,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.insa.randon.R;
 import com.insa.randon.model.Hike;
 import com.insa.randon.services.HikeServices;
-import com.insa.randon.utilities.TaskListener;
 import com.insa.randon.utilities.ErrorCode;
+import com.insa.randon.utilities.TaskListener;
 
 public class HikeSearchFragment extends Fragment {
 	private static final int MIN_TIME_INTERVAL_MS = 3000;

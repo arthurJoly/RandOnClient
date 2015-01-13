@@ -47,7 +47,7 @@ public class Hike implements Parcelable {
 		this.date = df.format(new Date());
 	}
 	
-	public Hike(String name, String id, String duration, float distance, float speed){
+	public Hike(String name, String id, String duration, float distance, String date){
 		this.name=name;
 		this.coordinates = new ArrayList<LatLng>();
 		this.distance=distance;	
@@ -55,7 +55,7 @@ public class Hike implements Parcelable {
 		this.positiveDiffHeight=0;
 		this.negativeDiffHeight=0;
 		this.id=id;
-		this.averageSpeed = speed;
+		this.date = date;
 	}
 	
 	public Hike(String name, List<LatLng> coordinates, float distance, String duration, float positiveDiffHeight, float negativeDiffHeight,float speed, String date){ 

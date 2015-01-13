@@ -1,8 +1,6 @@
 package com.insa.randon.controller;
 
 
-import com.insa.randon.R;
-
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.insa.randon.R;
 
 public class NewHikeFragment extends Fragment {
 	private View rootView;

@@ -10,6 +10,7 @@ import static com.insa.randon.services.Constants.JSON_HIKE_POSITIVE_HEIGHT_DIFF;
 import static com.insa.randon.services.Constants.JSON_OBJECT;
 import static com.insa.randon.services.Constants.PARAMETER_AVERAGE_SPEED;
 import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
+import static com.insa.randon.services.Constants.PARAMETER_DATE;
 import static com.insa.randon.utilities.ParserTool.parseCoordinates;
 
 import java.util.ArrayList;
@@ -22,25 +23,19 @@ import org.json.JSONObject;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.insa.randon.R;
-import com.insa.randon.controller.HikeSearchFragment.GetCurrentLocationListener;
-import com.insa.randon.controller.HikeSearchFragment.HikeListAdapter;
 import com.insa.randon.model.Hike;
 import com.insa.randon.services.HikeServices;
 import com.insa.randon.utilities.ErrorCode;
@@ -74,7 +69,7 @@ public class HikeListFragment extends Fragment {
 					JSONArray hikesArray = hikesList.getJSONArray(JSON_OBJECT);
 					for(int i=0; i<hikesArray.length(); i++){
 						JSONObject hike = hikesArray.getJSONObject(i);
-						hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID),hike.getString(JSON_HIKE_DURATION),(float)hike.getDouble(JSON_HIKE_LENGTH))); 
+						hikes.add(new Hike(hike.getString(JSON_HIKE_NAME),hike.getString(JSON_HIKE_ID),hike.getString(JSON_HIKE_DURATION),(float)hike.getDouble(JSON_HIKE_LENGTH), hike.getString(PARAMETER_DATE))); 
 					}
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -161,7 +156,7 @@ public class HikeListFragment extends Fragment {
 			if (view == null) {
 				LayoutInflater vi;
 				vi = LayoutInflater.from(getContext());
-				view = vi.inflate(R.layout.search_list_item, null);
+				view = vi.inflate(R.layout.hike_list_item, null);
 			}
 
 			Hike hike = (Hike) getItem(position);

@@ -34,7 +34,7 @@ public class MapActivity extends BaseActivity {
 	private static final int MIN_DISTANCE_INTERVAL_M = 3;
 	private static final int DELAY = 60000;
 	private static final String DISTANCE_UNIT_DISTANCE = " km";
-	private static final String DISTANCE_UNIT_DIFF = " km";
+	private static final String DISTANCE_UNIT_DIFF = " m";
 	private static final String HOUR_UNIT = " h";
 	private static final String MINUTE_UNIT = " min";
 	private static final String SPEED_UNIT = " km/h";

@@ -1,5 +1,14 @@
 package com.insa.randon.services;
 
+import static com.insa.randon.services.Constants.PARAMETER_EMAIL;
+import static com.insa.randon.services.Constants.PARAMETER_LOGIN;
+import static com.insa.randon.services.Constants.PARAMETER_PASSWORD;
+import static com.insa.randon.services.Constants.SERVICE_CONNECT;
+import static com.insa.randon.services.Constants.SERVICE_CREATE_ACCOUNT;
+import static com.insa.randon.services.Constants.SERVICE_LOGOUT;
+import static com.insa.randon.services.Constants.URL_BASE;
+import static com.insa.randon.services.Constants.URL_USER;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
@@ -10,14 +19,6 @@ import com.google.gson.JsonObject;
 import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.RequestExecutor;
 import com.insa.randon.utilities.TaskListener;
-import static com.insa.randon.services.Constants.URL_BASE;
-import static com.insa.randon.services.Constants.URL_USER;
-import static com.insa.randon.services.Constants.SERVICE_CREATE_ACCOUNT;
-import static com.insa.randon.services.Constants.PARAMETER_EMAIL;
-import static com.insa.randon.services.Constants.PARAMETER_LOGIN;
-import static com.insa.randon.services.Constants.PARAMETER_PASSWORD;
-import static com.insa.randon.services.Constants.SERVICE_CONNECT;
-import static com.insa.randon.services.Constants.SERVICE_LOGOUT;
 
 
 public class UserServices {	
