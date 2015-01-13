@@ -80,6 +80,7 @@
     <string name="distance_unit_m">m</string>  
     <string name="fail_retrieving_hikes">Could not retrieve any hikes</string>
     <string name="average_mark">Average mark</string>
+    <string name="proximity_search">Search closest hikes</string>
     
     <!-- Consulting Hike Activity -->
     <string name="download_hike">Download</string>

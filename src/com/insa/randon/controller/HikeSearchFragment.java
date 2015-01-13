@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class HikeSearchFragment extends Fragment {
 	private static final int MIN_TIME_INTERVAL_MS = 3000;
 	private static final int MIN_DISTANCE_INTERVAL_M = 3;
 	
+	private Button closestHikesButton;
 	private View rootView;
 	private ListView hikeSearchListView ;
 	private TextView noItemTextView;
@@ -64,6 +66,7 @@ public class HikeSearchFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_hike_search, container, false);
+		closestHikesButton = (Button) rootView.findViewById(R.id.button_closest_hikes);
 		hikeSearchListView = (ListView) rootView.findViewById(R.id.hike_search_list);
 		noItemTextView = (TextView) rootView.findViewById(R.id.tv_no_item);
 		context=getActivity();
@@ -135,21 +138,25 @@ public class HikeSearchFragment extends Fragment {
 				}
 			}
 		};
-		
-		locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-		locListener = new GetCurrentLocationListener(); 
 
 		//Get the hikes of the database
-		//check if GPS is enabled
-		PackageManager pm = getActivity().getPackageManager();
-		boolean hasGps = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
-		if(!hasGps){
-			locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
-		} else if (hasGps && !locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			HikeServices.getHikesShared(getListHikeListener);
-		} else {
-			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
-		}
+		HikeServices.getHikesShared(getListHikeListener);
+		
+		closestHikesButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+				locListener = new GetCurrentLocationListener(); 
+				//check if GPS is enabled
+				PackageManager pm = getActivity().getPackageManager();
+				boolean hasGps = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
+				if(!hasGps){
+					locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
+				} else if (hasGps && locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+					locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
+				}
+			}
+		});
 		
 		hikeSearchListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

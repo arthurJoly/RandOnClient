@@ -130,9 +130,9 @@ public class MapActivity extends BaseActivity {
 		newHike = new Hike();
 
 		//        //HIKE TEST
-		//        newHike.extendHike(new LatLng(45.781307, 4.873902));
-		//        newHike.extendHike(new LatLng(45.783971, 4.880210));
-		//        newHike.extendHike(new LatLng(45.785347, 4.872700));
+		        newHike.extendHike(new LatLng(45.781307, 4.873902));
+		        newHike.extendHike(new LatLng(45.783971, 4.880210));
+		        newHike.extendHike(new LatLng(45.785347, 4.872700));
 		//        newHike.extendHike(new LatLng(45.783641, 4.864847));
 
 		map.initializeNewHike();//in creation mode
