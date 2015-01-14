@@ -1,25 +1,26 @@
 package com.insa.randon.controller;
 
-import static com.insa.randon.services.Constants.JSON_HIKE_DATE;
-import static com.insa.randon.services.Constants.JSON_HIKE_DURATION;
-import static com.insa.randon.services.Constants.JSON_HIKE_ID;
-import static com.insa.randon.services.Constants.JSON_HIKE_LENGTH;
-import static com.insa.randon.services.Constants.JSON_HIKE_NAME;
-import static com.insa.randon.services.Constants.JSON_HIKE_NEGATIVE_HEIGHT_DIFF;
-import static com.insa.randon.services.Constants.JSON_HIKE_POSITIVE_HEIGHT_DIFF;
-import static com.insa.randon.services.Constants.JSON_OBJECT;
-import static com.insa.randon.services.Constants.PARAMETER_AVERAGE_SPEED;
-import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
-import static com.insa.randon.utilities.ParserTool.parseCoordinates;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.insa.randon.services.Constants.JSON_HIKE_NAME;
+import static com.insa.randon.services.Constants.JSON_OBJECT;
+import static com.insa.randon.services.Constants.JSON_HIKE_ID;
+import static com.insa.randon.services.Constants.JSON_HIKE_DURATION;
+import static com.insa.randon.services.Constants.JSON_HIKE_LENGTH;
+import static com.insa.randon.services.Constants.JSON_HIKE_DATE;
+import static com.insa.randon.services.Constants.PARAMETER_COORDINATES;
+import static com.insa.randon.services.Constants.JSON_HIKE_POSITIVE_HEIGHT_DIFF;
+import static com.insa.randon.services.Constants.JSON_HIKE_NEGATIVE_HEIGHT_DIFF;
+import static com.insa.randon.services.Constants.PARAMETER_AVERAGE_SPEED;
+import static com.insa.randon.utilities.ParserTool.parseCoordinates;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,13 +43,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.insa.randon.R;
 import com.insa.randon.model.Hike;
 import com.insa.randon.services.HikeServices;
-import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.TaskListener;
+import com.insa.randon.utilities.ErrorCode;
+import com.insa.randon.utilities.SpinnerDialog;
 
 public class HikeSearchFragment extends Fragment {
 	private static final int MIN_TIME_INTERVAL_MS = 3000;
 	private static final int MIN_DISTANCE_INTERVAL_M = 3;
 	
+	private Button closestHikesButton;
 	private View rootView;
 	private ListView hikeSearchListView ;
 	private TextView noItemTextView;
@@ -56,6 +60,7 @@ public class HikeSearchFragment extends Fragment {
 	private LocationManager locManager;
 	private GetCurrentLocationListener locListener;
 	private LatLng currentLocation;
+	private SpinnerDialog waitingSpinnerDialog;
 	
 	Context context;
 	
@@ -64,6 +69,7 @@ public class HikeSearchFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_hike_search, container, false);
+		closestHikesButton = (Button) rootView.findViewById(R.id.button_closest_hikes);
 		hikeSearchListView = (ListView) rootView.findViewById(R.id.hike_search_list);
 		noItemTextView = (TextView) rootView.findViewById(R.id.tv_no_item);
 		context=getActivity();
@@ -72,6 +78,9 @@ public class HikeSearchFragment extends Fragment {
 
 			@Override
 			public void onSuccess(String content) {
+				//Stop waiting dialog
+				waitingSpinnerDialog.dismiss();
+				
 				//Set up the hikes list
 				System.out.println(content);
 				List<Hike> hikes = new ArrayList<Hike>();
@@ -97,6 +106,8 @@ public class HikeSearchFragment extends Fragment {
 
 			@Override
 			public void onFailure(ErrorCode errCode) {
+				//Stop waiting dialog
+				waitingSpinnerDialog.dismiss();
 				if (errCode == ErrorCode.REQUEST_FAILED){
 					Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
 				} else if (errCode == ErrorCode.FAILED){
@@ -108,8 +119,9 @@ public class HikeSearchFragment extends Fragment {
 		getSpecificHikeListener = new TaskListener() {
 			@Override
 			public void onSuccess(String content) {
+				//Stop waiting dialog
+				waitingSpinnerDialog.dismiss();
 				try {
-					System.out.println(content);
 					JSONObject restultJSON = new JSONObject(content);
 					JSONObject specificHike = restultJSON.getJSONObject(JSON_OBJECT);
 					
@@ -128,6 +140,8 @@ public class HikeSearchFragment extends Fragment {
 
 			@Override
 			public void onFailure(ErrorCode errCode) {
+				//Stop waiting dialog
+				waitingSpinnerDialog.dismiss();
 				if (errCode == ErrorCode.REQUEST_FAILED){
 					Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
 				} else if (errCode == ErrorCode.FAILED){
@@ -135,24 +149,43 @@ public class HikeSearchFragment extends Fragment {
 				}
 			}
 		};
-		
-		locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-		locListener = new GetCurrentLocationListener(); 
+
+		//Start waiting dialog
+		FragmentManager fm = getFragmentManager();
+		waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
+		waitingSpinnerDialog.show(fm, "");
 		
 		//Get the hikes of the database
-		//check if GPS is enabled
-		PackageManager pm = getActivity().getPackageManager();
-		boolean hasGps = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
-		if(!hasGps){
-			locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
-		} else if (hasGps && !locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			HikeServices.getHikesShared(getListHikeListener);
-		} else {
-			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
-		}
+		HikeServices.getHikesShared(getListHikeListener);
+		
+		closestHikesButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//Start waiting dialog
+				FragmentManager fm = getFragmentManager();
+				waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
+				waitingSpinnerDialog.show(fm, "");
+				
+				locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+				locListener = new GetCurrentLocationListener(); 
+				//check if GPS is enabled
+				PackageManager pm = getActivity().getPackageManager();
+				boolean hasGps = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
+				if(!hasGps){
+					locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
+				} else if (hasGps && locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+					locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
+				}
+			}
+		});
 		
 		hikeSearchListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//Start waiting dialog
+				FragmentManager fm = getFragmentManager();
+				waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_specific_hike));
+				waitingSpinnerDialog.show(fm, "");
+				
 				Hike hike = (Hike) parent.getAdapter().getItem(position);
 				HikeServices.getSpecificHike(hike.getId(),getSpecificHikeListener);
 		    }

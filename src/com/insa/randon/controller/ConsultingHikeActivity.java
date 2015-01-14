@@ -8,6 +8,9 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
@@ -51,11 +54,11 @@ public class ConsultingHikeActivity extends BaseActivity {
         dateTextView = (TextView) findViewById(R.id.date_textView);
         
         nameTextView.setText(hike.getName());
-        distanceTextView.setText(String.format("%.2f",hike.getDistance()));
-        speedTextView.setText(String.format("%.2f",hike.getAverageSpeed()));
+        distanceTextView.setText(String.format("%.2f", hike.getDistance()));
+        speedTextView.setText(String.format("%.2f", hike.getAverageSpeed()));
         durationTextView.setText(hike.getDuration());
-        positiveDiffTextView.setText(String.valueOf(hike.getPositiveDiffHeight()));
-        negativeDiffTextView.setText(String.valueOf(hike.getNegativeDiffHeight()));
+        positiveDiffTextView.setText(String.format("%.2f", hike.getPositiveDiffHeight()));
+        negativeDiffTextView.setText(String.format("%.2f", hike.getNegativeDiffHeight()));
         dateTextView.setText(hike.getDate());
         
         map = new GoogleMap();      
@@ -108,5 +111,25 @@ public class ConsultingHikeActivity extends BaseActivity {
 	        e.printStackTrace();
 	    }
 	}
+
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.consulting_menu, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_download_hike:
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
 

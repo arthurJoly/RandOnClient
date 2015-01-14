@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.insa.randon.model.Hike;
 import com.insa.randon.services.HikeServices;
 import com.insa.randon.utilities.ErrorCode;
 import com.insa.randon.utilities.TaskListener;
+import com.insa.randon.utilities.SpinnerDialog;
 
 public class FinishHikeActivity extends BaseActivity {
 	private static final String DISTANCE_UNIT = " km";
@@ -35,6 +37,7 @@ public class FinishHikeActivity extends BaseActivity {
 	private EditText nameEditText;
 	private Button saveButton;
 	private CheckBox shareCheck;
+	private SpinnerDialog waitingSpinnerDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +113,8 @@ public class FinishHikeActivity extends BaseActivity {
 			TaskListener createHikeListener = new TaskListener() {
 				@Override
 				public void onSuccess(String content) {
+					//Stop waiting dialog
+					waitingSpinnerDialog.dismiss();
 					Toast.makeText(context, R.string.share_hike_succeded, Toast.LENGTH_SHORT).show();			
 					setResult(RESULT_OK);
 					finish();
@@ -117,6 +122,8 @@ public class FinishHikeActivity extends BaseActivity {
 
 				@Override
 				public void onFailure(ErrorCode errCode) {
+					//Stop waiting dialog
+					waitingSpinnerDialog.dismiss();
 					if (errCode == ErrorCode.REQUEST_FAILED){
 						Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
 					} else if (errCode == ErrorCode.FAILED){
@@ -127,6 +134,10 @@ public class FinishHikeActivity extends BaseActivity {
 
 			if(view == saveButton && !nameAlreadyExists) //We save the hike and share it
 			{
+				//Start waiting dialog
+				FragmentManager fm = getFragmentManager();
+				waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.uploading_hike));
+				waitingSpinnerDialog.show(fm, "");
 				boolean isPrivate = !shareCheck.isChecked();
 				String name = nameEditText.getText().toString();
 				hike.setName(name);

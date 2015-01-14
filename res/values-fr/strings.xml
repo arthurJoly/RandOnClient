@@ -24,6 +24,7 @@
     <string name="request_failed">La connexion au seveur a échoué</string>
     <string name="connexion_success">Connexion réussie</string>
     <string name="too_many_attempt_to_connect">Connexion impossible actuellement, attendez un moment avant de réessayer</string>
+    <string name="connection_dialog">Connexion en cours...</string>
     
     <!-- Create Account activity -->
     <string name="confirm_user_password">Confirmer le mot de passe :</string>
@@ -70,11 +71,18 @@
     <string name="name_already_exists">Ce nom de randonnée existe déjà. Changez le.</string>
     <string name="finished">Randonnée terminée !</string>
     <string name="marks">Notes</string>
+    <string name="uploading_hike">Transfère de votre randonnée vers le serveurs en cours...</string>
     
     <!-- Search Hikes Activity -->
     <string name="distance">Distance : </string>
+    <string name="distance_unit_km">km</string>  
+    <string name="distance_unit_speed">km/h</string>  
+    <string name="distance_unit_m">m</string>  
     <string name="fail_retrieving_hikes">Impossible de récupérer des randonnées</string>
     <string name="average_mark">Note moyenne</string>
+    <string name="proximity_search">Rechercher les randonnées les plus proches</string>
+    <string name="retrieving_hikes">Téléchargment des randonnées en cours...</string>
+    <string name="retrieving_specific_hike">Téléchargment des données de la randonnées en cours...</string>
     
     <!-- Consulting Hike Activity -->
     <string name="download_hike">Télécharger</string>
