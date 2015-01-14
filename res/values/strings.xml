@@ -13,6 +13,8 @@
     <string name="positive_button">Yes</string>
     <string name="negative_button">No</string>
     <string name="no_item">There is no hike yet</string>
+    <string name="try_again">Try again</string>
+    <string name="quit">Quit</string>
     
     <!-- Connexion activity -->
     <string name="background_description">Mountain landscape</string>
@@ -37,6 +39,7 @@
     <string name="account_creation_already_exists">This username already exists, please choose a new one</string>
     <string name="account_creation_failure">An error occurred during account creation</string>
 	<string name="uncorrect_email">Email format is not correct</string>
+	<string name="creation_dialog">Creating account...</string>
 	
 	<!-- New Hike Activity -->
     <string name="starting_new_hike">Ready for a new hike?</string>
@@ -74,6 +77,7 @@
     <string name="finished">Completed hike!</string>
     <string name="marks">Marks</string>
     <string name="uploading_hike">Uploading your hike to server...</string>
+    <string name="no_location_found">No location found</string>
     
     <!-- Search Hikes Activity -->
     <string name="distance">Distance: </string>
@@ -85,6 +89,7 @@
     <string name="proximity_search">Search closest hikes</string>
     <string name="retrieving_hikes">Retrieving hikes list...</string>
     <string name="retrieving_specific_hike">Retrieving hike\'s data...</string>
+    <string name="no_provider_found">No location provider enabled. Please enable network or GPS and try again</string>
     
     <!-- Consulting Hike Activity -->
     <string name="download_hike">Download</string>

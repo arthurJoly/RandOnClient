@@ -1,5 +1,6 @@
 package com.insa.randon.controller;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.insa.randon.R;
 import com.insa.randon.services.UserServices;
 import com.insa.randon.utilities.ErrorCode;
+import com.insa.randon.utilities.SpinnerDialog;
 import com.insa.randon.utilities.TaskListener;
 
 public class CreateAccountActivity extends BaseActivity {
@@ -19,7 +21,7 @@ public class CreateAccountActivity extends BaseActivity {
 	EditText editTextPassword;
 	EditText editTextConfirmPassword;
 	EditText editTextEmail;
-
+	SpinnerDialog waitingSpinnerDialog;
 	Context context;
 
 	@Override
@@ -55,12 +57,17 @@ public class CreateAccountActivity extends BaseActivity {
 		} else if(!correctEmail){
 			Toast.makeText(context, R.string.uncorrect_email, Toast.LENGTH_SHORT).show();
 		} else{
+			//Start waiting dialog
+			FragmentManager fm = getFragmentManager();
+			waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.creation_dialog));
+			waitingSpinnerDialog.show(fm, "");
 		
 			//initialize task listener
 			TaskListener accountCreationListener = new TaskListener() {
 
 				@Override
 				public void onSuccess(String content) {
+					waitingSpinnerDialog.dismiss();
 					Toast.makeText(context, R.string.account_creation_success, Toast.LENGTH_SHORT).show();	
 					Intent intent = new Intent(context, HomeActivity.class);
 					startActivity(intent);
@@ -70,6 +77,7 @@ public class CreateAccountActivity extends BaseActivity {
 
 				@Override
 				public void onFailure(ErrorCode errCode) {
+					waitingSpinnerDialog.dismiss();
 					if (errCode == ErrorCode.DENIED){
 						Toast.makeText(context, R.string.account_creation_already_exists, Toast.LENGTH_SHORT).show();
 					} else if (errCode == ErrorCode.REQUEST_FAILED){

@@ -48,12 +48,7 @@ public class ConnexionActivity extends Activity {
 		     alertDialogBuilder.setNeutralButton(R.string.neutral_button, null);
 		     AlertDialog alertDialog = alertDialogBuilder.create();
 		     alertDialog.show();
-		} else {
-			//Start waiting dialog
-			FragmentManager fm = getFragmentManager();
-			waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.connection_dialog));
-			waitingSpinnerDialog.show(fm, "");
-			
+		} else {			
 			//Check if all field are completed
 			String username = editTextUserName.getText().toString();
 			String password = editTextPassword.getText().toString();
@@ -63,6 +58,10 @@ public class ConnexionActivity extends Activity {
 			if (empty){
 				Toast.makeText(context, R.string.empty_fields, Toast.LENGTH_SHORT).show();
 			} else{
+				//Start waiting dialog
+				FragmentManager fm = getFragmentManager();
+				waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.connection_dialog));
+				waitingSpinnerDialog.show(fm, "");
 			
 				//initialize task listener
 				TaskListener connectListener = new TaskListener() {

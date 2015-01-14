@@ -12,6 +12,8 @@
     <string name="positive_button">Oui</string>
     <string name="negative_button">Non</string>
     <string name="no_item">Il n\'y a pas encore de randonnée</string>
+    <string name="try_again">Réessayer</string>
+    <string name="quit">Quitter</string>
     
     <!-- Connexion activity -->
     <string name="background_description">Paysage de montagne</string>
@@ -36,6 +38,7 @@
     <string name="account_creation_failure">Une erreur est survenue pendant la création du compte</string>
     <string name="account_creation_already_exists">Ce nom d\'utilisateur existe déjà, il faut en choisir un nouveau</string>
     <string name="uncorrect_email">Votre e-mail est incorrect</string>
+    <string name="creation_dialog">Création du compte en cours...</string>
     
     <!-- New Hike Activity -->
     <string name="starting_new_hike">Prêt pour une nouvelle randonnée ?</string>
@@ -83,6 +86,8 @@
     <string name="proximity_search">Recherche par proximité</string>
     <string name="retrieving_hikes">Téléchargement des randonnées en cours...</string>
     <string name="retrieving_specific_hike">Téléchargement des données de la randonnées en cours...</string>
+    <string name="no_provider_found">Géolocalisation impossible. Activez le réseau mobile ou le GPS et réessayez</string>
+    <string name="no_location_found">Nous avons pas pu déterminer votre position</string>
     
     <!-- Consulting Hike Activity -->
     <string name="download_hike">Télécharger</string>

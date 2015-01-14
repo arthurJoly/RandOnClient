@@ -19,15 +19,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +55,9 @@ import com.insa.randon.utilities.SpinnerDialog;
 public class HikeSearchFragment extends Fragment {
 	private static final int MIN_TIME_INTERVAL_MS = 3000;
 	private static final int MIN_DISTANCE_INTERVAL_M = 3;
-	
+	private static final boolean ENABLED_PROVIDERS_ONLY = true;
+	private static final long LOCATION_TIME_OUT = 7000;
+
 	private Button closestHikesButton;
 	private View rootView;
 	private ListView hikeSearchListView ;
@@ -61,11 +68,45 @@ public class HikeSearchFragment extends Fragment {
 	private GetCurrentLocationListener locListener;
 	private LatLng currentLocation;
 	private SpinnerDialog waitingSpinnerDialog;
-	
+
 	Context context;
 	
-	
-	
+	private Handler timerHandler = new Handler();
+	private Runnable timerRunnable = new Runnable() {
+		
+		@Override
+		public void run() {
+			if (waitingSpinnerDialog != null & waitingSpinnerDialog.isVisible()){
+				waitingSpinnerDialog.dismiss();
+			}
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+			alertDialogBuilder.setMessage(R.string.no_location_found);
+			alertDialogBuilder.setPositiveButton(R.string.try_again, new OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					FragmentManager fm = getFragmentManager();
+					waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
+					waitingSpinnerDialog.show(fm, "");
+					timerHandler.postDelayed(timerRunnable, LOCATION_TIME_OUT);
+				}
+			});
+			alertDialogBuilder.setNegativeButton(R.string.quit, new OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					if (locManager != null){
+						locManager.removeUpdates(locListener);
+					}		
+				}
+			});
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		}
+			
+	};
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_hike_search, container, false);
@@ -73,14 +114,14 @@ public class HikeSearchFragment extends Fragment {
 		hikeSearchListView = (ListView) rootView.findViewById(R.id.hike_search_list);
 		noItemTextView = (TextView) rootView.findViewById(R.id.tv_no_item);
 		context=getActivity();
-		
-	    getListHikeListener = new TaskListener() {
+
+		getListHikeListener = new TaskListener() {
 
 			@Override
 			public void onSuccess(String content) {
 				//Stop waiting dialog
 				waitingSpinnerDialog.dismiss();
-				
+
 				//Set up the hikes list
 				System.out.println(content);
 				List<Hike> hikes = new ArrayList<Hike>();
@@ -94,7 +135,7 @@ public class HikeSearchFragment extends Fragment {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}	
-				
+
 				if (hikes.size() > 0){
 					hikeSearchListView.setVisibility(View.VISIBLE);
 					noItemTextView.setVisibility(View.GONE);
@@ -115,7 +156,7 @@ public class HikeSearchFragment extends Fragment {
 				}
 			}
 		};
-		
+
 		getSpecificHikeListener = new TaskListener() {
 			@Override
 			public void onSuccess(String content) {
@@ -124,15 +165,15 @@ public class HikeSearchFragment extends Fragment {
 				try {
 					JSONObject restultJSON = new JSONObject(content);
 					JSONObject specificHike = restultJSON.getJSONObject(JSON_OBJECT);
-					
+
 					//Parse JSON coordinates to create a list of LatLng
 					JSONArray JSONCoordinates = specificHike.getJSONArray(PARAMETER_COORDINATES);
 					List<LatLng> coordinates = parseCoordinates(JSONCoordinates);
-										
+
 					Hike hikeToConsult = new Hike(specificHike.getString(JSON_HIKE_NAME),coordinates, (float)specificHike.getDouble(JSON_HIKE_LENGTH), specificHike.getString(JSON_HIKE_DURATION), (float)specificHike.getDouble(JSON_HIKE_POSITIVE_HEIGHT_DIFF), (float)specificHike.getDouble(JSON_HIKE_NEGATIVE_HEIGHT_DIFF), (float) specificHike.getDouble(PARAMETER_AVERAGE_SPEED), specificHike.getString(JSON_HIKE_DATE));
 					Intent intent = new Intent(context, ConsultingHikeActivity.class);
-	        		intent.putExtra(MapActivity.EXTRA_HIKE, hikeToConsult);
-	        		startActivity(intent);
+					intent.putExtra(MapActivity.EXTRA_HIKE, hikeToConsult);
+					startActivity(intent);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}				
@@ -154,10 +195,10 @@ public class HikeSearchFragment extends Fragment {
 		FragmentManager fm = getFragmentManager();
 		waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
 		waitingSpinnerDialog.show(fm, "");
-		
+
 		//Get the hikes of the database
 		HikeServices.getHikesShared(getListHikeListener);
-		
+
 		closestHikesButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -165,35 +206,46 @@ public class HikeSearchFragment extends Fragment {
 				FragmentManager fm = getFragmentManager();
 				waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
 				waitingSpinnerDialog.show(fm, "");
-				
+
 				locManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+				Criteria criteria = new Criteria();
+				criteria.setAccuracy(Criteria.ACCURACY_COARSE);
+				criteria.setPowerRequirement(Criteria.POWER_LOW);
+				String provider = locManager.getBestProvider(criteria, ENABLED_PROVIDERS_ONLY);
 				locListener = new GetCurrentLocationListener(); 
-				//check if GPS is enabled
-				PackageManager pm = getActivity().getPackageManager();
-				boolean hasGps = pm.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
-				if(!hasGps){
-					locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
-				} else if (hasGps && locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-					locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
+				timerHandler.postDelayed(timerRunnable, LOCATION_TIME_OUT);
+
+				//check if GPS is a provider is found
+				if (provider == null){
+					waitingSpinnerDialog.dismiss();
+
+					AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+					alertDialogBuilder.setMessage(R.string.no_provider_found);
+					alertDialogBuilder.setNeutralButton(R.string.neutral_button, null);
+					AlertDialog alertDialog = alertDialogBuilder.create();
+					alertDialog.show();
+				} else {
+					locManager.requestLocationUpdates(provider, MIN_TIME_INTERVAL_MS, MIN_DISTANCE_INTERVAL_M, locListener);
 				}
 			}
 		});
-		
+
 		hikeSearchListView.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				//Start waiting dialog
 				FragmentManager fm = getFragmentManager();
 				waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_specific_hike));
 				waitingSpinnerDialog.show(fm, "");
-				
+
 				Hike hike = (Hike) parent.getAdapter().getItem(position);
 				HikeServices.getSpecificHike(hike.getId(),getSpecificHikeListener);
-		    }
+			}
 		});
 
 		return rootView;
 	}
-	
+
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
@@ -201,73 +253,73 @@ public class HikeSearchFragment extends Fragment {
 			locManager.removeUpdates(locListener);
 		}    
 	}
-	
+
 	//--------------- LIST ADAPTER ----------------------------
 	public class HikeListAdapter extends ArrayAdapter<Hike> {
-	
+
 		public HikeListAdapter(Context context, int textViewResourceId) {
-		    super(context, textViewResourceId);
+			super(context, textViewResourceId);
 		}
-	
+
 		public HikeListAdapter(Context context, int resource, List<Hike> items) {
-		    super(context, resource, items);
+			super(context, resource, items);
 		}
-	
+
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-		    View view = convertView;
-	
-		    if (view == null) {
-		        LayoutInflater vi;
-		        vi = LayoutInflater.from(getContext());
-		        view = vi.inflate(R.layout.search_list_item, null);
-		    }
-	
-		    Hike hike = (Hike) getItem(position);
-	
-		    if (hike != null) {
-		        TextView nameTextView = (TextView) view.findViewById(R.id.hike_name_item);
-		        TextView distanceTextView = (TextView) view.findViewById(R.id.hike_distance_item);
-		        TextView durationTextView = (TextView) view.findViewById(R.id.hike_duration_item);
-		        if (nameTextView != null) {
-		        	nameTextView.setText(hike.getName());
-		        }
-		        if (distanceTextView != null) {
-		        	distanceTextView.setText(String.format("%.2f", hike.getDistance()));
-		        }
-		        if (durationTextView != null) {
-		        	durationTextView.setText(hike.getDuration());
-		        }
-		    }
-		    return view;
+			View view = convertView;
+
+			if (view == null) {
+				LayoutInflater vi;
+				vi = LayoutInflater.from(getContext());
+				view = vi.inflate(R.layout.search_list_item, null);
+			}
+
+			Hike hike = (Hike) getItem(position);
+
+			if (hike != null) {
+				TextView nameTextView = (TextView) view.findViewById(R.id.hike_name_item);
+				TextView distanceTextView = (TextView) view.findViewById(R.id.hike_distance_item);
+				TextView durationTextView = (TextView) view.findViewById(R.id.hike_duration_item);
+				if (nameTextView != null) {
+					nameTextView.setText(hike.getName());
+				}
+				if (distanceTextView != null) {
+					distanceTextView.setText(String.format("%.2f", hike.getDistance()));
+				}
+				if (durationTextView != null) {
+					durationTextView.setText(hike.getDuration());
+				}
+			}
+			return view;
 		}	
 	}
-	
+
 	//------------------ LOCATION LISTENER ------------------------------------
-		public class GetCurrentLocationListener implements LocationListener{
-			@Override
-			public void onLocationChanged(Location location)
-			{    
-				currentLocation=new LatLng(location.getLatitude(),location.getLongitude());
-				HikeServices.getClosestSharedHikes(currentLocation, getListHikeListener);
-			}
-
-			@Override
-			public void onProviderDisabled(String provider)
-			{
-
-			}
-
-			@Override
-			public void onProviderEnabled(String provider)
-			{
-
-			}
-
-			@Override
-			public void onStatusChanged(String provider, int status, Bundle extras)
-			{
-
-			}                
+	public class GetCurrentLocationListener implements LocationListener{
+		@Override
+		public void onLocationChanged(Location location)
+		{    
+			currentLocation=new LatLng(location.getLatitude(),location.getLongitude());
+			HikeServices.getClosestSharedHikes(currentLocation, getListHikeListener);
 		}
+
+		@Override
+		public void onProviderDisabled(String provider)
+		{
+
+		}
+
+		@Override
+		public void onProviderEnabled(String provider)
+		{
+
+		}
+
+		@Override
+		public void onStatusChanged(String provider, int status, Bundle extras)
+		{
+
+		}                
+	}
 }
