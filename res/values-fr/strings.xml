@@ -71,7 +71,7 @@
     <string name="name_already_exists">Ce nom de randonnée existe déjà. Changez le.</string>
     <string name="finished">Randonnée terminée !</string>
     <string name="marks">Notes</string>
-    <string name="uploading_hike">Transfère de votre randonnée vers le serveurs en cours...</string>
+    <string name="uploading_hike">Envoi vers le serveur en cours...</string>
     
     <!-- Search Hikes Activity -->
     <string name="distance">Distance : </string>
@@ -80,9 +80,9 @@
     <string name="distance_unit_m">m</string>  
     <string name="fail_retrieving_hikes">Impossible de récupérer des randonnées</string>
     <string name="average_mark">Note moyenne</string>
-    <string name="proximity_search">Rechercher les randonnées les plus proches</string>
-    <string name="retrieving_hikes">Téléchargment des randonnées en cours...</string>
-    <string name="retrieving_specific_hike">Téléchargment des données de la randonnées en cours...</string>
+    <string name="proximity_search">Recherche par proximité</string>
+    <string name="retrieving_hikes">Téléchargement des randonnées en cours...</string>
+    <string name="retrieving_specific_hike">Téléchargement des données de la randonnées en cours...</string>
     
     <!-- Consulting Hike Activity -->
     <string name="download_hike">Télécharger</string>
