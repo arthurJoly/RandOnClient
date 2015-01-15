@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import com.insa.randon.R;
 import com.insa.randon.model.Hike;
 import com.insa.randon.services.HikeServices;
 import com.insa.randon.utilities.ErrorCode;
+import com.insa.randon.utilities.SpinnerDialog;
 import com.insa.randon.utilities.TaskListener;
 
 public class HikeListFragment extends Fragment {
@@ -47,7 +49,7 @@ public class HikeListFragment extends Fragment {
 	TextView noItemTextView;
 	Context context;
 	TaskListener getSpecificHikeListener, getListHikeListener;
-
+	private SpinnerDialog waitingSpinnerDialog;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +58,11 @@ public class HikeListFragment extends Fragment {
 		hikesListView = (ListView) rootView.findViewById(R.id.my_hike_list);
 		noItemTextView = (TextView) rootView.findViewById(R.id.tv_no_item);
 		context=getActivity();
+		
+		//Start waiting dialog
+		FragmentManager fm = getFragmentManager();
+		waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
+		waitingSpinnerDialog.show(fm, "");
 
 		getListHikeListener = new TaskListener() {
 
@@ -83,16 +90,25 @@ public class HikeListFragment extends Fragment {
 					hikesListView.setAdapter(customAdapter);
 					hikesListView.setOnItemClickListener(new OnItemClickListener() {
 						public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+							//Start waiting dialog
+							FragmentManager fm = getFragmentManager();
+							waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
+							waitingSpinnerDialog.show(fm, "");
+							
 							Hike hike = (Hike) parent.getAdapter().getItem(position);
 							HikeServices.getSpecificHike(hike.getId(),getSpecificHikeListener);
 					    }
 					});
 				}
+				
+				waitingSpinnerDialog.dismiss();
 
 			}
 
 			@Override
 			public void onFailure(ErrorCode errCode) {
+				waitingSpinnerDialog.dismiss();
+				
 				if (errCode == ErrorCode.REQUEST_FAILED){
 					Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
 				} else if (errCode == ErrorCode.FAILED){
@@ -117,13 +133,18 @@ public class HikeListFragment extends Fragment {
 					Intent intent = new Intent(context, ConsultingHikeActivity.class);
 					intent.putExtra(MapActivity.EXTRA_HIKE, hikeToConsult);
 					startActivity(intent);
+					
 				} catch (JSONException e) {
 					e.printStackTrace();
-				}				
+				} finally {
+					waitingSpinnerDialog.dismiss();
+				}
 			}
 
 			@Override
 			public void onFailure(ErrorCode errCode) {
+				waitingSpinnerDialog.dismiss();
+				
 				if (errCode == ErrorCode.REQUEST_FAILED){
 					Toast.makeText(context,R.string.request_failed, Toast.LENGTH_SHORT).show();
 				} else if (errCode == ErrorCode.FAILED){

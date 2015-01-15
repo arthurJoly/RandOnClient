@@ -68,7 +68,7 @@ public class HikeSearchFragment extends Fragment {
 	private GetCurrentLocationListener locListener;
 	private LatLng currentLocation;
 	private SpinnerDialog waitingSpinnerDialog;
-	private boolean pendingCall = false;
+	private boolean locationFound = false;
 	
 	Context context;
 	
@@ -77,7 +77,7 @@ public class HikeSearchFragment extends Fragment {
 		
 		@Override
 		public void run() {
-			if (!pendingCall){
+			if (!locationFound){
 				if (waitingSpinnerDialog != null & waitingSpinnerDialog.isVisible()){
 					waitingSpinnerDialog.dismiss();
 				}
@@ -123,7 +123,7 @@ public class HikeSearchFragment extends Fragment {
 			@Override
 			public void onSuccess(String content) {
 				//Stop waiting dialog
-				pendingCall = false;
+				locationFound = false;
 				waitingSpinnerDialog.dismiss();
 
 				//Set up the hikes list
@@ -165,7 +165,6 @@ public class HikeSearchFragment extends Fragment {
 			@Override
 			public void onSuccess(String content) {
 				//Stop waiting dialog
-				waitingSpinnerDialog.dismiss();
 				try {
 					JSONObject restultJSON = new JSONObject(content);
 					JSONObject specificHike = restultJSON.getJSONObject(JSON_OBJECT);
@@ -180,7 +179,9 @@ public class HikeSearchFragment extends Fragment {
 					startActivity(intent);
 				} catch (JSONException e) {
 					e.printStackTrace();
-				}				
+				} finally {
+					waitingSpinnerDialog.dismiss();
+				}
 			}
 
 			@Override
@@ -304,9 +305,9 @@ public class HikeSearchFragment extends Fragment {
 		@Override
 		public void onLocationChanged(Location location)
 		{    
+			locationFound = true;
 			currentLocation=new LatLng(location.getLatitude(),location.getLongitude());
 			HikeServices.getClosestSharedHikes(currentLocation, getListHikeListener);
-			pendingCall = true;
 		}
 
 		@Override
