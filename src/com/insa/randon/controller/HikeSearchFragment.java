@@ -68,7 +68,8 @@ public class HikeSearchFragment extends Fragment {
 	private GetCurrentLocationListener locListener;
 	private LatLng currentLocation;
 	private SpinnerDialog waitingSpinnerDialog;
-
+	private boolean pendingCall = false;
+	
 	Context context;
 	
 	private Handler timerHandler = new Handler();
@@ -76,32 +77,34 @@ public class HikeSearchFragment extends Fragment {
 		
 		@Override
 		public void run() {
-			if (waitingSpinnerDialog != null & waitingSpinnerDialog.isVisible()){
-				waitingSpinnerDialog.dismiss();
-			}
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-			alertDialogBuilder.setMessage(R.string.no_location_found);
-			alertDialogBuilder.setPositiveButton(R.string.try_again, new OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					FragmentManager fm = getFragmentManager();
-					waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
-					waitingSpinnerDialog.show(fm, "");
-					timerHandler.postDelayed(timerRunnable, LOCATION_TIME_OUT);
+			if (!pendingCall){
+				if (waitingSpinnerDialog != null & waitingSpinnerDialog.isVisible()){
+					waitingSpinnerDialog.dismiss();
 				}
-			});
-			alertDialogBuilder.setNegativeButton(R.string.quit, new OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					if (locManager != null){
-						locManager.removeUpdates(locListener);
-					}		
-				}
-			});
-			AlertDialog alertDialog = alertDialogBuilder.create();
-			alertDialog.show();
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+				alertDialogBuilder.setMessage(R.string.no_location_found);
+				alertDialogBuilder.setPositiveButton(R.string.try_again, new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						FragmentManager fm = getFragmentManager();
+						waitingSpinnerDialog = new SpinnerDialog(context.getString(R.string.retrieving_hikes));
+						waitingSpinnerDialog.show(fm, "");
+						timerHandler.postDelayed(timerRunnable, LOCATION_TIME_OUT);
+					}
+				});
+				alertDialogBuilder.setNegativeButton(R.string.quit, new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (locManager != null){
+							locManager.removeUpdates(locListener);
+						}		
+					}
+				});
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
+			}			
 		}
 			
 	};
@@ -120,6 +123,7 @@ public class HikeSearchFragment extends Fragment {
 			@Override
 			public void onSuccess(String content) {
 				//Stop waiting dialog
+				pendingCall = false;
 				waitingSpinnerDialog.dismiss();
 
 				//Set up the hikes list
@@ -302,6 +306,7 @@ public class HikeSearchFragment extends Fragment {
 		{    
 			currentLocation=new LatLng(location.getLatitude(),location.getLongitude());
 			HikeServices.getClosestSharedHikes(currentLocation, getListHikeListener);
+			pendingCall = true;
 		}
 
 		@Override
