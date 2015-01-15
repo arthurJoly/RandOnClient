@@ -30,13 +30,37 @@
                 android:textColor="@color/green_item"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/hike_proximity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:textSize="16sp"
-                android:textStyle="italic" />
+            <LinearLayout 
+   				android:layout_width="wrap_content"
+   				android:layout_height="wrap_content"
+   				android:orientation="horizontal"
+   				android:layout_alignParentRight="true">
+   				
+                <TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/hike_proximity"
+	                android:textStyle="italic"
+	                android:textSize="16sp" />
+                
+                <TextView
+	                android:id="@+id/hike_proximity"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textSize="16sp"
+	                android:textStyle="italic" 
+	                android:paddingLeft="5dp"/>
+                
+                <TextView
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/distance_unit_km"
+	                android:textStyle="italic"
+	                android:textSize="16sp" 
+	                android:paddingLeft="5dp"/>
+	                
+            </LinearLayout>
+            
         </RelativeLayout>
 
         <LinearLayout

@@ -22,6 +22,7 @@ public class Hike implements Parcelable {
 	String duration = "0 min";
 	String id;	
 	float averageSpeed;
+	float proximity;
 
 	public Hike(){
 		this.name="";
@@ -30,6 +31,21 @@ public class Hike implements Parcelable {
 		this.positiveDiffHeight=0;
 		this.negativeDiffHeight=0;
 		this.id="";
+		DateFormat df = DateFormat.getDateInstance();
+		this.date = df.format(new Date());
+		this.proximity = -1;
+	}
+	
+	public Hike(String name, String id, String duration, float distance, float proximity){
+		this.name=name;
+		this.coordinates = new ArrayList<LatLng>();
+		this.distance=distance;	
+		this.duration=duration;
+		this.positiveDiffHeight=0;
+		this.negativeDiffHeight=0;
+		this.id=id;
+		this.proximity = proximity;
+		
 		DateFormat df = DateFormat.getDateInstance();
 		this.date = df.format(new Date());
 	}
@@ -42,6 +58,7 @@ public class Hike implements Parcelable {
 		this.positiveDiffHeight=0;
 		this.negativeDiffHeight=0;
 		this.id=id;
+		this.proximity = -1;
 		
 		DateFormat df = DateFormat.getDateInstance();
 		this.date = df.format(new Date());
@@ -56,6 +73,7 @@ public class Hike implements Parcelable {
 		this.negativeDiffHeight=0;
 		this.id=id;
 		this.date = date;
+		this.proximity = -1;
 	}
 	
 	public Hike(String name, List<LatLng> coordinates, float distance, String duration, float positiveDiffHeight, float negativeDiffHeight,float speed, String date){ 
@@ -68,6 +86,7 @@ public class Hike implements Parcelable {
 		this.duration=duration;
 		this.date=date;
 		this.averageSpeed = speed;
+		this.proximity = -1;
 		
 		//DateFormat df = DateFormat.getDateInstance();
 		//this.date = df.format(new Date());
@@ -148,6 +167,10 @@ public class Hike implements Parcelable {
 
 	public void setAverageSpeed(float averageSpeed) {
 		this.averageSpeed = averageSpeed;
+	}
+
+	public float getProximity() {
+		return proximity;
 	}
 
 	//-----------------------------------------------------------------

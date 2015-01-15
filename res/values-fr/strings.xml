@@ -81,6 +81,7 @@
     <string name="distance_unit_km">km</string>  
     <string name="distance_unit_speed">km/h</string>  
     <string name="distance_unit_m">m</string>  
+    <string name="hike_proximity">à</string>
     <string name="fail_retrieving_hikes">Impossible de récupérer des randonnées</string>
     <string name="average_mark">Note moyenne</string>
     <string name="proximity_search">Recherche par proximité</string>

@@ -43,6 +43,7 @@ public final class Constants {
 	public static final String JSON_HIKE_ID = "_id";
 	public static final String JSON_HIKE_DURATION = "duration";
 	public static final String JSON_HIKE_LENGTH = "length";
+	public static final String JSON_HIKE_PROXIMITY = "proximity";
 	public static final String JSON_HIKE_DATE = "date";
 	public static final String JSON_HIKE_POSITIVE_HEIGHT_DIFF = "positiveHeightDiff";
 	public static final String JSON_HIKE_NEGATIVE_HEIGHT_DIFF = "negativeHeightDiff";
