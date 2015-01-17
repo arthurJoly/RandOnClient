@@ -49,6 +49,7 @@ public class MapActivity extends BaseActivity {
 	private int mode;
 	private LocationManager locManager;
 	private Hike newHike;
+	private Hike existingHike;
 	private TextView distanceTextView;
 	private TextView speedTextView;
 	private TextView durationTextView;
@@ -132,14 +133,13 @@ public class MapActivity extends BaseActivity {
 		startTime = System.currentTimeMillis();
 		timerHandler.postDelayed(timerRunnable, 0);
 
-
+		newHike = new Hike();
 		if(mode==CREATION_MODE){
 			//Create a new hike
-			newHike = new Hike();
 			map.initializeNewHike();
 		}else if(mode==FOLLOWING_MODE){
-			newHike = (Hike) intent.getParcelableExtra(EXTRA_HIKE);
-			map.showRoute(newHike.getCoordinates());
+			existingHike = (Hike) intent.getParcelableExtra(EXTRA_HIKE);
+			map.showRoute(existingHike.getCoordinates());
 		}
 
 		//check if GPS is enabled
@@ -245,12 +245,19 @@ public class MapActivity extends BaseActivity {
 		case R.id.action_finnish_hike:
 			timerHandler.removeCallbacks(timerRunnable); //Stop timer
 
-			if (newHike.getCoordinates().size() == 0){
+			if (newHike.getCoordinates().size() == 0 && mode==CREATION_MODE){
 				finish();
 			} else {
 				Intent intent = new Intent(context, FinishHikeActivity.class);
-				intent.putExtra(EXTRA_HIKE, newHike);
-				startActivityForResult(intent, REQUEST_CODE_FINISH_HIKE);
+				if(mode==CREATION_MODE){
+					intent.putExtra(EXTRA_HIKE, newHike);
+					startActivityForResult(intent, REQUEST_CODE_FINISH_HIKE);
+		     	} else if(mode==FOLLOWING_MODE){
+		     		existingHike.setDuration(newHike.getDuration());
+					intent.putExtra(EXTRA_HIKE, existingHike);
+					startActivity(intent);
+				}
+				
 			}
 			
 		break;

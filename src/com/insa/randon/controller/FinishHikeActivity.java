@@ -56,7 +56,13 @@ public class FinishHikeActivity extends BaseActivity {
 		durationTextView = (TextView) findViewById(R.id.duration_finish_textView);
 		saveButton = (Button) findViewById(R.id.button_share_hike);
 		shareCheck = (CheckBox) findViewById(R.id.check_share_hike);
-
+		
+		if(!this.hike.getName().isEmpty()){ //it means that the hike already exists
+			nameEditText.setText(hike.getName());
+			shareCheck.setChecked(false);
+			nameEditText.setFocusable(false);
+			shareCheck.setFocusable(false);
+		}
 
 		//Verify if hike name already exists
 		nameEditText.addTextChangedListener(new TextWatcher(){
@@ -98,14 +104,6 @@ public class FinishHikeActivity extends BaseActivity {
 
 		distanceTextView.setText(String.format("%.2f", this.hike.getDistance()) + DISTANCE_UNIT);    
 		durationTextView.setText(this.hike.getDuration());
-	}
-
-	private void backToHistory()
-	{
-		Intent intent = new Intent(context, MainActivity.class);
-		intent.putExtra(HomeActivity.FRAGMENT_EXTRA, HikeListFragment.class.getName());
-		startActivity(intent);
-		finish();
 	}
 
 	public void onButtonClick(View view) {
