@@ -90,7 +90,8 @@
     <string name="no_location_found">Nous avons pas pu déterminer votre position</string>
     
     <!-- Consulting Hike Activity -->
-    <string name="download_hike">Télécharger</string>
+    <string name="download_hike">Téléchargé</string> 
+    <string name="follow_this_hike">Faire cette randonnée</string>
     
     <!-- Navigation item names -->
     <string name="hike_search_title">Chercher une randonnée</string>

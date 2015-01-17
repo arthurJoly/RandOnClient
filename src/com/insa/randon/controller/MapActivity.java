@@ -39,10 +39,14 @@ public class MapActivity extends BaseActivity {
 	private static final String MINUTE_UNIT = " min";
 	private static final String SPEED_UNIT = " km/h";
 	private static final float CONVERT_SPEED_UNIT_TO_KMH = 3600;
-	public static final String EXTRA_HIKE = "hike";
 	private static final int REQUEST_CODE_FINISH_HIKE = 1;
-
+	public static final String EXTRA_HIKE = "hike";
+	public static final String EXTRA_MODE = "mode";
+	public static final int CREATION_MODE = 0;
+	public static final int FOLLOWING_MODE = 1;
+	
 	private Map map;
+	private int mode;
 	private LocationManager locManager;
 	private Hike newHike;
 	private TextView distanceTextView;
@@ -94,6 +98,10 @@ public class MapActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 		context=this;
+		
+		//Get mode
+		Intent intent = getIntent();
+        mode = intent.getIntExtra(EXTRA_MODE, CREATION_MODE);
 
 		map = new GoogleMap();      
 		mapContainer = (ViewStub) findViewById(R.id.map_activity_container);
@@ -125,19 +133,14 @@ public class MapActivity extends BaseActivity {
 		timerHandler.postDelayed(timerRunnable, 0);
 
 
-		//Create a new hike
-		//TODO : test if we are in creation mode or not
-		newHike = new Hike();
-
-		//        //HIKE TEST
-		//        newHike.extendHike(new LatLng(45.781307, 4.873902));
-		//        newHike.extendHike(new LatLng(45.783971, 4.880210));
-		//        newHike.extendHike(new LatLng(45.785347, 4.872700));
-		//        newHike.extendHike(new LatLng(45.783641, 4.864847));
-
-		map.initializeNewHike();//in creation mode
-
-		//map.showRoute(newHike.getCoordinates());//in following an already existing hike mode   
+		if(mode==CREATION_MODE){
+			//Create a new hike
+			newHike = new Hike();
+			map.initializeNewHike();
+		}else if(mode==FOLLOWING_MODE){
+			newHike = (Hike) intent.getParcelableExtra(EXTRA_HIKE);
+			map.showRoute(newHike.getCoordinates());
+		}
 
 		//check if GPS is enabled
 		PackageManager pm = getPackageManager();

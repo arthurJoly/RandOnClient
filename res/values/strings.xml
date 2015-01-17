@@ -92,8 +92,9 @@
     <string name="no_provider_found">No location provider enabled. Please enable network or GPS and try again</string>
     
     <!-- Consulting Hike Activity -->
-    <string name="download_hike">Download</string>
-    
+    <string name="download_hike">Download</string> 
+	<string name="follow_this_hike">Follow this hike</string> 
+	   
     <!-- Navigation item names -->
     <string name="hike_search_title">Search for a hike</string>
     <string name="new_hike_title">New hike</string>

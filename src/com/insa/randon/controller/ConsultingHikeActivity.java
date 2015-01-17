@@ -1,18 +1,15 @@
 package com.insa.randon.controller;
 
-
-
 import java.util.List;
 
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -35,6 +32,7 @@ public class ConsultingHikeActivity extends BaseActivity {
 	private TextView dateTextView;
 	private TextView speedTextView;
 	private ViewStub mapContainer;
+	private Button followHikeButton;
 	private Map map;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +50,7 @@ public class ConsultingHikeActivity extends BaseActivity {
         positiveDiffTextView = (TextView) findViewById(R.id.positive_diiference_textView);
         negativeDiffTextView = (TextView) findViewById(R.id.negative_difference_textView);
         dateTextView = (TextView) findViewById(R.id.date_textView);
+        followHikeButton = (Button) findViewById(R.id.button_follow_hike);
         
         nameTextView.setText(hike.getName());
         distanceTextView.setText(String.format("%.2f", hike.getDistance()));
@@ -100,6 +99,15 @@ public class ConsultingHikeActivity extends BaseActivity {
         });
 	}	
 	
+	public void onButtonClick(View view){
+		if(view==followHikeButton){
+			Intent mapActivity = new Intent(this, MapActivity.class);
+			mapActivity.putExtra(MapActivity.EXTRA_MODE, MapActivity.FOLLOWING_MODE);
+			mapActivity.putExtra(MapActivity.EXTRA_HIKE, hike);
+			startActivity(mapActivity);
+		}	
+	}
+	
 	@Override
 	public void onBackPressed(){
 	    // TODO Auto-generated method stub
@@ -113,7 +121,7 @@ public class ConsultingHikeActivity extends BaseActivity {
 	}
 
 	
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
@@ -130,6 +138,6 @@ public class ConsultingHikeActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 }
 

@@ -174,7 +174,15 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:layout_marginBottom="5dp"
         android:background="@drawable/separator_line" />
+    
+    <Button
+            android:id="@+id/button_follow_hike"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="5dp"
+            android:onClick="onButtonClick"
+            android:text="@string/follow_this_hike" />
 
 </LinearLayout>
