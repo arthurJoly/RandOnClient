@@ -10,6 +10,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.insa.randon.utilities.SpinnerDialog;
 
 public class FinishHikeActivity extends BaseActivity {
 	private static final String DISTANCE_UNIT = " km";
+	private static final int DELAY = 3000;
 
 	Context context;
 	private Hike hike;
@@ -38,6 +40,7 @@ public class FinishHikeActivity extends BaseActivity {
 	private Button saveButton;
 	private CheckBox shareCheck;
 	private SpinnerDialog waitingSpinnerDialog;
+	private Handler handler = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,14 @@ public class FinishHikeActivity extends BaseActivity {
 
 		//Verify if hike name already exists
 		nameEditText.addTextChangedListener(new TextWatcher(){
+			private Runnable checkNameRunnable = new Runnable() {
+				
+				@Override
+				public void run() {
+					HikeServices.hikeNameExist(nameEditText.getText().toString(), nameExistsListener);
+				}
+			};			
+			
 			TaskListener nameExistsListener = new TaskListener() {
 				@Override
 				public void onSuccess(String content) {
@@ -92,7 +103,8 @@ public class FinishHikeActivity extends BaseActivity {
 			};
 
 			public void afterTextChanged(Editable s) {
-				HikeServices.hikeNameExist(nameEditText.getText().toString(), nameExistsListener);
+				handler.removeCallbacks(checkNameRunnable);
+				handler.postDelayed(checkNameRunnable, DELAY);
 			}
 			
 			public void beforeTextChanged(CharSequence s, int start, int count, int after){}

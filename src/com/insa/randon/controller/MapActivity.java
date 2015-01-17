@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -245,6 +246,13 @@ public class MapActivity extends BaseActivity {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.map_menu, menu);
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		Location lastLocation = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		map.centerOnLocation(new LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()));
 	}
 
 	@Override
