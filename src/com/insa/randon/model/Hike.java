@@ -11,6 +11,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 public class Hike implements Parcelable {
 	String name;
@@ -108,6 +109,32 @@ public class Hike implements Parcelable {
 			this.distance+=results[0]/1000;
 		}
 	}
+	
+	public LatLngBounds getBoungToDisplay(){
+		double minLatitude = coordinates.get(0).latitude;
+		double minLongitude = coordinates.get(0).longitude;
+		double maxLatitude =coordinates.get(0).latitude;
+		double maxLongitude = coordinates.get(0).longitude;
+		
+		for(int i=1 ; i<coordinates.size() ; i++){
+			if(minLatitude>coordinates.get(i).latitude){
+				minLatitude=coordinates.get(i).latitude;
+			}
+			if(minLongitude>coordinates.get(i).longitude){
+				minLongitude=coordinates.get(i).longitude;
+			}
+			if(maxLatitude<coordinates.get(i).latitude){
+				maxLatitude=coordinates.get(i).latitude;
+			}
+			if(maxLongitude<coordinates.get(i).longitude){
+				maxLongitude=coordinates.get(i).longitude;
+			}
+		}
+		
+		LatLngBounds boundsToDisplay = new LatLngBounds(new LatLng(minLatitude, minLongitude), new LatLng(maxLatitude, maxLongitude));
+		return boundsToDisplay;
+	}
+	
 
 	public String getName(){
 		return this.name;

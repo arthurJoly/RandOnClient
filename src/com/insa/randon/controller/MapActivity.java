@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -140,6 +141,14 @@ public class MapActivity extends BaseActivity {
 		}else if(mode==FOLLOWING_MODE){
 			existingHike = (Hike) intent.getParcelableExtra(EXTRA_HIKE);
 			map.showRoute(existingHike.getCoordinates());
+			
+			//Listen for the layout to be complete
+			distanceTextView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+	            @Override
+	            public void onGlobalLayout() {
+					map.setBounds(existingHike.getBoungToDisplay());
+	             }
+	        });
 		}
 
 		//check if GPS is enabled
