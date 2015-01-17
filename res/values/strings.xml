@@ -82,6 +82,7 @@
     <!-- Search Hikes Activity -->
     <string name="distance">Distance: </string>
     <string name="distance_unit_km">km</string>  
+    <string name="hike_proximity">away</string>
     <string name="distance_unit_speed">km/h</string>  
     <string name="distance_unit_m">m</string>  
     <string name="fail_retrieving_hikes">Could not retrieve any hikes</string>
